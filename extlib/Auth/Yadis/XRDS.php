@@ -54,6 +54,8 @@ function Auth_Yadis_getNSMap()
 
 /**
  * @access private
+ * @param array $arr
+ * @return array
  */
 function Auth_Yadis_array_scramble($arr)
 {
@@ -80,16 +82,12 @@ function Auth_Yadis_array_scramble($arr)
  *
  * @package OpenID
  */
-class Auth_Yadis_Service {
+class Auth_Yadis_Service
+{
+    public $element = null;
 
-    /**
-     * Creates an empty service object.
-     */
-    function Auth_Yadis_Service()
-    {
-        $this->element = null;
-        $this->parser = null;
-    }
+    /** @var Auth_Yadis_XMLParser */
+    public $parser = null;
 
     /**
      * Return the URIs in the "Type" elements, if any, of this Service
@@ -97,7 +95,7 @@ class Auth_Yadis_Service {
      *
      * @return array $type_uris An array of Type URI strings.
      */
-    function getTypes()
+    public function getTypes()
     {
         $t = array();
         foreach ($this->getElements('xrd:Type') as $elem) {
@@ -109,7 +107,7 @@ class Auth_Yadis_Service {
         return $t;
     }
 
-    function matchTypes($type_uris)
+    public function matchTypes($type_uris)
     {
         $result = array();
 
@@ -128,7 +126,7 @@ class Auth_Yadis_Service {
      *
      * @return array $uris An array of URI strings.
      */
-    function getURIs()
+    public function getURIs()
     {
         $uris = array();
         $last = array();
@@ -159,8 +157,10 @@ class Auth_Yadis_Service {
             $result = array_merge($result, $new_uris);
         }
 
-        $result = array_merge($result,
-                              Auth_Yadis_array_scramble($last));
+        $result = array_merge(
+            $result,
+            Auth_Yadis_array_scramble($last)
+        );
 
         return $result;
     }
@@ -172,7 +172,7 @@ class Auth_Yadis_Service {
      * @return mixed $result Null or integer, depending on whether
      * this Service element has a 'priority' attribute.
      */
-    function getPriority()
+    public function getPriority()
     {
         $attributes = $this->parser->attributes($this->element);
 
@@ -198,7 +198,7 @@ class Auth_Yadis_Service {
      * nodes returned by this function can be passed to $this->parser
      * methods (see {@link Auth_Yadis_XMLParser}).
      */
-    function getElements($name)
+    public function getElements($name)
     {
         return $this->parser->evalXPath($name, $this->element);
     }
@@ -213,7 +213,7 @@ class Auth_Yadis_Service {
  */
 function Auth_Yadis_getXRDExpiration($xrd_element, $default=null)
 {
-    $expires_element = $xrd_element->$parser->evalXPath('/xrd:Expires');
+    $expires_element = $xrd_element->parser->evalXPath('/xrd:Expires');
     if ($expires_element === null) {
         return $default;
     } else {
@@ -229,8 +229,14 @@ function Auth_Yadis_getXRDExpiration($xrd_element, $default=null)
 
         // [int $hour [, int $minute [, int $second [,
         //  int $month [, int $day [, int $year ]]]]]]
-        return mktime($t['tm_hour'], $t['tm_min'], $t['tm_sec'],
-                      $t['tm_mon'], $t['tm_day'], $t['tm_year']);
+        return mktime(
+            $t['tm_hour'],
+            $t['tm_min'],
+            $t['tm_sec'],
+            $t['tm_mon'],
+            $t['tm_day'],
+            $t['tm_year']
+        );
     }
 }
 
@@ -249,13 +255,27 @@ function Auth_Yadis_getXRDExpiration($xrd_element, $default=null)
  *
  * @package OpenID
  */
-class Auth_Yadis_XRDS {
+class Auth_Yadis_XRDS
+{
+
+    /** @var Auth_Yadis_XMLParser */
+    public $parser;
+
+    public $xrdNode;
+
+    public $allXrdNodes;
+
+    /** @var Auth_Yadis_Service[][] */
+    public $serviceList;
 
     /**
      * Instantiate a Auth_Yadis_XRDS object.  Requires an XPath
      * instance which has been used to parse a valid XRDS document.
+     *
+     * @param Auth_Yadis_XMLParser $xmlParser
+     * @param array $xrdNodes
      */
-    function Auth_Yadis_XRDS($xmlParser, $xrdNodes)
+    public function __construct($xmlParser, $xrdNodes)
     {
         $this->parser = $xmlParser;
         $this->xrdNode = $xrdNodes[count($xrdNodes) - 1];
@@ -270,10 +290,11 @@ class Auth_Yadis_XRDS {
      * XRDS XML is valid.
      *
      * @param string $xml_string An XRDS XML string.
+     * @param array|null $extra_ns_map
      * @return mixed $xrds An instance of Auth_Yadis_XRDS or null,
      * depending on the validity of $xml_string
      */
-    static function parseXRDS($xml_string, $extra_ns_map = null)
+    public static function parseXRDS($xml_string, $extra_ns_map = null)
     {
         $_null = null;
 
@@ -308,7 +329,7 @@ class Auth_Yadis_XRDS {
         if (array_key_exists('xmlns:xrd', $attrs) &&
             $attrs['xmlns:xrd'] != Auth_Yadis_XMLNS_XRDS) {
             return $_null;
-        } else if (array_key_exists('xmlns', $attrs) &&
+        } elseif (array_key_exists('xmlns', $attrs) &&
                    preg_match('/xri/', $attrs['xmlns']) &&
                    $attrs['xmlns'] != Auth_Yadis_XMLNS_XRD_2_0) {
             return $_null;
@@ -321,14 +342,15 @@ class Auth_Yadis_XRDS {
             return $_null;
         }
 
-        $xrds = new Auth_Yadis_XRDS($parser, $xrd_nodes);
-        return $xrds;
+        return new Auth_Yadis_XRDS($parser, $xrd_nodes);
     }
 
     /**
      * @access private
+     * @param int $priority
+     * @param string $service
      */
-    function _addService($priority, $service)
+    public function _addService($priority, $service)
     {
         $priority = intval($priority);
 
@@ -345,7 +367,7 @@ class Auth_Yadis_XRDS {
      *
      * @access private
      */
-    function _parse()
+    public function _parse()
     {
         $this->serviceList = array();
 
@@ -390,10 +412,10 @@ class Auth_Yadis_XRDS {
      * mode; null if $filter_mode is an invalid mode (i.e., not
      * SERVICES_YADIS_MATCH_ANY or SERVICES_YADIS_MATCH_ALL).
      */
-    function services($filters = null,
-                      $filter_mode = SERVICES_YADIS_MATCH_ANY)
-    {
-
+    public function services(
+        $filters = null,
+        $filter_mode = SERVICES_YADIS_MATCH_ANY
+    ) {
         $pri_keys = array_keys($this->serviceList);
         sort($pri_keys, SORT_NUMERIC);
 
@@ -401,7 +423,6 @@ class Auth_Yadis_XRDS {
         // list, ordered by priority.
         if (!$filters ||
             (!is_array($filters))) {
-
             $result = array();
             foreach ($pri_keys as $pri) {
                 $result = array_merge($result, $this->serviceList[$pri]);
@@ -424,11 +445,9 @@ class Auth_Yadis_XRDS {
             $service_obj_list = $this->serviceList[$priority_value];
 
             foreach ($service_obj_list as $service) {
-
                 $matches = 0;
 
                 foreach ($filters as $filter) {
-
                     if (call_user_func_array($filter, array($service))) {
                         $matches++;
 
@@ -450,7 +469,6 @@ class Auth_Yadis_XRDS {
 
                 if (($filter_mode == SERVICES_YADIS_MATCH_ALL) &&
                     ($matches == count($filters))) {
-
                     $pri = $service->getPriority();
                     if ($pri === null) {
                         $pri = SERVICES_YADIS_MAX_PRIORITY;
@@ -475,4 +493,3 @@ class Auth_Yadis_XRDS {
         return $result;
     }
 }
-

@@ -25,16 +25,22 @@ require_once "Auth/Yadis/HTTPFetcher.php";
  *
  * @package OpenID
  */
-class Auth_Yadis_PlainHTTPFetcher extends Auth_Yadis_HTTPFetcher {
+class Auth_Yadis_PlainHTTPFetcher extends Auth_Yadis_HTTPFetcher
+{
     /**
      * Does this fetcher support SSL URLs?
      */
-    function supportsSSL()
+    public function supportsSSL()
     {
         return function_exists('openssl_open');
     }
 
-    function get($url, $extra_headers = null)
+    /**
+     * @param string $url
+     * @param array|null $extra_headers
+     * @return Auth_Yadis_HTTPResponse|null|bool
+     */
+    public function get($url, $extra_headers = null)
     {
         if (!$this->canFetchURL($url)) {
             return null;
@@ -44,9 +50,11 @@ class Auth_Yadis_PlainHTTPFetcher extends Auth_Yadis_HTTPFetcher {
 
         $stop = time() + $this->timeout;
         $off = $this->timeout;
+        $headers = array();
+        $code = '';
+        $body = '';
 
         while ($redir && ($off > 0)) {
-
             $parts = parse_url($url);
 
             $specify_port = true;
@@ -94,8 +102,13 @@ class Auth_Yadis_PlainHTTPFetcher extends Auth_Yadis_HTTPFetcher {
                 }
             }
 
-            @$sock = fsockopen($host, $parts['port'], $errno, $errstr,
-                               $this->timeout);
+            @$sock = fsockopen(
+                $host,
+                $parts['port'],
+                $errno,
+                $errstr,
+                $this->timeout
+            );
             if ($sock === false) {
                 return false;
             }
@@ -107,7 +120,7 @@ class Auth_Yadis_PlainHTTPFetcher extends Auth_Yadis_HTTPFetcher {
             $data = "";
             $kilobytes = 0;
             while (!feof($sock) &&
-                   $kilobytes < Auth_OpenID_FETCHER_MAX_RESPONSE_KB ) {
+                   $kilobytes < Auth_OpenID_FETCHER_MAX_RESPONSE_KB) {
                 $data .= fgets($sock, 1024);
                 $kilobytes += 1;
             }
@@ -142,13 +155,12 @@ class Auth_Yadis_PlainHTTPFetcher extends Auth_Yadis_HTTPFetcher {
                     $new_headers[$name] = $value;
                 }
             }
-
         }
 
         return new Auth_Yadis_HTTPResponse($url, $code, $new_headers, $body);
     }
 
-    function post($url, $body, $extra_headers = null)
+    public function post($url, $body, $extra_headers = null)
     {
         if (!$this->canFetchURL($url)) {
             return null;
@@ -198,8 +210,13 @@ class Auth_Yadis_PlainHTTPFetcher extends Auth_Yadis_HTTPFetcher {
         $errno = 0;
         $errstr = '';
 
-        $sock = fsockopen($parts['host'], $parts['port'], $errno, $errstr,
-                          $this->timeout);
+        $sock = fsockopen(
+            $parts['host'],
+            $parts['port'],
+            $errno,
+            $errstr,
+            $this->timeout
+        );
 
         if ($sock === false) {
             return null;
@@ -238,11 +255,13 @@ class Auth_Yadis_PlainHTTPFetcher extends Auth_Yadis_HTTPFetcher {
                 list($name, $value) = explode(": ", $header, 2);
                 $new_headers[$name] = $value;
             }
-
         }
 
-        return new Auth_Yadis_HTTPResponse($url, $code,
-                                           $new_headers, $response_body);
+        return new Auth_Yadis_HTTPResponse(
+            $url,
+            $code,
+            $new_headers,
+            $response_body
+        );
     }
 }
-

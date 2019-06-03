@@ -93,14 +93,20 @@ define('Auth_OpenID_DO_ABOUT', 'do_about');
 /**
  * Defines for regexes and format checking.
  */
-define('Auth_OpenID_letters',
-       "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ");
+define(
+    'Auth_OpenID_letters',
+    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+);
 
-define('Auth_OpenID_digits',
-       "0123456789");
+define(
+    'Auth_OpenID_digits',
+    "0123456789"
+);
 
-define('Auth_OpenID_punct',
-       "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~");
+define(
+    'Auth_OpenID_punct',
+    "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~"
+);
 
 Auth_OpenID_include_init();
 
@@ -110,15 +116,18 @@ Auth_OpenID_include_init();
  * @package OpenID
  * @access private
  */
-class Auth_OpenID {
+class Auth_OpenID
+{
 
     /**
      * Return true if $thing is an Auth_OpenID_FailureResponse object;
      * false if not.
      *
      * @access private
+     * @param object|string $thing
+     * @return bool
      */
-    static function isFailure($thing)
+    public static function isFailure($thing)
     {
         return is_a($thing, 'Auth_OpenID_FailureResponse');
     }
@@ -141,44 +150,46 @@ class Auth_OpenID {
      * http://lists.openidenabled.com/pipermail/dev/2007-March/000395.html
      *
      * @access private
+     * @param string|null $query_str
+     * @return array
      */
-    static function getQuery($query_str=null)
+    public static function getQuery($query_str=null)
     {
         $data = array();
 
         if ($query_str !== null) {
             $data = Auth_OpenID::params_from_string($query_str);
-        } else if (!array_key_exists('REQUEST_METHOD', $_SERVER)) {
+        } elseif (!array_key_exists('REQUEST_METHOD', $_SERVER)) {
             // Do nothing.
         } else {
-          // XXX HACK FIXME HORRIBLE.
-          //
-          // POSTing to a URL with query parameters is acceptable, but
-          // we don't have a clean way to distinguish those parameters
-          // when we need to do things like return_to verification
-          // which only want to look at one kind of parameter.  We're
-          // going to emulate the behavior of some other environments
-          // by defaulting to GET and overwriting with POST if POST
-          // data is available.
-          $data = Auth_OpenID::params_from_string($_SERVER['QUERY_STRING']);
+            // XXX HACK FIXME HORRIBLE.
+            //
+            // POSTing to a URL with query parameters is acceptable, but
+            // we don't have a clean way to distinguish those parameters
+            // when we need to do things like return_to verification
+            // which only want to look at one kind of parameter.  We're
+            // going to emulate the behavior of some other environments
+            // by defaulting to GET and overwriting with POST if POST
+            // data is available.
+            $data = Auth_OpenID::params_from_string($_SERVER['QUERY_STRING']);
 
-          if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $str = file_get_contents('php://input');
+            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                $str = file_get_contents('php://input');
 
-            if ($str === false) {
-              $post = array();
-            } else {
-              $post = Auth_OpenID::params_from_string($str);
+                if ($str === false) {
+                    $post = array();
+                } else {
+                    $post = Auth_OpenID::params_from_string($str);
+                }
+
+                $data = array_merge($data, $post);
             }
-
-            $data = array_merge($data, $post);
-          }
         }
 
         return $data;
     }
 
-    static function params_from_string($str)
+    public static function params_from_string($str)
     {
         $chunks = explode("&", $str);
 
@@ -203,8 +214,10 @@ class Auth_OpenID {
      * true if the operation succeeded; false if not.
      *
      * @access private
+     * @param string $dir_name
+     * @return bool
      */
-    static function ensureDir($dir_name)
+    public static function ensureDir($dir_name)
     {
         if (is_dir($dir_name) || @mkdir($dir_name)) {
             return true;
@@ -225,8 +238,11 @@ class Auth_OpenID {
      * array containing the prefixed values.
      *
      * @access private
+     * @param array $values
+     * @param string $prefix
+     * @return array
      */
-    static function addPrefix($values, $prefix)
+    public static function addPrefix($values, $prefix)
     {
         $new_values = array();
         foreach ($values as $s) {
@@ -241,8 +257,12 @@ class Auth_OpenID {
      * or return $default if the key is absent.
      *
      * @access private
+     * @param array $arr
+     * @param string $key
+     * @param mixed $fallback
+     * @return mixed
      */
-    static function arrayGet($arr, $key, $fallback = null)
+    public static function arrayGet($arr, $key, $fallback = null)
     {
         if (is_array($arr)) {
             if (array_key_exists($key, $arr)) {
@@ -261,8 +281,11 @@ class Auth_OpenID {
 
     /**
      * Replacement for PHP's broken parse_str.
+     *
+     * @param string|null $query
+     * @return array|null
      */
-    static function parse_str($query)
+    public static function parse_str($query)
     {
         if ($query === null) {
             return null;
@@ -296,7 +319,7 @@ class Auth_OpenID {
      * pairs from $data into a URL query string
      * (e.g. "username=bob&id=56").
      */
-    static function httpBuildQuery($data)
+    public static function httpBuildQuery($data)
     {
         $pairs = array();
         foreach ($data as $key => $value) {
@@ -324,7 +347,7 @@ class Auth_OpenID {
      * @return string $url The original URL with the new parameters added.
      *
      */
-    static function appendArgs($url, $args)
+    public static function appendArgs($url, $args)
     {
         if (count($args) == 0) {
             return $url;
@@ -368,10 +391,14 @@ class Auth_OpenID {
      * @return string $url The URL resulting from assembling the
      * specified components.
      */
-    static function urlunparse($scheme, $host, $port = null, $path = '/',
-                        $query = '', $fragment = '')
-    {
-
+    public static function urlunparse(
+        $scheme,
+        $host,
+        $port = null,
+        $path = '/',
+        $query = '',
+        $fragment = ''
+    ) {
         if (!$scheme) {
             $scheme = 'http';
         }
@@ -413,7 +440,7 @@ class Auth_OpenID {
      * @return mixed $new_url The URL after normalization, or null if
      * $url was malformed.
      */
-    static function normalizeUrl($url)
+    public static function normalizeUrl($url)
     {
         @$parsed = parse_url($url);
 
@@ -435,7 +462,7 @@ class Auth_OpenID {
         if ($normalized === null) {
             return null;
         }
-        list($defragged, $frag) = Auth_OpenID::urldefrag($normalized);
+        list($defragged) = Auth_OpenID::urldefrag($normalized);
         return $defragged;
     }
 
@@ -443,8 +470,10 @@ class Auth_OpenID {
      * Replacement (wrapper) for PHP's intval() because it's broken.
      *
      * @access private
+     * @param string|int $value
+     * @return bool|int
      */
-    static function intval($value)
+    public static function intval($value)
     {
         $re = "/^\\d+$/";
 
@@ -462,7 +491,7 @@ class Auth_OpenID {
      * @param string $str The string of bytes to count.
      * @return int The number of bytes in $str.
      */
-    static function bytes($str)
+    public static function bytes($str)
     {
         return strlen(bin2hex($str)) / 2;
     }
@@ -470,8 +499,11 @@ class Auth_OpenID {
     /**
      * Get the bytes in a string independently of multibyte support
      * conditions.
+     *
+     * @param string $str
+     * @return array
      */
-    static function toBytes($str)
+    public static function toBytes($str)
     {
         $hex = bin2hex($str);
 
@@ -487,7 +519,7 @@ class Auth_OpenID {
         return $b;
     }
 
-    static function urldefrag($url)
+    public static function urldefrag($url)
     {
         $parts = explode("#", $url, 2);
 
@@ -498,7 +530,7 @@ class Auth_OpenID {
         }
     }
 
-    static function filter($callback, &$sequence)
+    public static function filter($callback, &$sequence)
     {
         $result = array();
 
@@ -511,7 +543,7 @@ class Auth_OpenID {
         return $result;
     }
 
-    static function update(&$dest, &$src)
+    public static function update(&$dest, &$src)
     {
         foreach ($src as $k => $v) {
             $dest[$k] = $v;
@@ -525,14 +557,14 @@ class Auth_OpenID {
      *
      * @param string $format_string The sprintf format for the message
      */
-    static function log($format_string)
+    public static function log($format_string)
     {
         $args = func_get_args();
         $message = call_user_func_array('sprintf', $args);
         error_log($message);
     }
 
-    static function autoSubmitHTML($form, $title="OpenId transaction in progress")
+    public static function autoSubmitHTML($form, $title="OpenId transaction in progress")
     {
         return("<html>".
                "<head><title>".
@@ -556,8 +588,9 @@ class Auth_OpenID {
  * Abstracted to a function to make life easier
  * for some PHP optimizers.
  */
-function Auth_OpenID_include_init() {
-  if (Auth_OpenID_getMathLib() === null) {
-    Auth_OpenID_setNoMathSupport();
-  }
+function Auth_OpenID_include_init()
+{
+    if (Auth_OpenID_getMathLib() === null) {
+        Auth_OpenID_setNoMathSupport();
+    }
 }

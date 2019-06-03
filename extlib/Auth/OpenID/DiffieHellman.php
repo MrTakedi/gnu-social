@@ -40,16 +40,20 @@ function Auth_OpenID_getDefaultGen()
  * @access private
  * @package OpenID
  */
-class Auth_OpenID_DiffieHellman {
+class Auth_OpenID_DiffieHellman
+{
+    public $mod;
+    public $gen;
+    public $private;
+    /** @var Auth_OpenID_BcMathWrapper */
+    public $lib = null;
 
-    var $mod;
-    var $gen;
-    var $private;
-    var $lib = null;
-
-    function Auth_OpenID_DiffieHellman($mod = null, $gen = null,
-                                       $private = null, $lib = null)
-    {
+    public function __construct(
+        $mod = null,
+        $gen = null,
+        $private = null,
+        $lib = null
+    ) {
         if ($lib === null) {
             $this->lib = Auth_OpenID_getMathLib();
         } else {
@@ -75,27 +79,30 @@ class Auth_OpenID_DiffieHellman {
             $this->private = $private;
         }
 
-        $this->public = $this->lib->powmod($this->gen, $this->private,
-                                           $this->mod);
+        $this->public = $this->lib->powmod(
+            $this->gen,
+            $this->private,
+            $this->mod
+        );
     }
 
-    function getSharedSecret($composite)
+    public function getSharedSecret($composite)
     {
         return $this->lib->powmod($composite, $this->private, $this->mod);
     }
 
-    function getPublicKey()
+    public function getPublicKey()
     {
         return $this->public;
     }
 
-    function usingDefaultValues()
+    public function usingDefaultValues()
     {
         return ($this->mod == Auth_OpenID_getDefaultMod() &&
                 $this->gen == Auth_OpenID_getDefaultGen());
     }
 
-    function xorSecret($composite, $secret, $hash_func)
+    public function xorSecret($composite, $secret, $hash_func)
     {
         $dh_shared = $this->getSharedSecret($composite);
         $dh_shared_str = $this->lib->longToBinary($dh_shared);
@@ -109,5 +116,3 @@ class Auth_OpenID_DiffieHellman {
         return $xsecret;
     }
 }
-
-

@@ -26,8 +26,10 @@ function Auth_Yadis_getXRIAuthorities()
 function Auth_Yadis_getEscapeRE()
 {
     $parts = array();
-    foreach (array_merge(Auth_Yadis_getUCSChars(),
-                         Auth_Yadis_getIPrivateChars()) as $pair) {
+    foreach (array_merge(
+        Auth_Yadis_getUCSChars(),
+        Auth_Yadis_getIPrivateChars()
+    ) as $pair) {
         list($m, $n) = $pair;
         $parts[] = sprintf("%s-%s", chr($m), chr($n));
     }
@@ -72,8 +74,11 @@ function _escape_xref($xref_match)
 function Auth_Yadis_escapeForIRI($xri)
 {
     $xri = str_replace('%', '%25', $xri);
-    $xri = preg_replace_callback(Auth_Yadis_getXrefRE(),
-                                 '_escape_xref', $xri);
+    $xri = preg_replace_callback(
+        Auth_Yadis_getXrefRE(),
+        '_escape_xref',
+        $xri
+    );
     return $xri;
 }
 
@@ -88,8 +93,11 @@ function Auth_Yadis_iriToURI($iri)
         return $iri;
     } else {
         // According to RFC 3987, section 3.1, "Mapping of IRIs to URIs"
-        return preg_replace_callback(Auth_Yadis_getEscapeRE(),
-                                     'Auth_Yadis_pct_escape_unicode', $iri);
+        return preg_replace_callback(
+            Auth_Yadis_getEscapeRE(),
+            'Auth_Yadis_pct_escape_unicode',
+            $iri
+        );
     }
 }
 
@@ -160,7 +168,7 @@ function Auth_Yadis_rootAuthority($xri)
         //   does that before we have a real xriparse function.
         //   Hopefully nobody does that *ever*.
         $root = substr($authority, 0, strpos($authority, ')') + 1);
-    } else if (in_array($authority[0], Auth_Yadis_getXRIAuthorities())) {
+    } elseif (in_array($authority[0], Auth_Yadis_getXRIAuthorities())) {
         // Other XRI reference.
         $root = $authority[0];
     } else {
@@ -184,6 +192,11 @@ function Auth_Yadis_XRI($xri)
     return $xri;
 }
 
+/**
+ * @param string $iname
+ * @param Auth_Yadis_XRDS $xrds
+ * @return bool|string
+ */
 function Auth_Yadis_getCanonicalID($iname, $xrds)
 {
     // Returns false or a canonical ID value.
@@ -230,5 +243,3 @@ function Auth_Yadis_getCanonicalID($iname, $xrds)
 
     return $canonicalID;
 }
-
-

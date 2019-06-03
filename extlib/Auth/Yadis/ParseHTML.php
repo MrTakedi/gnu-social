@@ -20,38 +20,42 @@
  *
  * @package OpenID
  */
-class Auth_Yadis_ParseHTML {
+class Auth_Yadis_ParseHTML
+{
 
     /**
      * @access private
      */
-    var $_re_flags = "si";
+    public $_re_flags = "si";
 
     /**
      * @access private
      */
-    var $_removed_re =
-           "<!--.*?-->|<!\[CDATA\[.*?\]\]>|<script\b(?!:)[^>]*>.*?<\/script>";
+    public $_removed_re = '<!--.*?-->|<!\[CDATA\[.*?\]\]>|<script\b(?!:)[^>]*>.*?<\/script>';
 
     /**
      * @access private
      */
-    var $_tag_expr = "<%s%s(?:\s.*?)?%s>";
+    public $_tag_expr = '<%s%s(?:\s.*?)?%s>';
 
     /**
      * @access private
      */
-    var $_attr_find = '\b([-\w]+)=(".*?"|\'.*?\'|.+?)[\/\s>]';
+    public $_attr_find = '\b([-\w]+)=(".*?"|\'.*?\'|.+?)[\/\s>]';
 
-    function Auth_Yadis_ParseHTML()
+    public function __construct()
     {
-        $this->_attr_find = sprintf("/%s/%s",
-                                    $this->_attr_find,
-                                    $this->_re_flags);
+        $this->_attr_find = sprintf(
+            "/%s/%s",
+            $this->_attr_find,
+            $this->_re_flags
+        );
 
-        $this->_removed_re = sprintf("/%s/%s",
-                                     $this->_removed_re,
-                                     $this->_re_flags);
+        $this->_removed_re = sprintf(
+            "/%s/%s",
+            $this->_removed_re,
+            $this->_re_flags
+        );
 
         $this->_entity_replacements = array(
                                             'amp' => '&',
@@ -61,8 +65,10 @@ class Auth_Yadis_ParseHTML {
                                             );
 
         $this->_ent_replace =
-            sprintf("&(%s);", implode("|",
-                                      $this->_entity_replacements));
+            sprintf("&(%s);", implode(
+                "|",
+                $this->_entity_replacements
+            ));
     }
 
     /**
@@ -74,15 +80,15 @@ class Auth_Yadis_ParseHTML {
      * @return string $new_str The new string with leading and
      * trailing quotes removed
      */
-    function removeQuotes($str)
+    public function removeQuotes($str)
     {
         $matches = array();
         $double = '/^"(.*)"$/';
-        $single = "/^\'(.*)\'$/";
+        $single = "/^'(.*)'$/";
 
         if (preg_match($double, $str, $matches)) {
             return $matches[1];
-        } else if (preg_match($single, $str, $matches)) {
+        } elseif (preg_match($single, $str, $matches)) {
             return $matches[1];
         } else {
             return $str;
@@ -90,7 +96,7 @@ class Auth_Yadis_ParseHTML {
     }
 
     /**
-     * Create a regular expression that will match an opening 
+     * Create a regular expression that will match an opening
      * or closing tag from a set of names.
      *
      * @access private
@@ -100,10 +106,10 @@ class Auth_Yadis_ParseHTML {
      * @return string $regex A regular expression string to be used
      * in, say, preg_match.
      */
-    function tagPattern($tag_names, $close, $self_close)
+    public function tagPattern($tag_names, $close, $self_close)
     {
         if (is_array($tag_names)) {
-            $tag_names = '(?:'.implode('|',$tag_names).')';
+            $tag_names = '(?:'.implode('|', $tag_names).')';
         }
         if ($close) {
             $close = '\/' . (($close == 1)? '' : '?');
@@ -131,11 +137,13 @@ class Auth_Yadis_ParseHTML {
      * @return array $tag_list Array of tags; each tag is an array of
      * attribute -> value.
      */
-    function getMetaTags($html_string)
+    public function getMetaTags($html_string)
     {
-        $html_string = preg_replace($this->_removed_re,
-                                    "",
-                                    $html_string);
+        $html_string = preg_replace(
+            $this->_removed_re,
+            "",
+            $html_string
+        );
 
         $key_tags = array($this->tagPattern('html', false, false),
                           $this->tagPattern('head', false, false),
@@ -148,7 +156,7 @@ class Auth_Yadis_ParseHTML {
         foreach ($key_tags as $pat) {
             $matches = array();
             preg_match($pat, $html_string, $matches, PREG_OFFSET_CAPTURE);
-            if($matches) {
+            if ($matches) {
                 $key_tags_pos[] = $matches[0][1];
             } else {
                 $key_tags_pos[] = null;
@@ -176,14 +184,20 @@ class Auth_Yadis_ParseHTML {
         if (!is_null($key_tags_pos[0]) && $key_tags_pos[1] < $key_tags_pos[0]) {
             return array();
         }
-        $html_string = substr($html_string, $key_tags_pos[1],
-                              ($key_tags_pos[2]-$key_tags_pos[1]));
+        $html_string = substr(
+            $html_string,
+            $key_tags_pos[1],
+            ($key_tags_pos[2]-$key_tags_pos[1])
+        );
 
         $link_data = array();
         $link_matches = array();
-        
-        if (!preg_match_all($this->tagPattern('meta', false, 'maybe'),
-                            $html_string, $link_matches)) {
+
+        if (!preg_match_all(
+            $this->tagPattern('meta', false, 'maybe'),
+            $html_string,
+            $link_matches
+        )) {
             return array();
         }
 
@@ -194,7 +208,8 @@ class Auth_Yadis_ParseHTML {
             foreach ($attr_matches[0] as $index => $full_match) {
                 $name = $attr_matches[1][$index];
                 $value = html_entity_decode(
-                              $this->removeQuotes($attr_matches[2][$index]));
+                    $this->removeQuotes($attr_matches[2][$index])
+                );
 
                 $link_attrs[strtolower($name)] = $value;
             }
@@ -214,15 +229,17 @@ class Auth_Yadis_ParseHTML {
      * @return mixed $content The "content" attribute value of the
      * META tag, if found, or null if no such tag was found.
      */
-    function getHTTPEquiv($html_string)
+    public function getHTTPEquiv($html_string)
     {
         $meta_tags = $this->getMetaTags($html_string);
 
         if ($meta_tags) {
             foreach ($meta_tags as $tag) {
                 if (array_key_exists('http-equiv', $tag) &&
-                    (in_array(strtolower($tag['http-equiv']),
-                              array('x-xrds-location', 'x-yadis-location'))) &&
+                    (in_array(
+                        strtolower($tag['http-equiv']),
+                        array('x-xrds-location', 'x-yadis-location')
+                    )) &&
                     array_key_exists('content', $tag)) {
                     return $tag['content'];
                 }
@@ -232,4 +249,3 @@ class Auth_Yadis_ParseHTML {
         return null;
     }
 }
-

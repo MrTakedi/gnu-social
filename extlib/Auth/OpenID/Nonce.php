@@ -14,7 +14,7 @@ require_once 'Auth/OpenID/CryptUtil.php';
 /**
  * This is the characters that the nonces are made from.
  */
-define('Auth_OpenID_Nonce_CHRS',"abcdefghijklmnopqrstuvwxyz" .
+define('Auth_OpenID_Nonce_CHRS', "abcdefghijklmnopqrstuvwxyz" .
        "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
 
 // Keep nonces for five hours (allow five hours for the combination of
@@ -23,11 +23,15 @@ define('Auth_OpenID_Nonce_CHRS',"abcdefghijklmnopqrstuvwxyz" .
 global $Auth_OpenID_SKEW;
 $Auth_OpenID_SKEW = 60 * 60 * 5;
 
-define('Auth_OpenID_Nonce_REGEX',
-       '/(\d{4})-(\d\d)-(\d\d)T(\d\d):(\d\d):(\d\d)Z(.*)/');
+define(
+    'Auth_OpenID_Nonce_REGEX',
+    '/(\d{4})-(\d\d)-(\d\d)T(\d\d):(\d\d):(\d\d)Z(.*)/'
+);
 
-define('Auth_OpenID_Nonce_TIME_FMT',
-       '%Y-%m-%dT%H:%M:%SZ');
+define(
+    'Auth_OpenID_Nonce_TIME_FMT',
+    '%Y-%m-%dT%H:%M:%SZ'
+);
 
 function Auth_OpenID_splitNonce($nonce_string)
 {
@@ -37,7 +41,7 @@ function Auth_OpenID_splitNonce($nonce_string)
         return null;
     }
 
-    list($unused,
+    list(,
          $tm_year,
          $tm_mon,
          $tm_mday,
@@ -56,10 +60,11 @@ function Auth_OpenID_splitNonce($nonce_string)
     return array($timestamp, $uniquifier);
 }
 
-function Auth_OpenID_checkTimestamp($nonce_string,
-                                    $allowed_skew = null,
-                                    $now = null)
-{
+function Auth_OpenID_checkTimestamp(
+    $nonce_string,
+    $allowed_skew = null,
+    $now = null
+) {
     // Is the timestamp that is part of the specified nonce string
     // within the allowed clock-skew of the current time?
     global $Auth_OpenID_SKEW;
@@ -94,7 +99,9 @@ function Auth_OpenID_mkNonce($when = null)
 {
     // Generate a nonce with the current timestamp
     $salt = Auth_OpenID_CryptUtil::randomString(
-        6, Auth_OpenID_Nonce_CHRS);
+        6,
+        Auth_OpenID_Nonce_CHRS
+    );
     if ($when === null) {
         // It's safe to call time() with no arguments; it returns a
         // GMT unix timestamp on PHP 4 and PHP 5.  gmmktime() with no
@@ -105,4 +112,3 @@ function Auth_OpenID_mkNonce($when = null)
     $time_str = gmstrftime(Auth_OpenID_Nonce_TIME_FMT, $when);
     return $time_str . $salt;
 }
-

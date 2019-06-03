@@ -7,8 +7,13 @@
 require_once 'Auth/Yadis/XRDS.php';
 require_once 'Auth/Yadis/XRI.php';
 
-class Auth_Yadis_ProxyResolver {
-    function Auth_Yadis_ProxyResolver($fetcher, $proxy_url = null)
+class Auth_Yadis_ProxyResolver
+{
+
+    /** @var Auth_Yadis_HTTPFetcher */
+    protected $fetcher;
+
+    public function __construct($fetcher, $proxy_url = null)
     {
         $this->fetcher = $fetcher;
         $this->proxy_url = $proxy_url;
@@ -17,7 +22,7 @@ class Auth_Yadis_ProxyResolver {
         }
     }
 
-    function queryURL($xri, $service_type = null)
+    public function queryURL($xri, $service_type = null)
     {
         // trim off the xri:// prefix
         $qxri = substr(Auth_Yadis_toURINormal($xri), 6);
@@ -37,7 +42,7 @@ class Auth_Yadis_ProxyResolver {
         return $query;
     }
 
-    function query($xri, $service_types, $filters = array())
+    public function query($xri, $service_types, $filters = array())
     {
         $services = array();
         $canonicalID = null;
@@ -51,8 +56,10 @@ class Auth_Yadis_ProxyResolver {
             if (!$xrds) {
                 continue;
             }
-            $canonicalID = Auth_Yadis_getCanonicalID($xri,
-                                                         $xrds);
+            $canonicalID = Auth_Yadis_getCanonicalID(
+                $xri,
+                $xrds
+            );
 
             if ($canonicalID === false) {
                 return null;
@@ -68,5 +75,3 @@ class Auth_Yadis_ProxyResolver {
         return array($canonicalID, $services);
     }
 }
-
-

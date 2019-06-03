@@ -27,10 +27,7 @@ require_once "Auth/OpenID.php";
  * @see Auth_OpenID_Server
  * @package OpenID
  */
-class Auth_OpenID_ServerRequest {
-    function Auth_OpenID_ServerRequest()
-    {
-        $this->mode = null;
-    }
+class Auth_OpenID_ServerRequest
+{
+    public $mode = null;
 }
-

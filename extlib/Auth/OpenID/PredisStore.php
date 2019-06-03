@@ -23,10 +23,11 @@ require_once 'Auth/OpenID/Interface.php';
  * Supplies Redis server store backend for OpenID servers and consumers.
  * Uses Predis library {@see https://github.com/nrk/predis}.
  * Requires PHP >= 5.3.
- * 
+ *
  * @package OpenID
  */
-class Auth_OpenID_PredisStore extends Auth_OpenID_OpenIDStore {
+class Auth_OpenID_PredisStore extends Auth_OpenID_OpenIDStore
+{
 
     /**
      * @var \Predis\Client
@@ -45,23 +46,25 @@ class Auth_OpenID_PredisStore extends Auth_OpenID_OpenIDStore {
      * @param \Predis\Client $redis  Predis client object
      * @param string         $prefix Prefix for all keys stored to the Redis
      */
-    function Auth_OpenID_PredisStore(\Predis\Client $redis, $prefix = '')
+    public function __construct(\Predis\Client $redis, $prefix = '')
     {
         $this->prefix = $prefix;
         $this->redis = $redis;
     }
 
     /**
-     * Store association until its expiration time in Redis server. 
-     * Overwrites any existing association with same server_url and 
-     * handle. Handles list of associations for every server. 
+     * Store association until its expiration time in Redis server.
+     * Overwrites any existing association with same server_url and
+     * handle. Handles list of associations for every server.
      */
-    function storeAssociation($server_url, $association)
+    public function storeAssociation($server_url, $association)
     {
-        // create Redis keys for association itself 
+        // create Redis keys for association itself
         // and list of associations for this server
-        $associationKey = $this->associationKey($server_url, 
-            $association->handle);
+        $associationKey = $this->associationKey(
+            $server_url,
+            $association->handle
+        );
         $serverKey = $this->associationServerKey($server_url);
         
         // save association to server's associations' keys list
@@ -90,10 +93,10 @@ class Auth_OpenID_PredisStore extends Auth_OpenID_OpenIDStore {
     }
 
     /**
-     * Read association from Redis. If no handle given 
+     * Read association from Redis. If no handle given
      * and multiple associations found, returns latest issued
      */
-    function getAssociation($server_url, $handle = null)
+    public function getAssociation($server_url, $handle = null)
     {
         // simple case: handle given
         if ($handle !== null) {
@@ -105,9 +108,9 @@ class Auth_OpenID_PredisStore extends Auth_OpenID_OpenIDStore {
         // no handle given, receiving the latest issued
         $serverKey = $this->associationServerKey($server_url);
         $lastKey = $this->redis->lindex($serverKey, -1);
-        if (!$lastKey) { 
+        if (!$lastKey) {
             // no previous association with this server
-            return null; 
+            return null;
         }
 
         // get association, return null if failed
@@ -127,12 +130,14 @@ class Auth_OpenID_PredisStore extends Auth_OpenID_OpenIDStore {
     /**
      * Immediately delete association from Redis.
      */
-    function removeAssociation($server_url, $handle)
+    public function removeAssociation($server_url, $handle)
     {
         // create Redis keys
         $serverKey = $this->associationServerKey($server_url);
-        $associationKey = $this->associationKey($server_url, 
-            $handle);
+        $associationKey = $this->associationKey(
+            $server_url,
+            $handle
+        );
         
         // Removing the association from the server's association list
         $removed = $this->redis->lrem($serverKey, 0, $associationKey);
@@ -145,14 +150,14 @@ class Auth_OpenID_PredisStore extends Auth_OpenID_OpenIDStore {
     }
 
     /**
-     * Create nonce for server and salt, expiring after 
+     * Create nonce for server and salt, expiring after
      * $Auth_OpenID_SKEW seconds.
      */
-    function useNonce($server_url, $timestamp, $salt)
+    public function useNonce($server_url, $timestamp, $salt)
     {
         global $Auth_OpenID_SKEW;
         
-        // save one request to memcache when nonce obviously expired 
+        // save one request to memcache when nonce obviously expired
         if (abs($timestamp - time()) > $Auth_OpenID_SKEW) {
             return false;
         }
@@ -182,7 +187,7 @@ class Auth_OpenID_PredisStore extends Auth_OpenID_OpenIDStore {
     /**
      * Key is prefixed with $prefix and 'openid_association_' string
      */
-    function associationKey($server_url, $handle = null) 
+    public function associationKey($server_url, $handle = null)
     {
         return $this->prefix .
                'openid_association_' .
@@ -192,7 +197,7 @@ class Auth_OpenID_PredisStore extends Auth_OpenID_OpenIDStore {
     /**
      * Key is prefixed with $prefix and 'openid_association_server_' string
      */
-    function associationServerKey($server_url) 
+    public function associationServerKey($server_url)
     {
         return $this->prefix .
                'openid_association_server_' .
@@ -202,10 +207,8 @@ class Auth_OpenID_PredisStore extends Auth_OpenID_OpenIDStore {
     /**
      * Report that this storage doesn't support cleanup
      */
-    function supportsCleanup()
+    public function supportsCleanup()
     {
         return false;
     }
-
 }
-
