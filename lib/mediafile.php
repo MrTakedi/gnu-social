@@ -351,11 +351,20 @@ class MediaFile
                 File::respectsQuota($scoped, $_FILES[$param]['size']);
             }
 
+            // Gets a replacement extension if configured in the config, returns false if it's blocked
+            $ext = File::getSafeExtension($_FILES[$param]['name']);
+            if ($ext === false) {
+                throw new ClientException(_('Blacklisted file extension.'));
+            }
+
             $mimetype = self::getUploadedMimeType($_FILES[$param]['tmp_name'], $_FILES[$param]['name']);
             $media = common_get_mime_media($mimetype);
 
-            $basename = preg_replace("/\..+$/i", '', basename($_FILES[$param]['name']));
-            $ext = File::guessMimeExtension($mimetype, $basename);
+            $basename = basename($_FILES[$param]['name']);
+            // If we have a replacement extension
+            if ($ext !== false) {
+                $basename = preg_replace("/\..+$/i", ".{$ext}", $basename);
+            }
 
             if ($media === 'image') {
                 // Use -1 for the id to avoid adding this temporary file to the DB
@@ -367,7 +376,7 @@ class MediaFile
             }
 
             // New file name format
-            $original_filename = bin2hex("{$basename}.{$ext}");
+            $original_filename = bin2hex($basename);
             $filename = "{$original_filename}-{$filehash}";
             $filepath = File::path($filename);
 
@@ -605,7 +614,7 @@ class MediaFile
      */
     public static function getDisplayName(File $file) : string {
         // New file name format is "{bin2hex(original_name.ext)}-{$hash}"
-        $ret = preg_match('/^([^\-]+)-.+$/', $file->filename, $matches);
+        $ret = preg_match('/^([^\.-]+)-[^-]+$/', $file->filename, $matches);
         // If there was an error in the match, something's wrong with some piece
         // of code (could be a file with utf8 chars in the name)
         $user_error_mesg = "Invalid file name ({$file->filename}).";
