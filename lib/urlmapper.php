@@ -34,6 +34,8 @@ if (!defined('STATUSNET')) {
     exit(1);
 }
 
+require_once('AcceptHeader.php');
+
 /**
  * URL mapper
  *
@@ -60,8 +62,22 @@ class URLMapper
     protected $reverse = [];
     protected $allpaths = [];
 
-    public function connect($path, $args, $paramPatterns = [])
+    /**
+     * Route creation.
+     *
+     * @author Evan Prodromou <evan@status.net>
+     * @param string $path route path
+     * @param array $args route parameters (e.g action, format, ...)
+     * @param array $paramPatterns regex patterns for path's parameters
+     * @param array $acceptHeaders headers that should be set for route creation
+     * @return void
+     */
+    public function connect(string $path, array $args, array $paramPatterns = [], array $acceptHeaders = [])
     {
+        if (!empty($acceptHeaders) && !self::should($acceptHeaders)) {
+            return;
+        }
+
         if (!array_key_exists(self::ACTION, $args)) {
             throw new Exception(sprintf("Can't connect %s; path has no action.", $path));
         }
@@ -232,6 +248,30 @@ class URLMapper
     public function getPaths()
     {
         return $this->allpaths;
+    }
+
+    /**
+     * Determines whether the route should or not be overwrited.
+     * If ACCEPT header isn't set, false will be returned.
+     *
+     * @author Diogo Cordeiro <diogo@fc.up.pt>
+     * @param array $headers headers that should be set to allow overwriting
+     * @return bool true if should overwrite, false otherwise
+     */
+    public static function should(array $headers): bool
+    {
+        if (!isset($_SERVER['HTTP_ACCEPT'])) {
+            return false;
+        }
+
+        $acceptHeader = new AcceptHeader($_SERVER['HTTP_ACCEPT']);
+        foreach ($acceptHeader as $ah) {
+            if (isset($headers[$ah['raw']])) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
 

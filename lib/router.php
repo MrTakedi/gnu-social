@@ -243,8 +243,10 @@ class Router
             $m->connect('notice/new', array('action' => 'newnotice'));
 
             $m->connect('notice/:notice',
-                        array('action' => 'shownotice'),
-                        array('notice' => '[0-9]+'));
+                        ['action' => 'shownotice'],
+                        ['notice' => '[0-9]+'],
+                        [],
+                        ['text/html', 'application/x-ms-application']);
 
             $m->connect('notice/:notice/delete',
                         array('action' => 'deletenotice'),
@@ -257,8 +259,10 @@ class Router
                         array('id' => '[0-9]+'));
 
             $m->connect('user/:id',
-                        array('action' => 'userbyid'),
-                        array('id' => '[0-9]+'));
+                        ['action' => 'userbyid'],
+                        ['id' => '[0-9]+'],
+                        [],
+                        ['text/html', 'application/x-ms-application']);
 
             $m->connect('tag/:tag/rss',
                         array('action' => 'tagrss'),
@@ -1044,12 +1048,16 @@ class Router
                         array('nickname' => Nickname::DISPLAY_FMT));
 
             $m->connect(':nickname',
-                        array('action' => 'showstream'),
-                        array('nickname' => Nickname::DISPLAY_FMT));
+                        ['action' => 'showstream'],
+                        ['nickname' => Nickname::DISPLAY_FMT],
+                        [],
+                        ['text/html', 'application/x-ms-application']);
 
             $m->connect(':nickname/',
-                        array('action' => 'showstream'),
-                        array('nickname' => Nickname::DISPLAY_FMT));
+                        ['action' => 'showstream'],
+                        ['nickname' => Nickname::DISPLAY_FMT],
+                        [],
+                        ['text/html', 'application/x-ms-application']);
 
             // AtomPub API
 
