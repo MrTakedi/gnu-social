@@ -60,8 +60,27 @@ class URLMapper
     protected $reverse = [];
     protected $allpaths = [];
 
-    public function connect($path, $args, $paramPatterns = array())
+    /**
+     * Route creation.
+     *
+     * @author Evan Prodromou <evan@status.net>
+     * @author Bruno Casteleiro <brunoccast@fc.up.pt>
+     * @param string $path route path
+     * @param array $args route parameters (e.g action, format, ...)
+     * @param array $paramPatterns regex patterns for path's parameters
+     * @param array $acceptHeaders headers that should be set for route creation
+     * @return void
+     */
+    public function connect(string $path, array $args, array $paramPatterns = [], array $acceptHeaders = [])
     {
+        $should = true;
+        if (!empty($acceptHeaders)) {
+            // even if it shouldn't be used as a route, we still want
+            // to store some information to allow common_local_url
+            // to generate urls
+            $should = self::should($acceptHeaders);
+        }
+
         if (!array_key_exists(self::ACTION, $args)) {
             throw new Exception(sprintf("Can't connect %s; path has no action.", $path));
         }
@@ -75,15 +94,12 @@ class URLMapper
         if (empty($paramNames)) {
             $this->statics[$path] = $args;
             if (array_key_exists($action, $this->reverse)) {
-                $this->reverse[$args[self::ACTION]][] = [$args, $path];
+                $this->reverse[$action][] = [$args, $path];
             } else {
-                $this->reverse[$args[self::ACTION]] = [[$args, $path]];
+                $this->reverse[$action] = [[$args, $path]];
             }
         } else {
-
-            // Eff if I understand why some go here and some go there.
-            // Anyways, fixup my preconceptions
-
+            // fix for the code that still make improper use of this function's params
             foreach ($paramNames as $name) {
                 if (!array_key_exists($name, $paramPatterns) &&
                     array_key_exists($name, $args)) {
@@ -92,16 +108,26 @@ class URLMapper
                 }
             }
 
-            $regex = self::makeRegex($path, $paramPatterns);
+            // $variables is used for path matching, so we can't store invalid routes
+            if ($should) {
+                $regex = self::makeRegex($path, $paramPatterns);
 
-            $this->variables[] = [$args, $regex, $paramNames];
+                if (isset($this->variables[$regex])) {
+                    $this->variables[$regex] = [$args, $paramNames];
+                } else {
+                    // URLs that differ only in the attribute names will generate
+                    // different regexes, so in order to avoid the wrong one (oldest)
+                    // to be matched first, fresh regexes are stored at the front
+                    $this->variables = [$regex => [$args, $paramNames]] + $this->variables;
+                }
+            }
 
-            $format = $this->makeFormat($path, $paramPatterns);
+            $format = $this->makeFormat($path);
 
             if (array_key_exists($action, $this->reverse)) {
-                $this->reverse[$args[self::ACTION]][] = [$args, $format, $paramNames];
+                $this->reverse[$action][] = [$args, $format, $paramNames];
             } else {
-                $this->reverse[$args[self::ACTION]] = [[$args, $format, $paramNames]];
+                $this->reverse[$action] = [[$args, $format, $paramNames]];
             }
         }
     }
@@ -112,8 +138,8 @@ class URLMapper
             return $this->statics[$path];
         }
 
-        foreach ($this->variables as $pattern) {
-            list($args, $regex, $paramNames) = $pattern;
+        foreach ($this->variables as $regex => $pattern) {
+            list($args, $paramNames) = $pattern;
             if (preg_match($regex, $path, $match)) {
                 $results = $args;
                 foreach ($paramNames as $name) {
@@ -220,7 +246,7 @@ class URLMapper
         return $regex;
     }
 
-    protected function makeFormat($path, $paramPatterns)
+    protected function makeFormat($path)
     {
         $format = preg_replace('/(:\w+)/', '%s', $path);
 
@@ -229,7 +255,33 @@ class URLMapper
 
     public function getPaths()
     {
-        return $this->allpaths;
+        return array_unique($this->allpaths);
+    }
+
+    /**
+     * Determines whether the route should or not be overwrited.
+     * If ACCEPT header isn't set, false will be returned.
+     *
+     * @author Diogo Cordeiro <diogo@fc.up.pt>
+     * @param array $headers accept-headers that should be set to
+     * mark the route for overwrite. This array must be associative
+     * and contain the headers in the value-set.
+     * @return bool true if should overwrite, false otherwise
+     */
+    public static function should(array $headers): bool
+    {
+        if (!isset($_SERVER['HTTP_ACCEPT'])) {
+            return false;
+        }
+
+        $acceptHeader = new AcceptHeader($_SERVER['HTTP_ACCEPT']);
+        foreach ($acceptHeader as $ah) {
+            if (isset($headers[$ah['raw']])) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
 
