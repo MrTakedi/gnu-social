@@ -125,12 +125,10 @@ class ImageFile extends MediaFile
             }
 
             // And we'll only consider it an image if it has such a media type
-            switch ($media) {
-            case 'image':
-                $imgPath = $file->getPath();
-                break;
-            default:
+            if($media !== 'image') {
                 throw new UnsupportedMediaException(_m('Unsupported media format.'), $file->getPath());
+            } else if (!empty($file->filename)) {
+                $imgPath = $file->getPath();
             }
         }
 

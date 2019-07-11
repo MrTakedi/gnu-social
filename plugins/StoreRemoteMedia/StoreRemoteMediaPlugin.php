@@ -133,18 +133,21 @@ class StoreRemoteMediaPlugin extends Plugin
 
             //FIXME: Add some code so we don't have to store duplicate File rows for same hash files.
         } catch (NoResultException $e) {
-            if (preg_match('/^.+; filename="(.+?)"$/', $headers['content-disposition'], $matches) === 1) {
+            if (array_key_exists('content-disposition', $headers) &&
+                preg_match('/^.+; filename="(.+?)"$/', $headers['content-disposition'], $matches) === 1) {
                 $filename = MediaFile::encodeFilename($matches[1], $filehash);
             } else {
                 common_log(LOG_ERR, "Couldn't determine filename for url: {$remoteUrl}");
-                // throw new ServerError(_("Couldn't determine filename for url: {$remoteUrl}"));
+                $filename = MediaFile::encodeFilename(_('Untitled attachment'), $filehash);
             }
             $fullpath = File::path($filename);
 
-            common_debug("StoreRemoteMedia retrieved file with id={$file->id} and will store in {$filename}");
+            common_debug("StoreRemoteMedia retrieved url {$remoteUrl} for file with id={$file->id} " .
+                         "and will store in {$fullpath}");
 
             // Write the file to disk if it doesn't exist yet. Throw Exception on failure.
-            if (!file_exists($fullpath) && file_put_contents($fullpath, $imgData) === false) {
+            if ((!file_exists($fullpath) || substr($fullpath, 0, strlen(INSTALLDIR)) != INSTALLDIR) &&
+                file_put_contents($fullpath, $imgData) === false) {
                 throw new ServerException(_('Could not write downloaded file to disk.'));
             }
 
