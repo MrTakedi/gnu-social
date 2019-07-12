@@ -374,7 +374,11 @@ class ImageFile extends MediaFile
 
         $type = $this->preferredType();
         $ext = image_type_to_extension($type, true);
-        $outpath = preg_replace("/\.[^\.]+$/", $ext, $outpath);
+        // Decoding returns null if the file is in the old format
+        $filename = MediaFile::decodeFilename(basename($outpath));
+        // Encoding null makes the file use 'untitled', and also replaces the extension
+        $outfilename = MediaFile::encodeFilename($filename, $this->filehash, $ext);
+        $outpath = dirname($outpath) . DIRECTORY_SEPARATOR . $outfilename;
 
         switch ($type) {
          case IMAGETYPE_GIF:
@@ -571,9 +575,8 @@ class ImageFile extends MediaFile
             return $thumb;
         }
 
-        $filename = basename($this->filepath);
         $extension = File::guessMimeExtension($this->mimetype);
-        $outname = "thumb-{$this->fileRecord->getID()}-{$width}x{$height}-{$filename}";
+        $outname = "thumb-{$this->fileRecord->getID()}-{$width}x{$height}-{$this->filename}";
         $outpath = File_thumbnail::path($outname);
 
         // The boundary box for our resizing

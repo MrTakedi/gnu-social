@@ -241,7 +241,7 @@ class MediaFile
      * having an extension in the file, removing trust in extensions, while keeping the original name
      * @throws ClientException
      */
-    public static function encodeFilename(string $original_name, string $filehash, string $ext = null) : string
+    public static function encodeFilename($original_name, string $filehash, $ext = null) : string
     {
         if (empty($original_name)) {
             $original_name = _('Untitled attachment');
