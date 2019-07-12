@@ -133,13 +133,8 @@ class StoreRemoteMediaPlugin extends Plugin
 
             //FIXME: Add some code so we don't have to store duplicate File rows for same hash files.
         } catch (NoResultException $e) {
-            if (array_key_exists('content-disposition', $headers) &&
-                preg_match('/^.+; filename="(.+?)"$/', $headers['content-disposition'], $matches) === 1) {
-                $filename = MediaFile::encodeFilename($matches[1], $filehash);
-            } else {
-                common_log(LOG_ERR, "Couldn't determine filename for url: {$remoteUrl}");
-                $filename = MediaFile::encodeFilename(_('Untitled attachment'), $filehash);
-            }
+            $original_name = HTTPClient::get_filename($url, $headers);
+            $filename = MediaFile::encodeFilename($original_name, $filehash);
             $fullpath = File::path($filename);
 
             common_debug("StoreRemoteMedia retrieved url {$remoteUrl} for file with id={$file->id} " .
