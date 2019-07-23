@@ -9,7 +9,7 @@ when the "next" button is clicked.
 
 Installation
 ============
-Add "addPlugin('InfiniteScroll',
+Add "addModule('InfiniteScroll',
     array('setting'=>'value', 'setting2'=>'value2', ...);"
 to the bottom of your config.php
 
@@ -21,7 +21,7 @@ is clicking, not scrolling.
 
 Example
 =======
-addPlugin('InfiniteScroll', array(
+addModule('InfiniteScroll', array(
     'on_next_only'=>false
 ));
 

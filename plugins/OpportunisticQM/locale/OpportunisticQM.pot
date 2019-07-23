@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#. TRANS: Plugin description.
-#: OpportunisticQMPlugin.php:47
+#. TRANS: Module description.
+#: OpportunisticQMModule.php:47
 msgid "Opportunistic queue manager plugin for background processing."
 msgstr ""

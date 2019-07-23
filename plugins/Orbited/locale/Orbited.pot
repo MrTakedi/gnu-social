@@ -18,11 +18,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #. TRANS: Server exception thrown when no connection can be made to a queue server.
-#: OrbitedPlugin.php:112
+#: OrbitedModule.php:112
 msgid "Failed to connect to queue server."
 msgstr ""
 
-#. TRANS: Plugin description.
-#: OrbitedPlugin.php:172
-msgid "Plugin to make updates using Orbited and STOMP."
+#. TRANS: Module description.
+#: OrbitedModule.php:172
+msgid "Module to make updates using Orbited and STOMP."
 msgstr ""

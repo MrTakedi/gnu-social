@@ -1,4 +1,4 @@
-Twitter Bridge Plugin
+Twitter Bridge Module
 =====================
 
 This Twitter "bridge" plugin allows you to integrate your StatusNet
@@ -33,7 +33,7 @@ The default access type should be "Read & Write".
 
 To enable the plugin, add the following to your config.php:
 
-    addPlugin(
+    addModule(
         'TwitterBridge',
         array(
             'consumer_key'    => 'YOUR_CONSUMER_KEY',
@@ -43,7 +43,7 @@ To enable the plugin, add the following to your config.php:
 
 or if you want to set the variables from the website's administration panel:
 
-   addPlugin('TwitterBridge');
+   addModule('TwitterBridge');
 
 After saving your configuration file, please run 'php scripts/upgrade.php'
 and also restart the background daemons if they are active on your instance.

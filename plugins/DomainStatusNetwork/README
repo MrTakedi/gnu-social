@@ -11,7 +11,7 @@ Relates to "status_network":
 
 Installation
 ============
-add "addPlugin('DomainStatusNetwork');"
+add "addModule('DomainStatusNetwork');"
 to the bottom of your config.php
 
 Settings
@@ -20,5 +20,5 @@ none
 
 Example
 =======
-addPlugin('DomainStatusNetwork');
+addModule('DomainStatusNetwork');
 

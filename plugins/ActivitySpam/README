@@ -6,7 +6,7 @@ Or use a public instance ( ex: https://spamicity.info/ )
 
 Installation
 ============
-add "addPlugin('ActivitySpam');"
+add "addModule('ActivitySpam');"
 to the bottom of your config.php
 
 Settings
@@ -20,4 +20,4 @@ Example
 $config['activityspam']['server'] = 'https://spamicity.info/';
 $config['activityspam']['consumerkey'] = 'CONSUMER_KEY';
 $config['activityspam']['secret'] = 'SECRET';
-addPlugin('ActivitySpam');
+addModule('ActivitySpam');

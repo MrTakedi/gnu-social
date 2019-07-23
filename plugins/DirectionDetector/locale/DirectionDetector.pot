@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#. TRANS: Plugin description.
-#: DirectionDetectorPlugin.php:257
+#. TRANS: Module description.
+#: DirectionDetectorModule.php:257
 msgid "Shows notices with right-to-left content in correct direction."
 msgstr ""

@@ -17,29 +17,29 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#. TRANS: Plugin description.
-#: BookmarkPlugin.php:188
-msgid "Plugin for posting bookmarks. "
+#. TRANS: Module description.
+#: BookmarkModule.php:188
+msgid "Module for posting bookmarks. "
 msgstr ""
 
 #. TRANS: Link text in proile leading to import form.
 #. TRANS: Title for page to import del.icio.us bookmark backups on.
-#: BookmarkPlugin.php:231 actions/importdelicious.php:60
+#: BookmarkModule.php:231 actions/importdelicious.php:60
 msgid "Import del.icio.us bookmarks"
 msgstr ""
 
 #. TRANS: Menu item in sample plugin.
-#: BookmarkPlugin.php:259
+#: BookmarkModule.php:259
 msgid "Bookmarks"
 msgstr ""
 
 #. TRANS: Menu item title in sample plugin.
-#: BookmarkPlugin.php:261
+#: BookmarkModule.php:261
 msgid "A list of your bookmarks"
 msgstr ""
 
 #. TRANS: Application title.
-#: BookmarkPlugin.php:345
+#: BookmarkModule.php:345
 msgctxt "TITLE"
 msgid "Bookmark"
 msgstr ""

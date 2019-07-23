@@ -3,7 +3,7 @@ through LDAP.
 
 Installation
 ============
-add "addPlugin('ldapAuthentication',
+add "addModule('ldapAuthentication',
     array('setting'=>'value', 'setting2'=>'value2', ...);"
 to the bottom of your config.php
 
@@ -69,7 +69,7 @@ Example
 Here's an example of an LDAP plugin configuration that connects to
     Microsoft Active Directory.
 
-addPlugin('ldapAuthentication', array(
+addModule('ldapAuthentication', array(
     'provider_name'=>'Example',
     'authoritative'=>true,
     'autoregistration'=>true,

@@ -6,7 +6,7 @@ See:
 
 Installation
 ============
-add "addPlugin('Orbited');"
+add "addModule('Orbited');"
 to the bottom of your config.php
 
 Settings
@@ -23,7 +23,7 @@ webpass:
 
 Example
 =======
-addPlugin('Orbited', array(
+addModule('Orbited', array(
     'webserver' => '',
     'webport' => '',
     'channelbase' => '',

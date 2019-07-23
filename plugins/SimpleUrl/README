@@ -2,7 +2,7 @@ The SimpleUrl plugin shortens URLS via a SimpleUrl URL-shortener service
 
 Installation
 ============
-add "addPlugin('SimpleUrl');"
+add "addModule('SimpleUrl');"
 to the bottom of your config.php
 
 Settings
@@ -12,7 +12,7 @@ serviceUrl: The URL to the SimpleUrl instance
 Example
 =======
 
-addPlugin('SimpleUrl', array(
+addModule('SimpleUrl', array(
     'serviceUrl' => 'http://example.org'
 ));
 

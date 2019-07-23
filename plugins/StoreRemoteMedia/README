@@ -2,7 +2,7 @@ The StoreRemoteMedia plugin downloads remotely attached files to local server.
 
 Installation
 ============
-add "addPlugin('StoreRemoteMedia');"
+add "addModule('StoreRemoteMedia');"
 to the bottom of your config.php
 
 Settings
@@ -24,7 +24,7 @@ domain_blacklist are accepted for local storage.
 
 Example
 =======
-addPlugin('StoreRemoteMedia', array(
+addModule('StoreRemoteMedia', array(
     'domain_whitelist' => array(
         '^i\d*\.ytimg\.com$' => 'YouTube',
         '^i\d*\.vimeocdn\.com$' => 'Vimeo'

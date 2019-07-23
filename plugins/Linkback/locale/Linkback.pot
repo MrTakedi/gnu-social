@@ -19,13 +19,13 @@ msgstr ""
 
 #. TRANS: Trackback title.
 #. TRANS: %1$s is a profile nickname, %2$s is a timestamp.
-#: LinkbackPlugin.php:318
+#: LinkbackModule.php:318
 #, php-format
 msgid "%1$s's status on %2$s"
 msgstr ""
 
-#. TRANS: Plugin description.
-#: LinkbackPlugin.php:364
+#. TRANS: Module description.
+#: LinkbackModule.php:364
 msgid ""
 "Notify blog authors when their posts have been linked in microblog notices "
 "using <a href=\"http://www.hixie.ch/specs/pingback/pingback\">Pingback</a> "
@@ -34,18 +34,18 @@ msgid ""
 msgstr ""
 
 #. TRANS: OpenID plugin menu item on user settings page.
-#: LinkbackPlugin.php:383
+#: LinkbackModule.php:383
 msgctxt "MENU"
 msgid "Send Linkbacks"
 msgstr ""
 
 #. TRANS: OpenID plugin tooltip for user settings menu item.
-#: LinkbackPlugin.php:385
+#: LinkbackModule.php:385
 msgid "Opt-out of sending linkbacks."
 msgstr ""
 
 #. TRANS: Title. %s is a domain name.
-#: LinkbackPlugin.php:410
+#: LinkbackModule.php:410
 #, php-format
 msgid "Sent from %s via Linkback"
 msgstr ""

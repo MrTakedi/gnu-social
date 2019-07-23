@@ -2,7 +2,7 @@ The ApiLogger plugin allows random sampling of API requests.
 
 Installation
 ============
-add "addPlugin('ApiLogger');"
+add "addModule('ApiLogger');"
 to the bottom of your config.php
 
 Settings
@@ -12,7 +12,7 @@ percentage -- e.g.: 0.1 will check about 10% of hits). Default 1.0
 
 Example
 =======
-addPlugin('ApiLogger', array(
+addModule('ApiLogger', array(
     'frequency' => 1.0
 ));
 

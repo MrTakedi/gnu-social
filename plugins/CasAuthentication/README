@@ -3,7 +3,7 @@ through CAS (Central Authentication Service).
 
 Installation
 ============
-add "addPlugin('casAuthentication',
+add "addModule('casAuthentication',
     array('setting'=>'value', 'setting2'=>'value2', ...);"
 to the bottom of your config.php
 
@@ -35,7 +35,7 @@ default values are in (parenthesis)
 
 Example
 =======
-addPlugin('casAuthentication', array(
+addModule('casAuthentication', array(
     'provider_name'=>'Example',
     'authoritative'=>true,
     'autoregistration'=>true,

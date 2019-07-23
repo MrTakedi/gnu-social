@@ -2,7 +2,7 @@ The VideoThumbnails plugin enables video thumbnail preview support.
 
 Installation
 ============
-add "addPlugin('VideoThumbnails');"
+add "addModule('VideoThumbnails');"
 to the bottom of your config.php
 
 Note: This plugin depends on
@@ -15,5 +15,5 @@ none
 
 Example
 =======
-addPlugin('VideoThumbnails');
+addModule('VideoThumbnails');
 

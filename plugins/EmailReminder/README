@@ -8,7 +8,7 @@ haven't verified their email address yet.
 
 Installation
 ============
-add "addPlugin('EmailReminder');"
+add "addModule('EmailReminder');"
 to the bottom of your config.php
 
 Settings
@@ -17,5 +17,5 @@ none
 
 Example
 =======
-addPlugin('EmailReminder');
+addModule('EmailReminder');
 

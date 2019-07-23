@@ -807,10 +807,10 @@ class Router
             $m->connect('panel/plugins', ['action' => 'pluginsadminpanel']);
             $m->connect('panel/plugins/enable/:plugin',
                         ['action' => 'pluginenable'],
-                        ['plugin' => '[A-Za-z0-9_]+']);
+                        ['Module' => '[A-Za-z0-9_]+']);
             $m->connect('panel/plugins/disable/:plugin',
                         ['action' => 'plugindisable'],
-                        ['plugin' => '[A-Za-z0-9_]+']);
+                        ['Module' => '[A-Za-z0-9_]+']);
 
             // Common people-tag stuff
 

@@ -3,7 +3,7 @@ subsets of users.
 
 Installation
 ============
-add "addPlugin('SlicedFavorites');"
+add "addModule('SlicedFavorites');"
 to the bottom of your config.php
 
 Settings
@@ -12,7 +12,7 @@ slices: Array of subsets
 
 Example
 =======
-addPlugin('SlicedFavorites', array(
+addModule('SlicedFavorites', array(
     'slices' => array(
         // show only pop's notices on /favorited
         'default' => array('include' => array('pop')),

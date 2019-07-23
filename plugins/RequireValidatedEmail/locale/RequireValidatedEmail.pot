@@ -18,21 +18,21 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #. TRANS: Client exception thrown when trying to post notices before validating an e-mail address.
-#: RequireValidatedEmailPlugin.php:110
+#: RequireValidatedEmailModule.php:110
 msgid "You must validate your email address before posting."
 msgstr ""
 
 #. TRANS: Client exception thrown when trying to register without providing an e-mail address.
-#: RequireValidatedEmailPlugin.php:130
+#: RequireValidatedEmailModule.php:130
 msgid "You must provide an email address to register."
 msgstr ""
 
-#. TRANS: Plugin description.
-#: RequireValidatedEmailPlugin.php:229
+#. TRANS: Module description.
+#: RequireValidatedEmailModule.php:229
 msgid "Disables posting without a validated email address."
 msgstr ""
 
-#: RequireValidatedEmailPlugin.php:248
+#: RequireValidatedEmailModule.php:248
 msgid "You must validate an email address before posting!"
 msgstr ""
 

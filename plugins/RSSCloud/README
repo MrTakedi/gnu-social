@@ -8,7 +8,7 @@ to a Wordpress feed from StatusNet using this plugin.
 
 To use the plugin, add the following to your config.php:
 
-    addPlugin('RSSCloud');
+    addModule('RSSCloud');
 
 Enabling the plugin will add a <cloud> element to your RSS 2.0 profile feeds
 that looks like this:

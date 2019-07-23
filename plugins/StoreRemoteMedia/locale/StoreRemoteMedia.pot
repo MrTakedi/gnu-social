@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#. TRANS: Plugin description.
-#: StoreRemoteMediaPlugin.php:211
-msgid "Plugin for downloading remotely attached files to local server."
+#. TRANS: Module description.
+#: StoreRemoteMediaModule.php:211
+msgid "Module for downloading remotely attached files to local server."
 msgstr ""

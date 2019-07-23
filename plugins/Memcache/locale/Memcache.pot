@@ -17,8 +17,8 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#. TRANS: Plugin description.
-#: MemcachePlugin.php:249
+#. TRANS: Module description.
+#: MemcacheModule.php:249
 msgid ""
 "Use <a href=\"http://memcached.org/\">Memcached</a> to cache query results."
 msgstr ""

@@ -94,7 +94,7 @@ class PluginsadminpanelAction extends AdminPanelAction
         natsort($plugins);
 
         if ($plugins) {
-            $list = new PluginList($plugins, $this);
+            $list = new ModuleList($plugins, $this);
             $list->show();
         } else {
             $this->element('p', null,

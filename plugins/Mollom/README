@@ -7,7 +7,7 @@ This is called php5-xmlrpc in Debian/Ubuntu
 == Installation ==
 Add the following to your config.php
 <?php
-addPlugin('Mollom',
+addModule('Mollom',
     array(
         'public_key' => '...',
         'private_key' => '...',

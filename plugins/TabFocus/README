@@ -4,7 +4,7 @@ Twitter.
 
 Installation
 ============
-add "addPlugin('TabFocus');"
+add "addModule('TabFocus');"
 to the bottom of your config.php
 
 Settings
@@ -13,5 +13,5 @@ none
 
 Example
 =======
-addPlugin('TabFocus');
+addModule('TabFocus');
 

@@ -2,7 +2,7 @@ The PostDebug plugin records detailed data on POSTs requests.
 
 Installation
 ============
-add "addPlugin('PostDebug');"
+add "addModule('PostDebug');"
 to the bottom of your config.php
 
 Settings
@@ -12,7 +12,7 @@ dir: The directory where the log file will be saved
 Example
 =======
 
-addPlugin('PostDebug', array(
+addModule('PostDebug', array(
     'dir' => '/tmp'
 ));
 

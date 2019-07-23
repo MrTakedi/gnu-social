@@ -4,7 +4,7 @@ See: http://memcached.org/
 
 Installation
 ============
-add "addPlugin('Memcached');"
+add "addModule('Memcached');"
 to the bottom of your config.php
 
 Settings
@@ -14,7 +14,7 @@ defaultExpiry: How long before cache expires (in seconds)
 
 Example
 =======
-addPlugin('Memcached', array(
+addModule('Memcached', array(
     'servers' => array('127.0.0.1;11211'),
     'defaultExpiry' => 86400 // 24h
 ));

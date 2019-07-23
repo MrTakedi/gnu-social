@@ -10,7 +10,7 @@ class StatusNet
 {
     public static function getActivePlugins()
     {
-        return GNUsocial::getActivePlugins();
+        return GNUsocial::getActiveModules();
     }
 
     public static function isHTTPS()

@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#. TRANS: Plugin description.
-#: AntiBrutePlugin.php:80
+#. TRANS: Module description.
+#: AntiBruteModule.php:80
 msgid "Anti bruteforce method(s)."
 msgstr ""

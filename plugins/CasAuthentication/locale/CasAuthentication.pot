@@ -34,40 +34,40 @@ msgid "Error setting user. You are probably not authorized."
 msgstr ""
 
 #. TRANS: Menu item. CAS is Central Authentication Service.
-#: CasAuthenticationPlugin.php:86
+#: CasAuthenticationModule.php:86
 msgid "CAS"
 msgstr ""
 
 #. TRANS: Tooltip for menu item. CAS is Central Authentication Service.
-#: CasAuthenticationPlugin.php:88
+#: CasAuthenticationModule.php:88
 msgid "Login or register with CAS."
 msgstr ""
 
 #. TRANS: Invitation to users with a CAS account to log in using the service.
 #. TRANS: "[CAS login]" is a link description. (%%action.caslogin%%) is the URL.
 #. TRANS: These two elements may not be separated.
-#: CasAuthenticationPlugin.php:104
+#: CasAuthenticationModule.php:104
 #, php-format
 msgid "(Have an account with CAS? Try our [CAS login](%%action.caslogin%%)!)"
 msgstr ""
 
 #. TRANS: Exception thrown when the CAS Authentication plugin has been configured incorrectly.
-#: CasAuthenticationPlugin.php:132
+#: CasAuthenticationModule.php:132
 msgid "Specifying a server is required."
 msgstr ""
 
 #. TRANS: Exception thrown when the CAS Authentication plugin has been configured incorrectly.
-#: CasAuthenticationPlugin.php:136
+#: CasAuthenticationModule.php:136
 msgid "Specifying a port is required."
 msgstr ""
 
 #. TRANS: Exception thrown when the CAS Authentication plugin has been configured incorrectly.
-#: CasAuthenticationPlugin.php:140
+#: CasAuthenticationModule.php:140
 msgid "Specifying a path is required."
 msgstr ""
 
-#. TRANS: Plugin description. CAS is Central Authentication Service.
-#: CasAuthenticationPlugin.php:161
+#. TRANS: Module description. CAS is Central Authentication Service.
+#: CasAuthenticationModule.php:161
 msgid ""
 "The CAS Authentication plugin allows for StatusNet to handle authentication "
 "through CAS (Central Authentication Service)."

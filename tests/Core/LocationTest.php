@@ -26,7 +26,7 @@ if (!defined('STATUSNET')) { // Compatibility
     define('STATUSNET', true);
 }
 
-use GeonamesPlugin;
+use GeonamesModule;
 use Location;
 use PHPUnit\Framework\TestCase;
 
@@ -77,8 +77,8 @@ final class LocationTest extends TestCase
 
     static public function locationIds()
     {
-        return array(array(6077243, GeonamesPlugin::LOCATION_NS, 'en', null),
-            array(5391959, GeonamesPlugin::LOCATION_NS, 'en', null));
+        return array(array(6077243, GeonamesModule::LOCATION_NS, 'en', null),
+            array(5391959, GeonamesModule::LOCATION_NS, 'en', null));
     }
 
     /**

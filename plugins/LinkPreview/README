@@ -4,7 +4,7 @@ Note: This plugin depends on the "Embed" plugin.
 
 Installation
 ============
-add "addPlugin('LinkPreview');"
+add "addModule('LinkPreview');"
 to the bottom of your config.php
 
 Settings
@@ -15,9 +15,9 @@ thumbheight: The height of the link preview
 
 Example
 =======
-addPlugin('Embed'); // Dependency
+addModule('Embed'); // Dependency
 $config['attachments']['process_links'] = true;
 $config['attachments']['thumbwidth'] = 42;
 $config['attachments']['thumbheight'] = 42;
-addPlugin('LinkPreview');
+addModule('LinkPreview');
 

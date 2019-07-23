@@ -5,7 +5,7 @@ Note: This plugin depends on php5-imagick
 
 Installation
 ============
-add "addPlugin('ImageMagick');"
+add "addModule('ImageMagick');"
 to the bottom of your config.php
 
 Settings
@@ -17,5 +17,5 @@ Note: We are not infinitely fast, so resizing animated GIFs is _not_ recommended
 Example
 =======
 $config['thumbnail']['animated'] = true;
-addPlugin('ImageMagick');
+addModule('ImageMagick');
 

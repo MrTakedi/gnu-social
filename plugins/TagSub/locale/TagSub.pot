@@ -98,24 +98,24 @@ msgstr ""
 msgid "Unsubscribed"
 msgstr ""
 
-#. TRANS: Plugin description.
-#: TagSubPlugin.php:106
-msgid "Plugin to allow following all messages with a given tag."
+#. TRANS: Module description.
+#: TagSubModule.php:106
+msgid "Module to allow following all messages with a given tag."
 msgstr ""
 
 #. TRANS: SubMirror plugin menu item on user settings page.
-#: TagSubPlugin.php:181
+#: TagSubModule.php:181
 msgctxt "MENU"
 msgid "Tags"
 msgstr ""
 
 #. TRANS: SubMirror plugin tooltip for user settings menu item.
-#: TagSubPlugin.php:183
+#: TagSubModule.php:183
 msgid "Configure tag subscriptions"
 msgstr ""
 
 #. TRANS: Menu item text for tags submenu.
-#: TagSubPlugin.php:200
+#: TagSubModule.php:200
 msgid "Tags"
 msgstr ""
 

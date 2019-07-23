@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#. TRANS: Plugin description.
-#: DiskCachePlugin.php:174
-msgid "Plugin to implement cache interface with disk files."
+#. TRANS: Module description.
+#: DiskCacheModule.php:174
+msgid "Module to implement cache interface with disk files."
 msgstr ""

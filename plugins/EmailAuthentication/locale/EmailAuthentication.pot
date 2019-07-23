@@ -17,8 +17,8 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#. TRANS: Plugin description.
-#: EmailAuthenticationPlugin.php:62
+#. TRANS: Module description.
+#: EmailAuthenticationModule.php:62
 msgid ""
 "The Email Authentication plugin allows users to login using their email "
 "address."

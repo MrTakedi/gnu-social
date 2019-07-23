@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#. TRANS: Plugin description.
-#: AutocompletePlugin.php:64
+#. TRANS: Module description.
+#: AutocompleteModule.php:64
 msgid "The autocomplete plugin adds autocompletion for @ replies."
 msgstr ""

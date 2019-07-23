@@ -17,8 +17,8 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#. TRANS: Plugin description.
-#: LinkPreviewPlugin.php:42
+#. TRANS: Module description.
+#: LinkPreviewModule.php:42
 msgid "UI extension for previewing thumbnails from links."
 msgstr ""
 

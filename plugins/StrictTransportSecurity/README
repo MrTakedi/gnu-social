@@ -3,7 +3,7 @@ See http://lists.w3.org/Archives/Public/www-archive/2009Sep/att-0051/draft-hodge
 
 Installation
 ============
-add "addPlugin('strictTransportSecurity');"
+add "addModule('strictTransportSecurity');"
 to the bottom of your config.php
 
 The plugin will not do anything unless:
@@ -17,5 +17,5 @@ includeSubDomains (false): if set, then STS will apply to all the sub-domains to
 
 Example
 =======
-addPlugin('strictTransportSecurity');
+addModule('strictTransportSecurity');
 

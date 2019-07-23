@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#. TRANS: Plugin description.
-#: FeedPollerPlugin.php:60
+#. TRANS: Module description.
+#: FeedPollerModule.php:60
 msgid "Feed polling plugin to avoid using external push hubs."
 msgstr ""

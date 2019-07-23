@@ -10,7 +10,7 @@ cron mechanism to send emails regularly.
 
 Installation
 ============
-add "addPlugin('EmailSummary');"
+add "addModule('EmailSummary');"
 to the bottom of your config.php
 
 Settings
@@ -19,4 +19,4 @@ none
 
 Example
 =======
-addPlugin('EmailSummary');
+addModule('EmailSummary');

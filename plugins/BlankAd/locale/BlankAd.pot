@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#. TRANS: Plugin description.
-#: BlankAdPlugin.php:129
-msgid "Plugin for testing ad layout."
+#. TRANS: Module description.
+#: BlankAdModule.php:129
+msgid "Module for testing ad layout."
 msgstr ""

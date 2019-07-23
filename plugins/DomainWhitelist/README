@@ -3,7 +3,7 @@ select whitelist.
 
 Installation
 ============
-add "addPlugin('DomainWhitelist');"
+add "addModule('DomainWhitelist');"
 to the bottom of your config.php
 
 Settings
@@ -13,4 +13,4 @@ whitelist: An array of whitelisted domains
 Example
 =======
 $config['email']['whitelist'] = array('example.org', 'example.net');
-addPlugin('DomainWhitelist');
+addModule('DomainWhitelist');

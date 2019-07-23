@@ -8,7 +8,7 @@ The ExtendedProfile plugin adds additional profile fields such as:
 
 Installation
 ============
-add "addPlugin('ExtendedProfile');"
+add "addModule('ExtendedProfile');"
 to the bottom of your config.php
 
 Note: This plugin is enabled by default on private instances.
@@ -19,5 +19,5 @@ none
 
 Example
 =======
-addPlugin('ExtendedProfile');
+addModule('ExtendedProfile');
 

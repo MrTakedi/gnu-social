@@ -5,7 +5,7 @@ has greeted each user.
 
 Installation
 ============
-add "addPlugin('Sample');"
+add "addModule('Sample');"
 to the bottom of your config.php
 
 Settings
@@ -15,5 +15,5 @@ none
 Example
 =======
 
-addPlugin('Sample');
+addModule('Sample');
 

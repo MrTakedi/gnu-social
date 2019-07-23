@@ -17,11 +17,11 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: GNUsocialProfileExtensionsPlugin.php:124
+#: GNUsocialProfileExtensionsModule.php:124
 msgid "Profile Fields"
 msgstr ""
 
-#: GNUsocialProfileExtensionsPlugin.php:125
+#: GNUsocialProfileExtensionsModule.php:125
 msgid "Custom profile fields"
 msgstr ""
 

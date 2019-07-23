@@ -7,7 +7,7 @@ Note: entries are logged at the LOG_INFO level.
 
 Installation
 ============
-add "addPlugin('CacheLog');"
+add "addModule('CacheLog');"
 to the bottom of your config.php
 
 Settings
@@ -19,5 +19,5 @@ Example
 Note that since most caching plugins return false for StartCache*
 methods, you should add this plugin before them, i.e.
 
-    addPlugin('CacheLog');
-    addPlugin('XCache');
+    addModule('CacheLog');
+    addModule('XCache');

@@ -17,8 +17,8 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#. TRANS: Plugin description.
-#: EmailReminderPlugin.php:192
+#. TRANS: Module description.
+#: EmailReminderModule.php:192
 msgid "Send email reminders for various things."
 msgstr ""
 

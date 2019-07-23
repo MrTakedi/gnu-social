@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#. TRANS: Plugin description.
-#: ApiLoggerPlugin.php:87
+#. TRANS: Module description.
+#: ApiLoggerModule.php:87
 msgid "Allows random sampling of API requests."
 msgstr ""

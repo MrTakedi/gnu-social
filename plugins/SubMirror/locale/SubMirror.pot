@@ -17,24 +17,24 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#. TRANS: Plugin description.
-#: SubMirrorPlugin.php:70
+#. TRANS: Module description.
+#: SubMirrorModule.php:70
 msgid "Pull feeds into your timeline!"
 msgstr ""
 
 #. TRANS: SubMirror plugin menu item on user settings page.
-#: SubMirrorPlugin.php:90
+#: SubMirrorModule.php:90
 msgctxt "MENU"
 msgid "Mirroring"
 msgstr ""
 
 #. TRANS: SubMirror plugin tooltip for user settings menu item.
-#: SubMirrorPlugin.php:92
+#: SubMirrorModule.php:92
 msgid "Configure mirroring of posts from other feeds"
 msgstr ""
 
 #. TRANS: Label in profile statistics section, followed by a count.
-#: SubMirrorPlugin.php:169
+#: SubMirrorModule.php:169
 msgid "Mirrored feeds"
 msgstr ""
 

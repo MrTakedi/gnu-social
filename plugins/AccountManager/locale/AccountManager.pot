@@ -17,8 +17,8 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#. TRANS: Plugin description.
-#: AccountManagerPlugin.php:100
+#. TRANS: Module description.
+#: AccountManagerModule.php:100
 msgid ""
 "The Account Manager plugin implements the Account Manager specification."
 msgstr ""

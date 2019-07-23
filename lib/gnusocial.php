@@ -27,42 +27,41 @@ class GNUsocial
     protected static $have_config;
     protected static $is_api;
     protected static $is_ajax;
-    protected static $plugins = array();
+    protected static $modules = array();
 
     /**
      * Configure and instantiate a plugin (or a core module) into the current configuration.
      * Class definitions will be loaded from standard paths if necessary.
      * Note that initialization events won't be fired until later.
      *
-     * @param string $name class name & plugin file/subdir name
-     * @param array $attrs key/value pairs of public attributes to set on plugin instance
+     * @param string $name class name & module file/subdir name
+     * @param array $attrs key/value pairs of public attributes to set on module instance
      *
-     * @throws ServerException if plugin can't be found
+     * @return bool
+     * @throws ServerException if module can't be found
      */
-    public static function addPlugin($name, array $attrs = [])
+    public static function addModule($name, array $attrs = [])
     {
         $name = ucfirst($name);
 
-        if (isset(self::$plugins[$name])) {
-            // We have already loaded this plugin. Don't try to
+        if (isset(self::$modules[$name])) {
+            // We have already loaded this module. Don't try to
             // do it again with (possibly) different values.
             // Försten till kvarn får mala.
             return true;
         }
 
-        $pluginclass = "{$name}Plugin";
+        $moduleclass = "{$name}Module";
 
-        if (!class_exists($pluginclass)) {
+        if (!class_exists($moduleclass)) {
 
             $files = [
-                "local/plugins/{$pluginclass}.php",
-                "local/plugins/{$name}/{$pluginclass}.php",
-                "local/{$pluginclass}.php",
-                "local/{$name}/{$pluginclass}.php",
-                "modules/{$pluginclass}.php",
-                "modules/{$name}/{$pluginclass}.php",
-                "plugins/{$pluginclass}.php",
-                "plugins/{$name}/{$pluginclass}.php"
+                "local/plugins/{$moduleclass}.php",
+                "local/plugins/{$name}/{$moduleclass}.php",
+                "modules/{$moduleclass}.php",
+                "modules/{$name}/{$moduleclass}.php",
+                "plugins/{$moduleclass}.php",
+                "plugins/{$name}/{$moduleclass}.php"
             ];
 
             foreach ($files as $file) {
@@ -72,30 +71,30 @@ class GNUsocial
                     break;
                 }
             }
-            if (!class_exists($pluginclass)) {
-                throw new ServerException("Plugin $name not found.", 500);
+            if (!class_exists($moduleclass)) {
+                throw new ServerException("Module $name not found.", 500);
             }
         }
 
         // Doesn't this $inst risk being garbage collected or something?
         // TODO: put into a static array that makes sure $inst isn't lost.
-        $inst = new $pluginclass();
+        $inst = new $moduleclass();
         foreach ($attrs as $aname => $avalue) {
             $inst->$aname = $avalue;
         }
 
-        // Record activated plugins for later display/config dump
-        self::$plugins[$name] = $attrs;
+        // Record activated modules for later display/config dump
+        self::$modules[$name] = $attrs;
 
         return true;
     }
 
-    public static function delPlugin($name)
+    public static function delModule($name)
     {
-        // Remove our plugin if it was previously loaded
+        // Remove our module if it was previously loaded
         $name = ucfirst($name);
-        if (isset(self::$plugins[$name])) {
-            unset(self::$plugins[$name]);
+        if (isset(self::$modules[$name])) {
+            unset(self::$modules[$name]);
         }
 
         // make sure initPlugins will avoid this
@@ -105,17 +104,17 @@ class GNUsocial
     }
 
     /**
-     * Get a list of activated plugins in this process.
+     * Get a list of activated modules in this process.
      * @return array of (string $name, array $args) pairs
      */
-    public static function getActivePlugins()
+    public static function getActiveModules()
     {
-        return self::$plugins;
+        return self::$modules;
     }
 
     /**
      * Initialize, or re-initialize, GNU social global configuration
-     * and plugins.
+     * and modules.
      *
      * If switching site configurations during script execution, be
      * careful when working with leftover objects -- global settings
@@ -125,7 +124,9 @@ class GNUsocial
      * @param $path optional URL path for picking config
      * @param $conffile optional configuration file path
      *
+     * @throws ConfigException
      * @throws NoConfigException if config file can't be found
+     * @throws ServerException
      */
     public static function init($server=null, $path=null, $conffile=null)
     {
@@ -144,7 +145,7 @@ class GNUsocial
         self::fillConfigVoids();
         self::verifyLoadedConfig();
 
-        self::initPlugins();
+        self::initModules();
     }
 
     /**
@@ -165,6 +166,10 @@ class GNUsocial
      * site is missing or configured incorrectly.
      *
      * @param string $nickname
+     * @return bool
+     * @throws ConfigException
+     * @throws NoConfigException
+     * @throws ServerException
      */
     public static function switchSite($nickname)
     {
@@ -175,7 +180,7 @@ class GNUsocial
         $sn = Status_network::getKV('nickname', $nickname);
         if (empty($sn)) {
             return false;
-            throw new Exception("No such site nickname '$nickname'");
+            //throw new Exception("No such site nickname '$nickname'");
         }
 
         $server = $sn->getServerName();
@@ -201,17 +206,17 @@ class GNUsocial
     }
 
     /**
-     * Fire initialization events for all instantiated plugins.
+     * Fire initialization events for all instantiated modules.
      */
-    protected static function initPlugins()
+    protected static function initModules()
     {
-        // User config may have already added some of these plugins, with
-        // maybe configured parameters. The self::addPlugin function will
+        // User config may have already added some of these modules, with
+        // maybe configured parameters. The self::addModule function will
         // ignore the new call if it has already been instantiated.
 
-        // Load core plugins
+        // Load core modules
         foreach (common_config('plugins', 'core') as $name => $params) {
-            call_user_func('self::addPlugin', $name, $params);
+            call_user_func('self::addModule', $name, $params);
         }
 
         // Load default plugins
@@ -222,32 +227,32 @@ class GNUsocial
             }
 
             // TODO: We should be able to avoid this is_null and assume $params
-            // is an array, since that's how it is typed in addPlugin
+            // is an array, since that's how it is typed in addModule
             if (is_null($params)) {
-                self::addPlugin($name);
+                self::addModule($name);
             } else if (is_array($params)) {
                 if (count($params) == 0) {
-                    self::addPlugin($name);
+                    self::addModule($name);
                 } else {
                     $keys = array_keys($params);
                     if (is_string($keys[0])) {
-                        self::addPlugin($name, $params);
+                        self::addModule($name, $params);
                     } else {
                         foreach ($params as $paramset) {
-                            self::addPlugin($name, $paramset);
+                            self::addModule($name, $paramset);
                         }
                     }
                 }
             }
         }
 
-        // XXX: if plugins should check the schema at runtime, do that here.
+        // XXX: if modules should check the schema at runtime, do that here.
         if (common_config('db', 'schemacheck') == 'runtime') {
             Event::handle('CheckSchema');
         }
 
-        // Give plugins a chance to initialize in a fully-prepared environment
-        Event::handle('InitializePlugin');
+        // Give modules a chance to initialize in a fully-prepared environment
+        Event::handle('InitializeModule');
     }
 
     /**
@@ -311,7 +316,7 @@ class GNUsocial
         global $_server, $_path, $config, $_PEAR;
 
         Event::clearHandlers();
-        self::$plugins = array();
+        self::$modules = array();
 
         // try to figure out where we are. $server and $path
         // can be set by including module, else we guess based
@@ -366,9 +371,10 @@ class GNUsocial
 
     /**
      * Load the default or specified configuration file.
-     * Modifies global $config and may establish plugins.
+     * Modifies global $config and may establish modules.
      *
      * @throws NoConfigException
+     * @throws ServerException
      */
     protected static function loadConfigFile($conffile=null)
     {

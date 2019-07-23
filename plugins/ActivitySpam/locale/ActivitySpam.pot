@@ -17,11 +17,11 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ActivitySpamPlugin.php:210
+#: ActivitySpamModule.php:210
 msgctxt "MENU"
 msgid "Spam"
 msgstr ""
 
-#: ActivitySpamPlugin.php:227
+#: ActivitySpamModule.php:227
 msgid "Test notices against the Activity Spam service."
 msgstr ""

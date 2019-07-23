@@ -3,7 +3,7 @@ flagged profiles.
 
 Installation
 ============
-add "addPlugin('UserFlag');"
+add "addModule('UserFlag');"
 to the bottom of your config.php
 
 Settings
@@ -12,7 +12,7 @@ flagOnBlock: Whether to automatically flag a profile when a user blocks it.
 
 Example
 =======
-addPlugin('UserFlag', array(
+addModule('UserFlag', array(
     'flagOnBlock' => true
 ));
 

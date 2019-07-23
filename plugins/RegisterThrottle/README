@@ -3,7 +3,7 @@ The RegisterThrottle plugin throttles registration by IP address
 Installation
 ============
 This plugin is enabled by default on public instances, otherwise it can be
-enabled by adding "addPlugin('RegisterThrottle');" to the bottom of your
+enabled by adding "addModule('RegisterThrottle');" to the bottom of your
 config.php
 
 Settings
@@ -13,7 +13,7 @@ silenced: Disallow registration if a silenced user has registered from this IP a
 
 Example
 =======
-addPlugin('RegisterThrottle', array(
+addModule('RegisterThrottle', array(
     'regLimits' => array(
                         604800 => 10, // per week
                         86400 => 5,   // per day

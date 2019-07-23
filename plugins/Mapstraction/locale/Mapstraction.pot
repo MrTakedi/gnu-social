@@ -18,17 +18,17 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #. TRANS: Header for Map widget that displays a map with geodata for notices.
-#: MapstractionPlugin.php:151
+#: MapstractionModule.php:151
 msgid "Map"
 msgstr ""
 
 #. TRANS: Clickable item to allow opening the map in full size.
-#: MapstractionPlugin.php:163
+#: MapstractionModule.php:163
 msgid "Full size"
 msgstr ""
 
-#. TRANS: Plugin description.
-#: MapstractionPlugin.php:176
+#. TRANS: Module description.
+#: MapstractionModule.php:176
 msgid ""
 "Show maps of users' and friends' notices with <a href=\"http://www."
 "mapstraction.com/\">Mapstraction</a>."

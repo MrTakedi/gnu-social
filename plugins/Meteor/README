@@ -13,7 +13,7 @@ push any message to your subscribers. Not good!
 
 You can enable the plugin with this line in config.php:
 
-addPlugin('Meteor', array('webserver' => 'meteor server address'));
+addModule('Meteor', array('webserver' => 'meteor server address'));
 
 Available parameters:
 * webserver: Web server address. Defaults to site server.

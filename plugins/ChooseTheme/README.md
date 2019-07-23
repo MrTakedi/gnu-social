@@ -4,7 +4,7 @@ The plugin enables the user to select their own theme, independently on site set
 
 #### Enable plugin
 - Include this code in your GNU social instance. 
-- Edit your `config.php` to include `addPlugin("ChooseTheme");`
+- Edit your `config.php` to include `addModule("ChooseTheme");`
 
 #### How-to
 - Choose settings from the GNU social menu. Choose 'Theme' on left menu.

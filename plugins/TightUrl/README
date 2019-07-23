@@ -2,7 +2,7 @@ The TightUrl plugin shortens URLS via a TightUrl URL-shortener service
 
 Installation
 ============
-add "addPlugin('TightUrl');"
+add "addModule('TightUrl');"
 to the bottom of your config.php
 
 Settings
@@ -12,7 +12,7 @@ serviceUrl: The URL to the TightUrl instance
 Example
 =======
 
-addPlugin('TightUrl', array(
+addModule('TightUrl', array(
     'serviceUrl' => 'http://example.org'
 ));
 

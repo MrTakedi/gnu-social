@@ -17,16 +17,16 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: SensitiveContentPlugin.php:18
+#: SensitiveContentModule.php:18
 msgid "Mark, hide/show sensitive notices like on Twitter."
 msgstr ""
 
-#: SensitiveContentPlugin.php:59
+#: SensitiveContentModule.php:59
 msgctxt "MENU"
 msgid "Sensitive Content"
 msgstr ""
 
-#: SensitiveContentPlugin.php:60
+#: SensitiveContentModule.php:60
 msgid "Settings for display of sensitive content."
 msgstr ""
 

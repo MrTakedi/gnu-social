@@ -25,13 +25,13 @@ Use:
 1. Add plugin:
 
 Default usage:
-addPlugin('AutoSandbox');
+addModule('AutoSandbox');
 
 Specify a contact user (replace 'someuser' with appropriate username):
-addPlugin('AutoSandbox', array('contact' => 'someuser'));
+addModule('AutoSandbox', array('contact' => 'someuser'));
 
 Stop contact user from defaulting to the Defaul subscription:
-addPlugin('AutoSandbox', array('contact' => ''));
+addModule('AutoSandbox', array('contact' => ''));
 
 Changelog
 =========

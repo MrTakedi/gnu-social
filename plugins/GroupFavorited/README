@@ -2,7 +2,7 @@ The GroupFavorited plugin adds a menu item for popular notices in groups.
 
 Installation
 ============
-add "addPlugin('GroupFavorited');"
+add "addModule('GroupFavorited');"
 to the bottom of your config.php
 
 Settings
@@ -11,5 +11,5 @@ none
 
 Example
 =======
-addPlugin('GroupFavorited');
+addModule('GroupFavorited');
 

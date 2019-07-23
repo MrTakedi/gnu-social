@@ -3,13 +3,13 @@ validated email address.
 
 Example:
 
-  addPlugin('RequireValidatedEmail');
+  addModule('RequireValidatedEmail');
 
 If you don't want to apply the validationr equirement to existing
 accounts, you can specify a cutoff date to grandfather in users
 registered prior to that timestamp.
 
-  addPlugin('RequireValidatedEmail',
+  addModule('RequireValidatedEmail',
             array('grandfatherCutoff' => 'Dec 7, 2009');
 
 You can also exclude the validation checks from OpenID accounts
@@ -18,7 +18,7 @@ expressions to match their provider URLs.
 
 For example, to trust WikiHow and Wikipedia users:
 
-  addPlugin('RequireValidatedEmailPlugin', array(
+  addModule('RequireValidatedEmailModule', array(
      'trustedOpenIDs' => array(
          '!^http://\w+\.wikihow\.com/!',
          '!^http://\w+\.wikipedia\.org/!',

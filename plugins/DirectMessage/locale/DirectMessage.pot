@@ -19,19 +19,19 @@ msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
 #. TRANS: Menu item in personal group navigation menu.
-#: DirectMessagePlugin.php:128
+#: DirectMessageModule.php:128
 msgctxt "MENU"
 msgid "Messages"
 msgstr ""
 
 #. TRANS: Link text for link on user profile.
-#: DirectMessagePlugin.php:148
+#: DirectMessageModule.php:148
 msgctxt "BUTTON"
 msgid "Message"
 msgstr ""
 
-#. TRANS: Plugin description.
-#: DirectMessagePlugin.php:174
+#. TRANS: Module description.
+#: DirectMessageModule.php:174
 msgid "Direct Message to other local users (broken out of core)."
 msgstr ""
 

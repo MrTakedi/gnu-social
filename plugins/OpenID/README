@@ -17,5 +17,5 @@ Example
 $config['site']['openidonly'] = true;
 $config['openid']['trusted_provider'] = "http://example.org";
 $config['openid']['append_username'] = true;
-addPlugin('OpenID');
+addModule('OpenID');
 

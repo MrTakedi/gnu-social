@@ -3,7 +3,7 @@ manner like StatusNet pre-v1.0 used to.
 
 Installation
 ============
-add "addPlugin('ConversationTree');"
+add "addModule('ConversationTree');"
 to the bottom of your config.php
 
 Settings
@@ -12,4 +12,4 @@ none
 
 Example
 =======
-addPlugin('ConversationTree');
+addModule('ConversationTree');

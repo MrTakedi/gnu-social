@@ -11,6 +11,6 @@ Installation
 To install, copy this directory into your plugins directory and add
 the following lines to your config.php file:
 
-addPlugin('GNUsocialProfileExtensions');
+addModule('GNUsocialProfileExtensions');
 $config['admin']['panels'][] = 'profilefields';
 

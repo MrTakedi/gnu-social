@@ -3,7 +3,7 @@ regular cache system like APC, XCache, or Memcache.
 
 Installation
 ============
-add "addPlugin('InProcessCache');"
+add "addModule('InProcessCache');"
 to the bottom of your config.php
 
 Settings
@@ -18,6 +18,6 @@ Note: since most caching plugins return false for StartCache* methods, you
 should add this plugin before them, i.e.
 
     $config['inprocess']['stats'] = true;
-    addPlugin('InProcessCache');
-    addPlugin('XCache');
+    addModule('InProcessCache');
+    addModule('XCache');
 

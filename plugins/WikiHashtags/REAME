@@ -4,7 +4,7 @@ See: http://hashtags.wikia.com/wiki/WikiHashtags
 
 Installation
 ============
-add "addPlugin('WikiHashtags');"
+add "addModule('WikiHashtags');"
 to the bottom of your config.php
 
 Settings
@@ -13,5 +13,5 @@ none
 
 Example
 =======
-addPlugin('WikiHashtags');
+addModule('WikiHashtags');
 

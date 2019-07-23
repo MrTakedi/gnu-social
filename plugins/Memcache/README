@@ -4,7 +4,7 @@ See: http://memcached.org/
 
 Installation
 ============
-add "addPlugin('Memcache');"
+add "addModule('Memcache');"
 to the bottom of your config.php
 
 Settings
@@ -19,7 +19,7 @@ more than the minimum ratio.
 
 Example
 =======
-addPlugin('Memcache', array(
+addModule('Memcache', array(
     'servers' => array('127.0.0.1;11211'),
     'compressThreshold' => 20480,
     'compressMinSaving' => 0.2,

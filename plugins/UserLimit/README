@@ -2,7 +2,7 @@ The UserLimit plugin limits the number of users who can register.
 
 Installation
 ============
-add "addPlugin('UserLimit');"
+add "addModule('UserLimit');"
 to the bottom of your config.php
 
 Settings
@@ -11,7 +11,7 @@ maxUsers: The number of maximum users allowed.
 
 Example
 =======
-addPlugin('UserLimit', array(
+addModule('UserLimit', array(
     'maxUsers' => 42
 ));
 

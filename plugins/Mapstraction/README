@@ -4,7 +4,7 @@ Show maps of users' and friends' notices with http://www.mapstraction.com/.
 
 Installation
 ============
-add "addPlugin('Mapstraction');"
+add "addModule('Mapstraction');"
 to the bottom of your config.php
 
 Settings
@@ -14,7 +14,7 @@ apikey: provider API key (or 'appid'), if required
 
 Example
 =======
-addPlugin('Mapstraction', array(
+addModule('Mapstraction', array(
     'provider' => 'openlayers',
     'apikey' => 'API_KEY'
 ));

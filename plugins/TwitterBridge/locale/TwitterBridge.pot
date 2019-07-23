@@ -474,33 +474,33 @@ msgstr ""
 
 #. TRANS: Menu item in login navigation.
 #. TRANS: Menu item in connection settings navigation.
-#: TwitterBridgePlugin.php:152 TwitterBridgePlugin.php:177
+#: TwitterBridgeModule.php:152 TwitterBridgeModule.php:177
 msgctxt "MENU"
 msgid "Twitter"
 msgstr ""
 
 #. TRANS: Title for menu item in login navigation.
-#: TwitterBridgePlugin.php:154
+#: TwitterBridgeModule.php:154
 msgid "Login or register using Twitter."
 msgstr ""
 
 #. TRANS: Title for menu item in connection settings navigation.
-#: TwitterBridgePlugin.php:179
+#: TwitterBridgeModule.php:179
 msgid "Twitter integration options"
 msgstr ""
 
 #. TRANS: Menu item in administrative panel that leads to the Twitter bridge configuration.
-#: TwitterBridgePlugin.php:280
+#: TwitterBridgeModule.php:280
 msgid "Twitter"
 msgstr ""
 
 #. TRANS: Menu item title in administrative panel that leads to the Twitter bridge configuration.
-#: TwitterBridgePlugin.php:282
+#: TwitterBridgeModule.php:282
 msgid "Twitter bridge configuration page."
 msgstr ""
 
-#. TRANS: Plugin description.
-#: TwitterBridgePlugin.php:306
+#. TRANS: Module description.
+#: TwitterBridgeModule.php:306
 msgid ""
 "The Twitter \"bridge\" plugin allows integration of a StatusNet instance "
 "with <a href=\"http://twitter.com/\">Twitter</a>."

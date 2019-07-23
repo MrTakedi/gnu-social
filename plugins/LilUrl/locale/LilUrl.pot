@@ -18,13 +18,13 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #. TRANS: Exception thrown when URL shortening plugin was configured incorrectly.
-#: LilUrlPlugin.php:44
+#: LilUrlModule.php:44
 msgid "A serviceUrl must be specified."
 msgstr ""
 
-#. TRANS: Plugin description.
+#. TRANS: Module description.
 #. TRANS: %1$s is the service URL.
-#: LilUrlPlugin.php:71
+#: LilUrlModule.php:71
 #, php-format
 msgid "Uses <a href=\"http://%1$s/\">%1$s</a> URL-shortener service."
 msgstr ""

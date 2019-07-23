@@ -2,7 +2,7 @@ The SQLStats plugin logs statistics on performed SQL queries.
 
 Installation
 ============
-add "addPlugin('SQLStats');"
+add "addModule('SQLStats');"
 to the bottom of your config.php
 
 Settings
@@ -14,5 +14,5 @@ Note: entries are logged at the LOG_INFO level.
 Example
 =======
 $config['sqlstats']['verbose'] = false;
-addPlugin('SQLStats');
+addModule('SQLStats');
 

@@ -4,7 +4,7 @@ See https://wiki.mozilla.org/Labs/Weave/Identity/Account_Manager/Spec/Latest
 
 Installation
 ============
-add "addPlugin('accountManager');"
+add "addModule('accountManager');"
 to the bottom of your config.php
 
 Settings
@@ -13,4 +13,4 @@ none
 
 Example
 =======
-addPlugin('accountManager');
+addModule('accountManager');

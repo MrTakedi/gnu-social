@@ -6,7 +6,7 @@ See:
 
 Installation
 ============
-add "addPlugin('Linkback');"
+add "addModule('Linkback');"
 to the bottom of your config.php
 
 Settings
@@ -15,5 +15,5 @@ none
 
 Example
 =======
-addPlugin('Linkback');
+addModule('Linkback');
 

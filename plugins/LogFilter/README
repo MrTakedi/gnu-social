@@ -2,7 +2,7 @@ The LogFilter plugin provides server-side setting to filter log output by type o
 
 Installation
 ============
-add "addPlugin('LogFilter');"
+add "addModule('LogFilter');"
 to the bottom of your config.php
 
 Settings
@@ -13,7 +13,7 @@ Example
 =======
 Disable all debug messages and those containing 'About to push':
 
-addPlugin('LogFilter', array(
+addModule('LogFilter', array(
     'priority' => array(LOG_DEBUG => false),
     'regex' => array('/About to push/' => false)
 ));

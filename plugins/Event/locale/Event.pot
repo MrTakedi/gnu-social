@@ -247,54 +247,54 @@ msgstr ""
 msgid "%1$s might attend %2$s."
 msgstr ""
 
-#. TRANS: Plugin description.
-#: EventPlugin.php:110
+#. TRANS: Module description.
+#: EventModule.php:110
 msgid "Event invitations and RSVPs."
 msgstr ""
 
 #. TRANS: Title for event application.
-#: EventPlugin.php:116
+#: EventModule.php:116
 msgctxt "TITLE"
 msgid "Event"
 msgstr ""
 
 #. TRANS: Exception thrown when event plugin comes across a unknown object type.
-#: EventPlugin.php:213
+#: EventModule.php:213
 msgid "Unknown object type."
 msgstr ""
 
 #. TRANS: Field label for event description.
-#: EventPlugin.php:340
+#: EventModule.php:340
 msgid "Time:"
 msgstr ""
 
 #. TRANS: Field label for event description.
-#: EventPlugin.php:357
+#: EventModule.php:357
 msgid "Location:"
 msgstr ""
 
 #. TRANS: Field label for event description.
-#: EventPlugin.php:365
+#: EventModule.php:365
 msgid "Description:"
 msgstr ""
 
 #. TRANS: Field label for event description.
-#: EventPlugin.php:375
+#: EventModule.php:375
 msgid "Attending:"
 msgstr ""
 
 #. TRANS: Content for a deleted RSVP list item (RSVP stands for "please respond").
-#: EventPlugin.php:418
+#: EventModule.php:418
 msgid "Deleted."
 msgstr ""
 
 #. TRANS: Menu item in sample plugin.
-#: EventPlugin.php:431
+#: EventModule.php:431
 msgid "Happenings"
 msgstr ""
 
 #. TRANS: Menu item title in sample plugin.
-#: EventPlugin.php:433
+#: EventModule.php:433
 msgid "A list of your events"
 msgstr ""
 

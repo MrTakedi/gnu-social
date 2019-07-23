@@ -6,7 +6,7 @@ attached to them.
 
 Installation
 ============
-add "addPlugin('Geonames');"
+add "addModule('Geonames');"
 to the bottom of your config.php
 
 Settings
@@ -15,5 +15,5 @@ none
 
 Example
 =======
-addPlugin('Geonames');
+addModule('Geonames');
 

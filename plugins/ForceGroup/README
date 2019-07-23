@@ -3,7 +3,7 @@ to appear in groups that users were forced in.
 
 Installation
 ============
-add "addPlugin('ForceGroup');"
+add "addModule('ForceGroup');"
 to the bottom of your config.php
 
 Settings
@@ -12,5 +12,5 @@ none
 
 Example
 =======
-addPlugin('ForceGroup');
+addModule('ForceGroup');
 

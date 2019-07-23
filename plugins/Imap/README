@@ -3,7 +3,7 @@ incoming mail containing user posts.
 
 Installation
 ============
-addPlugin('imap', array(
+addModule('imap', array(
     'mailbox' => '...',
     'user' => '...',
     'password' => '...'

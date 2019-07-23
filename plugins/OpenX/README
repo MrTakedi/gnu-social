@@ -4,7 +4,7 @@ See: http://www.openx.org/
 
 Installation
 ============
-add "addPlugin('OpenX');"
+add "addModule('OpenX');"
 to the bottom of your config.php
 
 Settings
@@ -22,5 +22,5 @@ $config['openx']['rectangle'] = '';
 $config['openx']['leaderboard'] = '';
 $config['openx']['wideSkyscraper'] = '';
 $config['openx']['adScript'] = '';
-addPlugin('OpenX');
+addModule('OpenX');
 

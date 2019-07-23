@@ -59,6 +59,6 @@ msgstr ""
 msgid "Error creating new album."
 msgstr ""
 
-#: GNUsocialPhotosPlugin.php:65
+#: GNUsocialPhotosModule.php:65
 msgid "Problem saving photo."
 msgstr ""

@@ -5,7 +5,7 @@ See: https://en.wikipedia.org/wiki/XHTML_Mobile_Profile
 
 Installation
 ============
-add "addPlugin('MobileProfile');"
+add "addModule('MobileProfile');"
 to the bottom of your config.php
 
 Note: This plugin is enabled by default on private and single-user instances.
@@ -16,5 +16,5 @@ none
 
 Example
 =======
-addPlugin('MobileProfile');
+addModule('MobileProfile');
 

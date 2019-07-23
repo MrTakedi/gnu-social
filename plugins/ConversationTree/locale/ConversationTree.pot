@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#. TRANS: Plugin description.
-#: ConversationTreePlugin.php:44
+#. TRANS: Module description.
+#: ConversationTreeModule.php:44
 msgid "Enables conversation tree view."
 msgstr ""

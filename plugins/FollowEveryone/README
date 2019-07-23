@@ -3,7 +3,7 @@ existing users follow them automatically.
 
 Installation
 ============
-add "addPlugin('FollowEveryone');"
+add "addModule('FollowEveryone');"
 to the bottom of your config.php
 
 Settings
@@ -12,5 +12,5 @@ none
 
 Example
 =======
-addPlugin('FollowEveryone');
+addModule('FollowEveryone');
 

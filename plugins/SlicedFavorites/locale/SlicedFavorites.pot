@@ -22,7 +22,7 @@ msgstr ""
 msgid "Unknown favorites slice."
 msgstr ""
 
-#. TRANS: Plugin description.
-#: SlicedFavoritesPlugin.php:110
+#. TRANS: Module description.
+#: SlicedFavoritesModule.php:110
 msgid "Shows timelines of popular notices for defined subsets of users."
 msgstr ""

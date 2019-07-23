@@ -4,7 +4,7 @@ See: http://lilurl.sourceforge.net/
 
 Installation
 ============
-add "addPlugin('LilUrl', array('serviceUrl' => 'http://example.org'));"
+add "addModule('LilUrl', array('serviceUrl' => 'http://example.org'));"
 to the bottom of your config.php
 
 Settings
@@ -13,5 +13,5 @@ serviceUrl: The URL to the LilUrl instance.
 
 Example
 =======
-addPlugin('LilUrl', array('serviceUrl' => 'http://example.org'));
+addModule('LilUrl', array('serviceUrl' => 'http://example.org'));
 

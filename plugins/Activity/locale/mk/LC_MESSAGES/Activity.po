@@ -20,7 +20,7 @@ msgstr ""
 #. TRANS: Text for "started following" item in activity plugin.
 #. TRANS: %1$s is a profile URL, %2$s is a profile name,
 #. TRANS: %3$s is a profile URL, %4$s is a profile name.
-#: ActivityPlugin.php:75
+#: ActivityModule.php:75
 #, php-format
 msgid "<a href=\"%1$s\">%2$s</a> started following <a href=\"%3$s\">%4$s</a>."
 msgstr "<a href=\"%1$s\">%2$s</a> почна да го следи корисникот <a href=\"%3$s\">%4$s</a>."
@@ -28,7 +28,7 @@ msgstr "<a href=\"%1$s\">%2$s</a> почна да го следи корисни
 #. TRANS: Text for "started following" item in activity plugin.
 #. TRANS: %1$s is a profile name, %2$s is a profile URL,
 #. TRANS: %3$s is a profile name, %4$s is a profile URL.
-#: ActivityPlugin.php:83
+#: ActivityModule.php:83
 #, php-format
 msgid "%1$s (%2$s) started following %3$s (%4$s)."
 msgstr "%1$s (%2$s) почна да го следи корисникот %3$s (%4$s)."
@@ -36,7 +36,7 @@ msgstr "%1$s (%2$s) почна да го следи корисникот %3$s (%
 #. TRANS: Text for "stopped following" item in activity plugin.
 #. TRANS: %1$s is a profile URL, %2$s is a profile name,
 #. TRANS: %3$s is a profile URL, %4$s is a profile name.
-#: ActivityPlugin.php:113
+#: ActivityModule.php:113
 #, php-format
 msgid "<a href=\"%1$s\">%2$s</a> stopped following <a href=\"%3$s\">%4$s</a>."
 msgstr "<a href=\"%1$s\">%2$s</a> престана да го следи корисникот <a href=\"%3$s\">%4$s</a>."
@@ -44,7 +44,7 @@ msgstr "<a href=\"%1$s\">%2$s</a> престана да го следи кори
 #. TRANS: Text for "stopped following" item in activity plugin.
 #. TRANS: %1$s is a profile name, %2$s is a profile URL,
 #. TRANS: %3$s is a profile name, %4$s is a profile URL.
-#: ActivityPlugin.php:121
+#: ActivityModule.php:121
 #, php-format
 msgid "%1$s (%2$s) stopped following %3$s (%4$s)."
 msgstr "%1$s (%2$s) престана да го следи корисникот %3$s (%4$s)."
@@ -52,7 +52,7 @@ msgstr "%1$s (%2$s) престана да го следи корисникот %
 #. TRANS: Text for "stopped liking" item in activity plugin.
 #. TRANS: %1$s is a profile URL, %2$s is a profile name,
 #. TRANS: %3$s is a notice URL, %4$s is an author name.
-#: ActivityPlugin.php:158
+#: ActivityModule.php:158
 #, php-format
 msgid "<a href=\"%1$s\">%2$s</a> stopped liking <a href=\"%3$s\">%4$s's update</a>."
 msgstr "<a href=\"%1$s\">%2$s</a> повеќе не ја бендисува <a href=\"%3$s\">објавата на %4$s</a>."
@@ -60,7 +60,7 @@ msgstr "<a href=\"%1$s\">%2$s</a> повеќе не ја бендисува <a h
 #. TRANS: Text for "stopped liking" item in activity plugin.
 #. TRANS: %1$s is a profile name, %2$s is a profile URL,
 #. TRANS: %3$s is an author name, %4$s is a notice URL.
-#: ActivityPlugin.php:166
+#: ActivityModule.php:166
 #, php-format
 msgid "%1$s (%2$s) stopped liking %3$s's status (%4$s)."
 msgstr "%1$s (%2$s) повеќе не го бендисува статусот на %3$s (%4$s)."
@@ -71,7 +71,7 @@ msgstr "%1$s (%2$s) повеќе не го бендисува статусот �
 #. TRANS: Text for "joined list" item in activity plugin.
 #. TRANS: %1$s is a profile URL, %2$s is a profile name,
 #. TRANS: %3$s is a group home URL, %4$s is a group name.
-#: ActivityPlugin.php:203 lib/joinlistitem.php:64
+#: ActivityModule.php:203 lib/joinlistitem.php:64
 #, php-format
 msgid "<a href=\"%1$s\">%2$s</a> joined the group <a href=\"%3$s\">%4$s</a>."
 msgstr "<a href=\"%1$s\">%2$s</a> се зачлени во групата <a href=\"%3$s\">%4$s</a>."
@@ -79,7 +79,7 @@ msgstr "<a href=\"%1$s\">%2$s</a> се зачлени во групата <a hre
 #. TRANS: Text for "joined group" item in activity plugin.
 #. TRANS: %1$s is a profile name, %2$s is a profile URL,
 #. TRANS: %3$s is a group name, %4$s is a group URL.
-#: ActivityPlugin.php:211
+#: ActivityModule.php:211
 #, php-format
 msgid "%1$s (%2$s) joined the group %3$s (%4$s)."
 msgstr "%1$s (%2$s) се зачлени во групата %3$s (%4$s)."
@@ -87,7 +87,7 @@ msgstr "%1$s (%2$s) се зачлени во групата %3$s (%4$s)."
 #. TRANS: Text for "left group" item in activity plugin.
 #. TRANS: %1$s is a profile URL, %2$s is a profile name,
 #. TRANS: %3$s is a group URL, %4$s is a group name.
-#: ActivityPlugin.php:244
+#: ActivityModule.php:244
 #, php-format
 msgid "<a href=\"%1$s\">%2$s</a> left the group <a href=\"%3$s\">%4$s</a>."
 msgstr "<a href=\"%1$s\">%2$s</a> ја напушти групата <a href=\"%3$s\">%4$s</a>."
@@ -95,12 +95,12 @@ msgstr "<a href=\"%1$s\">%2$s</a> ја напушти групата <a href=\"%
 #. TRANS: Text for "left group" item in activity plugin.
 #. TRANS: %1$s is a profile name, %2$s is a profile URL,
 #. TRANS: %3$s is a group name, %4$s is a group URL.
-#: ActivityPlugin.php:252
+#: ActivityModule.php:252
 #, php-format
 msgid "%1$s (%2$s) left the group %3$s (%4$s)."
 msgstr "%1$s (%2$s) ја напушти групата %3$s (%4$s)."
 
-#. TRANS: Plugin description.
-#: ActivityPlugin.php:350
+#. TRANS: Module description.
+#: ActivityModule.php:350
 msgid "Emits notices when social activities happen."
 msgstr "Емитува известувања кога се одвиваат друштвени активности."

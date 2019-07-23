@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#. TRANS: Plugin description.
-#: DefaultLayoutPlugin.php:56
+#. TRANS: Module description.
+#: DefaultLayoutModule.php:56
 msgid "Optional default layout elements."
 msgstr ""

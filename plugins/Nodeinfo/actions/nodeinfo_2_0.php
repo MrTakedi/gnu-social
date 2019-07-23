@@ -12,17 +12,17 @@ class Nodeinfo_2_0Action extends ApiAction
     {
         parent::handle();
 
-        $this->plugins = $this->getActivePluginList();
+        $this->plugins = $this->getActiveModuleList();
 
         $this->showNodeInfo();
     }
 
-    public function getActivePluginList()
+    public function getActiveModuleList()
     {
         $pluginversions = array();
         $plugins = array();
 
-        Event::handle('PluginVersion', array(&$pluginversions));
+        Event::handle('ModuleVersion', array(&$pluginversions));
 
         foreach ($pluginversions as $plugin) {
             $plugins[strtolower($plugin['name'])] = 1;

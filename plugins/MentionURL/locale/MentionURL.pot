@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#. TRANS: Plugin description.
-#: MentionURLPlugin.php:83
-msgid "Plugin to allow mentioning arbitrary URLs."
+#. TRANS: Module description.
+#: MentionURLModule.php:83
+msgid "Module to allow mentioning arbitrary URLs."
 msgstr ""

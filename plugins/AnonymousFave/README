@@ -2,7 +2,7 @@ The Anonymous Fave plugin allows anonymous (not logged in) users to favorite not
 
 Installation
 ============
-add "addPlugin('AnonymousFave');"
+add "addModule('AnonymousFave');"
 to the bottom of your config.php
 
 Settings
@@ -11,4 +11,4 @@ none
 
 Example
 =======
-addPlugin('AnonymousFave');
+addModule('AnonymousFave');

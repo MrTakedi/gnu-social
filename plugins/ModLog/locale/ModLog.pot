@@ -17,6 +17,6 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ModLogPlugin.php:195
+#: ModLogModule.php:195
 msgid "Show the moderation history for a profile in the sidebar"
 msgstr ""

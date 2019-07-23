@@ -18,11 +18,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #. TRANS: Checkbox label in form for profile settings.
-#: FollowEveryonePlugin.php:136
+#: FollowEveryoneModule.php:136
 msgid "Follow everyone"
 msgstr ""
 
-#. TRANS: Plugin description.
-#: FollowEveryonePlugin.php:178
+#. TRANS: Module description.
+#: FollowEveryoneModule.php:178
 msgid "New users follow everyone at registration and are followed in return."
 msgstr ""

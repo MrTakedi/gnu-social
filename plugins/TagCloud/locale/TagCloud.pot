@@ -36,12 +36,12 @@ msgid "Trends"
 msgstr ""
 
 #. TRANS: Menu item in search group navigation panel.
-#: TagCloudPlugin.php:29
+#: TagCloudModule.php:29
 msgctxt "MENU"
 msgid "Recent tags"
 msgstr ""
 
-#. TRANS: Plugin description.
-#: TagCloudPlugin.php:68
+#. TRANS: Module description.
+#: TagCloudModule.php:68
 msgid "Adds tag clouds to stream pages"
 msgstr ""

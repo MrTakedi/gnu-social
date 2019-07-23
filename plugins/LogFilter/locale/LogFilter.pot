@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#. TRANS: Plugin description.
-#: LogFilterPlugin.php:52
+#. TRANS: Module description.
+#: LogFilterModule.php:52
 msgid "Provides server-side setting to filter log output by type or keyword."
 msgstr ""

@@ -17,8 +17,8 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#. TRANS: Plugin description.
-#: OfflineBackupPlugin.php:83
+#. TRANS: Module description.
+#: OfflineBackupModule.php:83
 msgid "Backup user data in offline queue and email when ready."
 msgstr ""
 

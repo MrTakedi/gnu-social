@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#. TRANS: Plugin description.
-#: PostDebugPlugin.php:61
+#. TRANS: Module description.
+#: PostDebugModule.php:61
 msgid "Debugging tool to record request details on POST."
 msgstr ""

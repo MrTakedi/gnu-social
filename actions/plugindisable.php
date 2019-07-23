@@ -65,7 +65,7 @@ class PluginDisableAction extends PluginEnableAction
     protected function successShortTitle()
     {
         // TRANS: Page title for AJAX form return when a disabling a plugin.
-        return _m('plugin', 'Disabled');
+        return _m('Module', 'Disabled');
     }
 
     protected function successNextForm()

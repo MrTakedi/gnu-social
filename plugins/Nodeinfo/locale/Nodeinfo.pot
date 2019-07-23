@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: NodeinfoPlugin.php:176
+#: NodeinfoModule.php:176
 msgid ""
-"Plugin that presents basic instance information using the NodeInfo standard."
+"Module that presents basic instance information using the NodeInfo standard."
 msgstr ""

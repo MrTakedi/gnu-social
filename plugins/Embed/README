@@ -19,7 +19,7 @@ Example
 $config['thumbnail']['width'] = 42;
 $config['thumbnail']['height'] = 42;
 $config['attachments']['show_html'] = true;
-addPlugin('Oembed', array(
+addModule('Oembed', array(
     'domain_whitelist' => array(
         '^i\d*\.ytimg\.com$' => 'YouTube',
         '^i\d*\.vimeocdn\.com$' => 'Vimeo'

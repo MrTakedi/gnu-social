@@ -2,7 +2,7 @@ The SubMirror plugin pull WebSub-enabled feeds into your timeline.
 
 Installation
 ============
-add "addPlugin('SubMirror');"
+add "addModule('SubMirror');"
 to the bottom of your config.php
 
 Settings
@@ -11,5 +11,5 @@ none
 
 Example
 =======
-addPlugin('SubMirror');
+addModule('SubMirror');
 

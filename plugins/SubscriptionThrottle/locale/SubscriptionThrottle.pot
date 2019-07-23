@@ -18,16 +18,16 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #. TRANS: Exception thrown when subscribing too quickly.
-#: SubscriptionThrottlePlugin.php:75
+#: SubscriptionThrottleModule.php:75
 msgid "Too many subscriptions. Take a break and try again later."
 msgstr ""
 
 #. TRANS: Exception thrown when joing groups too quickly.
-#: SubscriptionThrottlePlugin.php:101
+#: SubscriptionThrottleModule.php:101
 msgid "Too many memberships. Take a break and try again later."
 msgstr ""
 
-#. TRANS: Plugin description.
-#: SubscriptionThrottlePlugin.php:170
+#. TRANS: Module description.
+#: SubscriptionThrottleModule.php:170
 msgid "Configurable limits for subscriptions and group memberships."
 msgstr ""

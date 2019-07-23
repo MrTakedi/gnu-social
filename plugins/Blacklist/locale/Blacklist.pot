@@ -19,71 +19,71 @@ msgstr ""
 
 #. TRANS: Exception thrown if the Blacklist plugin configuration is incorrect.
 #. TRANS: %1$s is a configuration section, %2$s is a configuration setting.
-#: BlacklistPlugin.php:110
+#: BlacklistModule.php:110
 #, php-format
 msgid "Unknown data type for config %1$s + %2$s."
 msgstr ""
 
 #. TRANS: Validation failure for URL. %s is the URL.
-#: BlacklistPlugin.php:130
+#: BlacklistModule.php:130
 #, php-format
 msgid "You may not use homepage \"%s\"."
 msgstr ""
 
 #. TRANS: Validation failure for nickname. %s is the nickname.
-#: BlacklistPlugin.php:141
+#: BlacklistModule.php:141
 #, php-format
 msgid "You may not use nickname \"%s\"."
 msgstr ""
 
 #. TRANS: Validation failure for URL. %s is the URL.
-#: BlacklistPlugin.php:184
+#: BlacklistModule.php:184
 #, php-format
 msgid "You may not use URL \"%s\" in notices."
 msgstr ""
 
-#. TRANS: Plugin description.
-#: BlacklistPlugin.php:274
+#. TRANS: Module description.
+#: BlacklistModule.php:274
 msgid "Keeps a blacklist of forbidden nickname and URL patterns."
 msgstr ""
 
 #. TRANS: Menu item in admin panel.
-#: BlacklistPlugin.php:312
+#: BlacklistModule.php:312
 msgctxt "MENU"
 msgid "Blacklist"
 msgstr ""
 
 #. TRANS: Tooltip for menu item in admin panel.
-#: BlacklistPlugin.php:314
+#: BlacklistModule.php:314
 msgctxt "TOOLTIP"
 msgid "Blacklist configuration."
 msgstr ""
 
 #. TRANS: Checkbox label in the blacklist user form.
-#: BlacklistPlugin.php:342
+#: BlacklistModule.php:342
 msgid "Add this nickname pattern to blacklist"
 msgstr ""
 
 #. TRANS: Checkbox label in the blacklist user form.
-#: BlacklistPlugin.php:352
+#: BlacklistModule.php:352
 msgid "Add this homepage pattern to blacklist"
 msgstr ""
 
 #. TRANS: Exception thrown trying to post a notice while having set a blocked homepage URL. %s is the blocked URL.
 #. TRANS: Client exception thrown trying to subscribe to a person with a blocked homepage or site URL. %s is the blocked URL.
-#: BlacklistPlugin.php:431 BlacklistPlugin.php:468
+#: BlacklistModule.php:431 BlacklistModule.php:468
 #, php-format
 msgid "Users from \"%s\" are blocked."
 msgstr ""
 
 #. TRANS: Exception thrown trying to post a notice while having a blocked nickname. %s is the blocked nickname.
-#: BlacklistPlugin.php:443
+#: BlacklistModule.php:443
 #, php-format
 msgid "Notices from nickname \"%s\" are disallowed."
 msgstr ""
 
 #. TRANS: Client exception thrown trying to subscribe to a person with a blocked nickname. %s is the blocked nickname.
-#: BlacklistPlugin.php:479
+#: BlacklistModule.php:479
 #, php-format
 msgid "Cannot subscribe to nickname \"%s\"."
 msgstr ""

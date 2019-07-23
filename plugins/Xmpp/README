@@ -7,7 +7,7 @@ this plugin. To get it running, you must also use an active XMPP account.
 
 Installation
 ============
-Add an addPlugin call to your config.php with your settings. Please read
+Add an addModule call to your config.php with your settings. Please read
 the "Pre-requisites" section of what is required for this to work.
 
 Example
@@ -15,7 +15,7 @@ Example
 The example account "update@site.example" is hosted on a machine which
 can be reached at the hostname "xmpp.site.example".
 
-addPlugin('Xmpp', array(
+addModule('Xmpp', array(
     'user'      => 'update',
     'server'    => 'site.example',
     'host'      => 'xmpp.site.example',
@@ -94,10 +94,10 @@ search, indexing, bridging, or other cool services. Maybe a text
 display next to your coffee machine at work.
 
 To configure a downstream site to receive your public stream, add
-their "JID" (Jabber ID) in the "public" array in your addPlugin call.
+their "JID" (Jabber ID) in the "public" array in your addModule call.
 For example
 
-addPlugin(array(
+addModule(array(
     [...]
     'public' => array('awesomebot@site.example'),
 

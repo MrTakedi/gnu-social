@@ -11,7 +11,7 @@ username will be user1, and so on.
 
 Installation
 ============
-add "addPlugin('EmailRegistration');"
+add "addModule('EmailRegistration');"
 to the bottom of your config.php
 
 Note: This plugin is enabled by default on private instances.
@@ -22,4 +22,4 @@ none
 
 Example
 =======
-addPlugin('EmailRegistration');
+addModule('EmailRegistration');

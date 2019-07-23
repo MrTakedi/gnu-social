@@ -30,20 +30,20 @@ msgid "Popular posts in %1$s group, page %2$d"
 msgstr ""
 
 #. TRANS: Menu item in the group navigation page.
-#: GroupFavoritedPlugin.php:53
+#: GroupFavoritedModule.php:53
 msgctxt "MENU"
 msgid "Popular"
 msgstr ""
 
 #. TRANS: Tooltip for menu item in the group navigation page.
 #. TRANS: %s is the nickname of the group.
-#: GroupFavoritedPlugin.php:56
+#: GroupFavoritedModule.php:56
 #, php-format
 msgctxt "TOOLTIP"
 msgid "Popular notices in %s group"
 msgstr ""
 
-#. TRANS: Plugin description.
-#: GroupFavoritedPlugin.php:80
+#. TRANS: Module description.
+#: GroupFavoritedModule.php:80
 msgid "This plugin adds a menu item for popular notices in groups."
 msgstr ""

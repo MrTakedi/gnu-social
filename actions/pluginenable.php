@@ -102,7 +102,7 @@ class PluginEnableAction extends Action
             $this->clientError(_('You cannot administer plugins.'));
         }
 
-        $this->plugin = $this->arg('plugin');
+        $this->plugin = $this->arg('Module');
         $defaultPlugins = common_config('plugins', 'default');
         if (!array_key_exists($this->plugin, $defaultPlugins)) {
             // TRANS: Client error displayed when trying to enable or disable a non-existing plugin.
@@ -154,7 +154,7 @@ class PluginEnableAction extends Action
     protected function successShortTitle()
     {
         // TRANS: Page title for AJAX form return when enabling a plugin.
-        return _m('plugin', 'Enabled');
+        return _m('Module', 'Enabled');
     }
 
     protected function successNextForm()

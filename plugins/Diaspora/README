@@ -5,7 +5,7 @@ coming from Diaspora will not propagate to Diaspora.
 
 Installation
 ============
-add "addPlugin('Diaspora');"
+add "addModule('Diaspora');"
 to the bottom of your config.php
 
 Settings
@@ -14,4 +14,4 @@ none
 
 Example
 =======
-addPlugin('Diaspora');
+addModule('Diaspora');

@@ -6,7 +6,7 @@ be dead.
 
 Installation
 ============
-add "addPlugin('GeoURL');"
+add "addModule('GeoURL');"
 to the bottom of your config.php
 
 Settings
@@ -15,5 +15,5 @@ none
 
 Example
 =======
-addPlugin('GeoURL');
+addModule('GeoURL');
 

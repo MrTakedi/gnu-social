@@ -4,7 +4,7 @@ THIS PLUGIN IS FOR TESTING PURPOSES ONLY
 
 Installation
 ============
-add "addPlugin('reverseUsernameAuthentication', array('setting'=>'value', 'setting2'=>'value2', ...);" to the bottom of your config.php
+add "addModule('reverseUsernameAuthentication', array('setting'=>'value', 'setting2'=>'value2', ...);" to the bottom of your config.php
 
 Settings
 ========
@@ -21,7 +21,7 @@ default values are in (parenthesis)
 
 Example
 =======
-addPlugin('reverseUsernameAuthentication', array(
+addModule('reverseUsernameAuthentication', array(
     'provider_name'=>'Example',
     'password_changeable'=>false,
     'authoritative'=>true,

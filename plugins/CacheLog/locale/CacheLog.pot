@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#. TRANS: Plugin description.
-#: CacheLogPlugin.php:109
+#. TRANS: Module description.
+#: CacheLogModule.php:109
 msgid "Log reads and writes to the cache."
 msgstr ""

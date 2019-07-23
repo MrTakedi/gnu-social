@@ -11,5 +11,5 @@ will also select the suggestion, but will submit your message too!
 
 Installation
 ============
-Add "addPlugin('Autocomplete');" to the bottom of your config.php
+Add "addModule('Autocomplete');" to the bottom of your config.php
 That's it!

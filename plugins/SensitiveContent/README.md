@@ -1,4 +1,4 @@
-# "Sensitive" Content Plugin for GNU Social
+# "Sensitive" Content Module for GNU Social
 
 ## About
 
@@ -13,7 +13,7 @@ Works for both vanilla GNUSocial and with the Qvitter plugin.
 ## Install
 
 - Move the project directory to ${GNU_SOCIAL}/plugins
-- Add addPlugin('SensitiveContent'); to your config.php
+- Add addModule('SensitiveContent'); to your config.php
 
 if you want to customize the blocker image, add a line to your config.php:
 

@@ -6,7 +6,7 @@ See:
 
 Installation
 ============
-add "addPlugin('PiwikAnalytics');"
+add "addModule('PiwikAnalytics');"
 to the bottom of your config.php
 
 Settings
@@ -16,7 +16,7 @@ piwikId: The ID provided by the Pwiki instance.
 
 Example
 =======
-addPlugin('PiwikAnalytics', array(
+addModule('PiwikAnalytics', array(
     'piwikroot' => 'example.org/piwik/',
     'piwikId' => 'PIWIK_ID'
 ));

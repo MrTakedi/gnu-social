@@ -17,8 +17,8 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#. TRANS: Plugin description.
-#: ReverseUsernameAuthenticationPlugin.php:69
+#. TRANS: Module description.
+#: ReverseUsernameAuthenticationModule.php:69
 msgid ""
 "The Reverse Username Authentication plugin allows for StatusNet to handle "
 "authentication by checking if the provided password is the same as the "

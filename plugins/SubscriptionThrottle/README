@@ -3,7 +3,7 @@ and other users.
 
 Installation
 ============
-add "addPlugin('SubscriptionThrottle');"
+add "addModule('SubscriptionThrottle');"
 to the bottom of your config.php
 
 Settings
@@ -13,7 +13,7 @@ groupLimits: Array of time spans in seconds to limit subscriptions to groups.
 
 Example
 =======
-addPlugin('SubscriptionThrottle', array(
+addModule('SubscriptionThrottle', array(
     'subLimits' => array(
         86400 => 100,   // 100 subs per day
         3600 => 50;     // 50 subs per hour

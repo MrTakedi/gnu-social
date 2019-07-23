@@ -17,8 +17,8 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#. TRANS: Plugin description.
-#: TabFocusPlugin.php:57
+#. TRANS: Module description.
+#: TabFocusModule.php:57
 msgid ""
 "TabFocus changes the notice form behavior so that, while in the text area, "
 "pressing the tab key focuses the \"Send\" button, matching the behavior of "

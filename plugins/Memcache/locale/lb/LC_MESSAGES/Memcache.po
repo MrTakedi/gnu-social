@@ -17,8 +17,8 @@ msgstr ""
 "Language: lb\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#. TRANS: Plugin description.
-#: MemcachePlugin.php:247
+#. TRANS: Module description.
+#: MemcacheModule.php:247
 msgid ""
 "Use <a href=\"http://memcached.org/\">Memcached</a> to cache query results."
 msgstr ""
