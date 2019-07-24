@@ -1,0 +1,17 @@
+Events that come with the ActivityModeration plugin
+===================================================
+
+StartDeleteNoticeForm: starting the data in the form for deleting a notice
+- $DeleteForm: the delete form being shown
+- $notice: notice being deleted
+
+EndDeleteNoticeForm: ending the data in the form for deleting a notice
+- $DeleteForm: the delete form being shown
+- $notice: notice being deleted
+
+StartShowDeleteForm: just before showing the delete form
+- $item: the NoticeListItem object being shown
+
+EndShowDeleteForm: just after showing the delete form
+- $item: the NoticeListItem object being shown
+

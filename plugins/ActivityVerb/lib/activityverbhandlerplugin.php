@@ -47,8 +47,8 @@ abstract class ActivityVerbHandlerPlugin extends ActivityHandlerPlugin
     protected function showActionContent(ManagedAction $action, $verb, Notice $target, Profile $scoped)
     {
         if (!GNUsocial::isAjax()) {
-            $nl = new NoticeListItem($target, $action, array('options'=>false, 'attachments'=>false,
-                                                             'item_tag'=>'div', 'id_prefix'=>'fave'));
+            $nl = new NoticeListItem($target, $action, ['options'=>false, 'attachments'=>false,
+                                                        'item_tag'=>'div', 'id_prefix'=>$verb]);
             $nl->show();
         }
 

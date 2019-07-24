@@ -371,12 +371,18 @@ RealtimeUpdate = {
       */
      makeDeleteLink: function(id)
      {
-          var dl, delurl;
-          delurl = RealtimeUpdate._deleteurl.replace("0000000000", id);
+         var dl, delurl;
+         delurl = RealtimeUpdate._deleteurl.replace("0000000000", id);
 
-          dl = "<a class=\"notice_delete\" href=\""+delurl+"\" title=\"Delete this notice\">Delete</a>";
-
-          return dl;
+	 dl = "<form id=\"form_notice_delete-"+id+"\" class=\"form_delete\" method=\"post\" action=\""+delurl+"\">"+
+             "<fieldset>"+
+             "<legend>Are you sure you want to delete this notice?</legend>"+
+             "<input name=\"token\" type=\"hidden\" id=\"token-"+id+"\" value=\""+session_key+"\"/>"+
+             "<input name=\"notice\" type=\"hidden\" id=\"notice-n"+id+"\" value=\""+id+"\"/>"+
+             "<input type=\"submit\" id=\"delete-submit-"+id+"\" name=\"delete-submit-"+id+"\" class=\"submit\" value=\"Yes\" title=\"Delete this notice.\"/>"+
+             "</fieldset>"+
+             "</form>";
+         return dl;
      },
 
      /**

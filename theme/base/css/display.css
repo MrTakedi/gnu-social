@@ -1272,6 +1272,11 @@ button.minimize {
     min-width: 80px;
 }
 
+.notice-options .form_delete.dialogbox input.submit_dialogbox {
+    float: right;
+    min-width: 80px;
+}
+
 #pagination {
     background-color: #f2f2f2;
     clear: left;
@@ -1464,7 +1469,6 @@ form label.submit {
 #form_openid_login legend,
 #form_search legend,
 #form_invite legend,
-#form_notice_delete legend,
 #form_password_recover legend,
 #form_password_change legend,
 .form_entity_block legend,
@@ -2336,7 +2340,7 @@ body.realtime-popup {
 .notice-options .notice_reply,
 .notice-options form.form_favor input.submit,
 .notice-options form.form_disfavor input.submit,
-.notice-options .notice_delete,
+.notice-options form.form_delete input.submit,
 .notice-options form.form_repeat input.submit,
 #new_group a,
 #pagination .nav_prev a,
@@ -2562,7 +2566,7 @@ button.minimize {
     background-position:0 -526px;
 }
 
-.notice-options .notice_delete {
+.notice-options form.form_delete input.submit {
     background-position:0 -658px;
 }
 
@@ -2662,6 +2666,15 @@ button.minimize {
     display: inline;
     list-style-type: none;
 }
+
+/* invisible hacks */
+/* just to make sure we gather them in one place */
+
+form.ucantseeme { /* ActivityModeration */
+    display: none;
+}
+
+/* end of invisible hacks */
 
 }/*end of @media screen, projection, tv*/
 

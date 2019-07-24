@@ -207,7 +207,6 @@ class NoticeListItem extends Widget
                 $this->out->elementStart('div', 'notice-options');
                 if (Event::handle('StartShowNoticeOptionItems', array($this))) {
                     $this->showReplyLink();
-                    $this->showDeleteLink();
                     Event::handle('EndShowNoticeOptionItems', array($this));
                 }
                 $this->out->elementEnd('div');
@@ -607,31 +606,6 @@ class NoticeListItem extends Widget
     }
 
     /**
-     * if the user is the author, let them delete the notice
-     *
-     * @return void
-     */
-    function showDeleteLink()
-    {
-        $user = common_current_user();
-
-        $todel = (empty($this->repeat)) ? $this->notice : $this->repeat;
-
-        if (!empty($user) &&
-            ($todel->profile_id == $user->id || $user->hasRight(Right::DELETEOTHERSNOTICE))) {
-            $this->out->text(' ');
-            $deleteurl = common_local_url('deletenotice',
-                                          array('notice' => $todel->id));
-            $this->out->element('a', array('href' => $deleteurl,
-                                           'class' => 'notice_delete popup',
-                                           // TRANS: Link title in notice list item to delete a notice.
-                                           'title' => _('Delete this notice from the timeline.')),
-                                           // TRANS: Link text in notice list item to delete a notice.
-                                           _('Delete'));
-        }
-    }
-
-    /**
      * finish the notice
      *
      * Close the last elements in the notice list item
@@ -641,7 +615,7 @@ class NoticeListItem extends Widget
     function showEnd()
     {
         if (Event::handle('StartCloseNoticeListItemElement', array($this))) {
-            $this->out->elementEnd('li');
+            $this->out->elementEnd($item_tag);
             Event::handle('EndCloseNoticeListItemElement', array($this));
         }
     }
