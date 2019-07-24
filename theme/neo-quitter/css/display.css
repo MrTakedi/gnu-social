@@ -1269,7 +1269,8 @@ div.entry-content a.response:after {
     margin-top: 4px;
 }
 
-.notice-options .form_repeat.dialogbox {
+.notice-options .form_repeat.dialogbox,
+.notice-options .form_delete.dialogbox {
     margin-right: 0px;
     border: 1px solid #aaa;
     -webkit-border-radius: 4px;
@@ -1280,7 +1281,8 @@ div.entry-content a.response:after {
     -webkit-box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.4);
 }
 
-.notice-options .form_repeat.dialogbox legend {
+.notice-options .form_repeat.dialogbox legend,
+.notice-options .form_delete.dialogbox legend {
     padding-top: 10px;
 }
 
@@ -1611,7 +1613,8 @@ border: 1px solid rgba(0, 0, 0, 0.3);
 .form_notice input.submit, .form_settings input.submit, .form_settings input.cancel, #form_invite input.submit,
 .entity_subscribe .dialogbox input.submit_dialogbox,
 .entity_tag .dialogbox input.submit_dialogbox,
-.form_repeat.dialogbox input.submit_dialogbox
+.form_repeat.dialogbox input.submit_dialogbox,
+.form_delete.dialogbox input.submit_dialogbox
 { /* TODO combine all these declarations */
     font-family: "Helvetica Neue",Arial,sans-serif;
     font-size: 13px;
@@ -1658,7 +1661,8 @@ border: 1px solid rgba(0, 0, 0, 0.3);
 .form_notice input.submit:hover, .form_settings input.submit:hover, .form_settings input.cancel:hover, #form_invite input.submit:hover,
 .entity_subscribe .dialogbox input.submit_dialogbox:hover,
 .entity_tag .dialogbox input.submit_dialogbox:hover,
-.form_repeat.dialogbox input.submit_dialogbox:hover
+.form_repeat.dialogbox input.submit_dialogbox:hover,
+.form_delete.dialogbox input.submit_dialogbox:hover
 {
     background: -moz-linear-gradient(top,  #c33541 0%, #d44652 100%); /* FF3.6+ */
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#c33541), color-stop(100%,#d44652)); /* Chrome,Safari4+ */

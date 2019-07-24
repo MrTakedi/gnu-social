@@ -736,14 +736,23 @@ var SN = { // StatusNet
             $('body').on('click', '.form_repeat', function (e) {
                 e.preventDefault();
 
-                SN.U.NoticeRepeatConfirmation($(this));
+                SN.U.NoticeActionConfirmation($(this));
                 return false;
             });
         },
 
+	NoticeDelete: function () {
+	    $('body').on('click', '.form_delete', function (e) {
+		e.preventDefault();
+
+		SN.U.NoticeActionConfirmation($(this));
+		return false;
+	    });
+	},
+
         /**
-         * Shows a confirmation dialog box variant of the repeat button form.
-         * This seems to use a technique where the repeat form contains
+         * Shows a confirmation dialog box variant of the repeat/delete button form.
+         * This seems to use a technique where the  form contains
          * _both_ a standalone button _and_ text and buttons for a dialog.
          * The dialog will close after its copy of the form is submitted,
          * or if you click its 'close' button.
@@ -757,7 +766,7 @@ var SN = { // StatusNet
          *
          * @param {jQuery} form
          */
-        NoticeRepeatConfirmation: function (form) {
+        NoticeActionConfirmation: function (form) {
             var submit_i = form.find('.submit');
 
             var submit = submit_i.clone();
@@ -1515,6 +1524,7 @@ var SN = { // StatusNet
         Notices: function () {
             if ($('body.user_in').length > 0) {
                 SN.U.NoticeRepeat();
+		SN.U.NoticeDelete();
                 SN.U.NoticeReply();
                 SN.U.NoticeInlineReplySetup();
                 SN.U.NoticeOptionsAjax();

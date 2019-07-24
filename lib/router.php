@@ -250,10 +250,6 @@ class Router
                         ['action' => 'shownotice'],
                         ['notice' => '[0-9]+']);
 
-            $m->connect('notice/:notice/delete',
-                        ['action' => 'deletenotice'],
-                        ['notice' => '[0-9]+']);
-
             // conversation
 
             $m->connect('conversation/:id',
