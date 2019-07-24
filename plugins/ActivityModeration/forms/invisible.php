@@ -15,10 +15,10 @@
 // along with GNU social.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Implementation of the delete form.
+ * Implementation of the delete after-action form.
  *
  * @package   ActivityModeration
- * @author    Mikael Nordfeldth <mmn@hethane.se>
+ * @author    Bruno Casteleiro <brunoccast@fc.up.pt>
  * @copyright 2019 Free Software Foundation, Inc http://www.fsf.org
  * @license   https://www.gnu.org/licenses/agpl.html GNU AGPL v3 or later
  */
@@ -26,12 +26,14 @@
 defined('GNUSOCIAL') || die();
 
 /**
- * Delete form.
+ * The invisible form, uses John Cena's special
+ * "You can't see me" move and succumbs into
+ * the darkness.
  *
  * @copyright 2019 Free Software Foundation, Inc http://www.fsf.org
  * @license   https://www.gnu.org/licenses/agpl.html GNU AGPL v3 or later
  */
-class DeletenoticeForm extends Form
+class InvisibleForm extends Form
 {
     protected $notice = null;
 
@@ -55,7 +57,7 @@ class DeletenoticeForm extends Form
      */
     function id(): string
     {
-        return 'form_notice_delete-' . $this->notice->getID();
+        return 'form_invisible-' . $this->notice->getID();
     }
 
     /**
@@ -65,29 +67,7 @@ class DeletenoticeForm extends Form
      */
     function formClass(): string
     {
-        return 'form_delete ajax';
-    }
-
-    /**
-     * Form action
-     *
-     * @return string URL to post to
-     */
-    function action(): string
-    {
-        return common_local_url('activityverb',
-                                ['id' => $this->notice->getID(),
-                                 'verb' => ActivityUtils::resolveUri(ActivityVerb::DELETE, true)]);
-    }
-
-    /**
-     * Form legend
-     *
-     * @return void
-     */
-    function formLegend()
-    {
-        $this->out->element('legend', null, _('Are you sure you want to delete this notice?'));
+        return 'ucantseeme';
     }
 
     /**
@@ -97,25 +77,9 @@ class DeletenoticeForm extends Form
      */
     function formData()
     {
-        if (Event::handle('StartDeleteNoticeForm', [$this, $this->notice])) {
-            $this->out->hidden('notice-n'.$this->notice->getID(),
-                               $this->notice->getID(),
-                               'notice');
-            Event::handle('EndDeleteNoticeForm', [$this, $this->notice]);
-        }
-    }
-
-    /**
-     * Form action elements
-     *
-     * @return void
-     */
-    function formActions()
-    {
-        $this->out->submit('delete_submit-'.$this->notice->id,
-                           // TRANS: Button label on the delete notice form.
-                           _m('BUTTON','Yes'), 'submit', null,
-                           // TRANS: Submit button title for 'Yes' when deleting a notice.
-                           _('Delete this notice.'));
+        $this->out->hidden('notice-n'.$this->notice->getID(),
+                           $this->notice->getID(),
+                           'notice');
     }
 }
+

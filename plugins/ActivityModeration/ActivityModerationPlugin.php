@@ -1,8 +1,35 @@
 <?php
+// This file is part of GNU social - https://www.gnu.org/software/social
+//
+// GNU social is free software: you can redistribute it and/or modify
+// it under the terms of the GNU Affero General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// GNU social is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU Affero General Public License for more details.
+//
+// You should have received a copy of the GNU Affero General Public License
+// along with GNU social.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package     Activity
- * @maintainer  Mikael Nordfeldth <mmn@hethane.se>
+ * ActivityModeration, plugin that handles the DELETE verb interaction
+ *
+ * @package   ActivityModeration
+ * @author    Mikael Nordfeldth <mmn@hethane.se>
+ * @copyright 2019 Free Software Foundation, Inc http://www.fsf.org
+ * @license   https://www.gnu.org/licenses/agpl.html GNU AGPL v3 or later
+ */
+
+defined('GNUSOCIAL') || die();
+
+/**
+ * ActivityModeration class
+ *
+ * @copyright 2019 Free Software Foundation, Inc http://www.fsf.org
+ * @license   https://www.gnu.org/licenses/agpl.html GNU AGPL v3 or later
  */
 class ActivityModerationPlugin extends ActivityVerbHandlerPlugin
 {
@@ -18,7 +45,7 @@ class ActivityModerationPlugin extends ActivityVerbHandlerPlugin
 
     public function verbs()
     {
-        return array(ActivityVerb::DELETE);
+        return [ActivityVerb::DELETE];
     }
 
     public function onBeforePluginCheckSchema()
@@ -60,8 +87,7 @@ class ActivityModerationPlugin extends ActivityVerbHandlerPlugin
 
     protected function getActionTitle(ManagedAction $action, $verb, Notice $target, Profile $scoped)
     {
-        // FIXME: switch based on action type
-        return _m('TITLE', 'Notice moderation');
+        return _m('TITLE', 'Notice deleted');
     }
 
     protected function doActionPreparation(ManagedAction $action, $verb, Notice $target, Profile $scoped)
@@ -72,13 +98,17 @@ class ActivityModerationPlugin extends ActivityVerbHandlerPlugin
     protected function doActionPost(ManagedAction $action, $verb, Notice $target, Profile $scoped)
     {
         switch (true) {
-        case ActivityUtils::compareVerbs($verb, array(ActivityVerb::DELETE)):
-            // do whatever preparation is necessary to delete a verb
-            $target->deleteAs($scoped);
+        case ActivityUtils::compareVerbs($verb, $this->verbs()):
+            if (Event::handle('StartDeleteOwnNotice', [$scoped->getUser(), $target])) {
+                $target->deleteAs($scoped);
+                Event::handle('EndDeleteOwnNotice', [$scoped->getUser(), $target]);
+            }
             break;
         default:
             throw new ServerException('ActivityVerb POST not handled by plugin that was supposed to do it.');
         }
+
+        return false;
     }
 
     public function deleteRelated(Notice $notice)
@@ -205,10 +235,23 @@ class ActivityModerationPlugin extends ActivityVerbHandlerPlugin
     }
 
     protected function getActivityForm(ManagedAction $action, $verb, Notice $target, Profile $scoped) 
-    { 
-        if (!$scoped instanceof Profile || !($scoped->sameAs($target->getProfile()) || $scoped->hasRight(Right::DELETEOTHERSNOTICE))) {
-            throw new AuthorizationException(_('You are not allowed to delete other user\'s notices'));
+    {
+        return new InvisibleForm($action, $target);
+    }
+
+    public function onEndShowNoticeOptionItems(NoticeListItem $item) {
+        if (Event::handle('StartShowDeleteForm', [$item])) {
+            $profile = Profile::current();
+            $notice = empty($item->repeat) ? $item->notice : $item->repeat;
+
+            if ($profile !== null &&
+                !$notice->isVerb([ActivityVerb::DELETE]) &&
+                ($notice->profile_id == $profile->id || $profile->hasRight(Right::DELETEOTHERSNOTICE))) {
+                $form = new DeletenoticeForm($item->out, $item->notice);
+                $form->show();
+            }
+
+            Event::handle('EndShowDeleteForm', [$item]);
         }
-        return DeletenoticeForm($action, array('notice'=>$target));
-    } 
+    }
 }
