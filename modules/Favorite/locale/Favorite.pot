@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-06-08 18:20+0100\n"
+"POT-Creation-Date: 2019-08-12 16:51+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -45,43 +45,72 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. TRANS: Help message for IM/SMS command "fav <nickname>".
+<<<<<<< HEAD:modules/Favorite/locale/Favorite.pot
 #: FavoriteModule.php:421
+=======
+#: FavoritePlugin.php:426
+>>>>>>> 396ea15dc9... [aab] Revert structural change of v2:plugins/Favorite/locale/Favorite.pot
 msgctxt "COMMANDHELP"
 msgid "add user's last notice as a 'fave'"
 msgstr ""
 
 #. TRANS: Help message for IM/SMS command "fav #<notice_id>".
+<<<<<<< HEAD:modules/Favorite/locale/Favorite.pot
 #: FavoriteModule.php:423
+=======
+#: FavoritePlugin.php:428
+>>>>>>> 396ea15dc9... [aab] Revert structural change of v2:plugins/Favorite/locale/Favorite.pot
 msgctxt "COMMANDHELP"
 msgid "add notice with the given id as a 'fave'"
 msgstr ""
 
 #. TRANS: Menu item in personal group navigation menu.
+<<<<<<< HEAD:modules/Favorite/locale/Favorite.pot
 #: FavoriteModule.php:473
+=======
+#: FavoritePlugin.php:478
+>>>>>>> 396ea15dc9... [aab] Revert structural change of v2:plugins/Favorite/locale/Favorite.pot
 msgctxt "MENU"
 msgid "Favorites"
 msgstr ""
 
 #. TRANS: Menu item in search group navigation panel.
+<<<<<<< HEAD:modules/Favorite/locale/Favorite.pot
 #: FavoriteModule.php:486
+=======
+#: FavoritePlugin.php:491
+>>>>>>> 396ea15dc9... [aab] Revert structural change of v2:plugins/Favorite/locale/Favorite.pot
 msgctxt "MENU"
 msgid "Popular"
 msgstr ""
 
 #. TRANS: Page/dialog box title when a notice is marked as favorite already
+<<<<<<< HEAD:modules/Favorite/locale/Favorite.pot
 #: FavoriteModule.php:508
+=======
+#: FavoritePlugin.php:513
+>>>>>>> 396ea15dc9... [aab] Revert structural change of v2:plugins/Favorite/locale/Favorite.pot
 msgctxt "TITLE"
 msgid "Unmark notice as favorite"
 msgstr ""
 
 #. TRANS: Page/dialog box title when a notice is not marked as favorite
+<<<<<<< HEAD:modules/Favorite/locale/Favorite.pot
 #: FavoriteModule.php:510
+=======
+#: FavoritePlugin.php:515
+>>>>>>> 396ea15dc9... [aab] Revert structural change of v2:plugins/Favorite/locale/Favorite.pot
 msgctxt "TITLE"
 msgid "Mark notice as favorite"
 msgstr ""
 
+<<<<<<< HEAD:modules/Favorite/locale/Favorite.pot
 #. TRANS: Module description.
 #: FavoriteModule.php:568
+=======
+#. TRANS: Plugin description.
+#: FavoritePlugin.php:573
+>>>>>>> 396ea15dc9... [aab] Revert structural change of v2:plugins/Favorite/locale/Favorite.pot
 msgid "Favorites (likes) using ActivityStreams."
 msgstr ""
 

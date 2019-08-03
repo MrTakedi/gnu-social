@@ -8,7 +8,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
+<<<<<<< HEAD:DOCUMENTATION/DEVELOPERS/Plugins/Sample Plugins/Sample/includes/locale/Sample.pot
 "POT-Creation-Date: 2019-08-14 14:51+0100\n"
+=======
+"POT-Creation-Date: 2019-08-12 17:05+0100\n"
+>>>>>>> 57706fd92f... [aab] Revert structural change of v2:plugins/Sample/locale/Sample.pot
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,56 +24,50 @@ msgstr ""
 
 #. TRANS: Page title for sample plugin.
 #. TRANS: Menu item in sample plugin.
-#: actions/hello.php:112 SamplePlugin.php:221
+#: actions/hello.php:108 SampleModule.php:217
 msgid "Hello"
 msgstr ""
 
 #. TRANS: Page title for sample plugin. %s is a user nickname.
-#: actions/hello.php:115
+#: actions/hello.php:111
 #, php-format
 msgid "Hello, %s!"
 msgstr ""
 
 #. TRANS: Message in sample plugin.
-#: actions/hello.php:136
+#: actions/hello.php:135
 msgid "Hello, stranger!"
 msgstr ""
 
 #. TRANS: Message in sample plugin. %s is a user nickname.
-#: actions/hello.php:140
+#: actions/hello.php:142
 #, php-format
 msgid "Hello, %s"
 msgstr ""
 
-#. TRANS: Message in sample plugin.
-#. TRANS: %d is the number of times a user is greeted.
-#: actions/hello.php:144
+#: actions/hello.php:151
 #, php-format
 msgid "I have greeted you %d time."
 msgid_plural "I have greeted you %d times."
 msgstr[0] ""
 msgstr[1] ""
 
-#. TRANS: Exception thrown when the user greeting count could not be saved in the database.
-#. TRANS: %d is a user ID (number).
-#: classes/User_greeting_count.php:104
+#: classes/User_greeting_count.php:97
 #, php-format
 msgid "Could not save new greeting count for %d."
 msgstr ""
 
-#. TRANS: Exception thrown when the user greeting count could not be saved in the database.
-#. TRANS: %d is a user ID (number).
-#: classes/User_greeting_count.php:117
+#: classes/User_greeting_count.php:112
 #, php-format
 msgid "Could not increment greeting count for %d."
 msgstr ""
 
 #. TRANS: Menu item title in sample plugin.
-#: SamplePlugin.php:223
+#: SampleModule.php:219
 msgid "A warm greeting"
 msgstr ""
 
-#. TRANS: Plugin description.
-#: SamplePlugin.php:235
+#. TRANS: Module description.
+#: SampleModule.php:242
 msgid "A sample plugin to show basics of development for new hackers."
 msgstr ""

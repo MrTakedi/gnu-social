@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-08-19 18:31+0100\n"
+"POT-Creation-Date: 2019-08-14 15:57+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
 #. TRANS: Database error message.
-#: public/index.php:135
+#: index.php:135
 #, php-format
 msgid ""
 "The database for %1$s is not responding correctly, so the site will not work "
@@ -29,12 +29,12 @@ msgid ""
 msgstr ""
 
 #. TRANS: Error message.
-#: public/index.php:158
+#: index.php:158
 msgid "An error occurred."
 msgstr ""
 
 #. TRANS: Error message displayed when there is no StatusNet configuration file.
-#: public/index.php:251
+#: index.php:251
 #, php-format
 msgid ""
 "No configuration file found. Try running the installation program first."
@@ -42,7 +42,7 @@ msgstr ""
 
 #. TRANS: Error message displayed when trying to perform an undefined action.
 #. TRANS: Title for password recovery page when an unknown action has been specified.
-#: public/index.php:325 actions/recoverpassword.php:215
+#: index.php:325 actions/recoverpassword.php:215
 msgid "Unknown action"
 msgstr ""
 
@@ -157,7 +157,7 @@ msgstr ""
 #: actions/addpeopletag.php:78 actions/apioauthauthorize.php:144
 #: actions/geocode.php:56 actions/groupblock.php:65 actions/groupunblock.php:65
 #: actions/invite.php:67 actions/makeadmin.php:67 actions/nudge.php:80
-#: actions/peopletagautocomplete.php:66 actions/pluginenable.php:87
+#: actions/peopletagautocomplete.php:66 actions/pluginenable.php:72
 #: actions/profilecompletion.php:81 actions/recoverpassword.php:293
 #: actions/register.php:164 actions/removepeopletag.php:79
 #: actions/subedit.php:40 actions/subscribe.php:85
@@ -171,7 +171,7 @@ msgstr ""
 #: actions/groupblock.php:60 actions/groupunblock.php:60
 #: actions/makeadmin.php:62 actions/nudge.php:64
 #: actions/peopletagautocomplete.php:57 actions/peopletagsbyuser.php:123
-#: actions/pluginenable.php:97 actions/profilecompletion.php:91
+#: actions/pluginenable.php:82 actions/profilecompletion.php:91
 #: actions/removepeopletag.php:89 actions/subedit.php:33
 #: actions/subscribe.php:95 actions/unsubscribe.php:52 lib/action.php:349
 #: lib/adminpanelaction.php:71 lib/profileformaction.php:63
@@ -4161,7 +4161,7 @@ msgid ""
 msgstr ""
 
 #. TRANS: Page title for AJAX form return when a disabling a plugin.
-#: actions/plugindisable.php:68
+#: actions/plugindisable.php:52
 msgctxt "plugin"
 msgid "Disabled"
 msgstr ""
@@ -4171,48 +4171,48 @@ msgstr ""
 #. TRANS: Client error displayed trying to perform any request method other than POST.
 #. TRANS: Do not translate POST.
 #. TRANS: Client error displayed when trying to use another method than POST.
-#: actions/pluginenable.php:78 actions/subscribe.php:76
+#: actions/pluginenable.php:63 actions/subscribe.php:76
 #: actions/subscribepeopletag.php:65 actions/unsubscribepeopletag.php:66
 msgid "This action only accepts POST requests."
 msgstr ""
 
 #. TRANS: Client error displayed when trying to enable or disable a plugin without access rights.
-#: actions/pluginenable.php:102
+#: actions/pluginenable.php:87
 msgid "You cannot administer plugins."
 msgstr ""
 
 #. TRANS: Client error displayed when trying to enable or disable a non-existing plugin.
-#: actions/pluginenable.php:109
+#: actions/pluginenable.php:94
 msgid "No such plugin."
 msgstr ""
 
 #. TRANS: Page title for AJAX form return when enabling a plugin.
-#: actions/pluginenable.php:157
+#: actions/pluginenable.php:141
 msgctxt "plugin"
 msgid "Enabled"
 msgstr ""
 
 #. TRANS: Tab and title for plugins admin panel.
-#: actions/pluginsadminpanel.php:53
+#: actions/pluginsadminpanel.php:39
 msgctxt "TITLE"
 msgid "Plugins"
 msgstr ""
 
 #. TRANS: Instructions at top of plugin admin page.
-#: actions/pluginsadminpanel.php:64
+#: actions/pluginsadminpanel.php:50
 msgid ""
 "Additional plugins can be enabled and configured manually. See the <a href="
-"\"https://git.gnu.io/gnu/gnu-social/blob/master/plugins/README.md\">online "
-"plugin documentation</a> for more details."
+"\"https://notabug.org/diogo/gnu-social/src/nightly/plugins/README.md"
+"\">online plugin documentation</a> for more details."
 msgstr ""
 
 #. TRANS: Admin form section header
-#: actions/pluginsadminpanel.php:79
+#: actions/pluginsadminpanel.php:65
 msgid "Default plugins"
 msgstr ""
 
 #. TRANS: Text displayed on plugin admin page when no plugin are enabled.
-#: actions/pluginsadminpanel.php:102
+#: actions/pluginsadminpanel.php:88
 msgid ""
 "All default plugins have been disabled from the site's configuration file."
 msgstr ""
@@ -5535,12 +5535,12 @@ msgstr ""
 msgid "Logo"
 msgstr ""
 
-#. TRANS: Field label for GNU social site logo.
+#. TRANS: Field label for StatusNet site logo.
 #: actions/siteadminpanel.php:345
 msgid "Site logo"
 msgstr ""
 
-#. TRANS: Field label for SSL GNU social site logo.
+#. TRANS: Field label for SSL StatusNet site logo.
 #: actions/siteadminpanel.php:353
 msgid "SSL logo"
 msgstr ""
@@ -6249,14 +6249,12 @@ msgid "Updates from %1$s on %2$s!"
 msgstr ""
 
 #. TRANS: Title for version page. %1$s is the engine name, %2$s is the engine version.
-#: actions/version.php:71
+#: actions/version.php:58
 #, php-format
 msgid "%1$s %2$s"
 msgstr ""
 
-#. TRANS: Content part of engine version page.
-#. TRANS: %1$s is the engine name (GNU social) and %2$s is the GNU social version.
-#: actions/version.php:149
+#: actions/version.php:147
 #, php-format
 msgid ""
 "This site is powered by %1$s version %2$s, Copyright 2010 Free Software "
@@ -6264,17 +6262,17 @@ msgid ""
 msgstr ""
 
 #. TRANS: Header for engine software contributors section on the version page.
-#: actions/version.php:158
+#: actions/version.php:160
 msgid "Contributors"
 msgstr ""
 
 #. TRANS: Header for engine software license section on the version page.
-#: actions/version.php:167
+#: actions/version.php:174
 msgid "License"
 msgstr ""
 
 #. TRANS: Content part of engine software version page. %1s is engine name
-#: actions/version.php:171
+#: actions/version.php:180
 #, php-format
 msgid ""
 "%1$s is free software: you can redistribute it and/or modify it under the "
@@ -6284,7 +6282,7 @@ msgid ""
 msgstr ""
 
 #. TRANS: Content part of engine software version page.
-#: actions/version.php:178
+#: actions/version.php:190
 msgid ""
 "This program is distributed in the hope that it will be useful, but WITHOUT "
 "ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
@@ -6292,9 +6290,7 @@ msgid ""
 "for more details."
 msgstr ""
 
-#. TRANS: Content part of engine version page.
-#. TRANS: %s is a link to the AGPL license with link description "http://www.gnu.org/licenses/agpl.html".
-#: actions/version.php:186
+#: actions/version.php:200
 #, php-format
 msgid ""
 "You should have received a copy of the GNU Affero General Public License "
@@ -6302,30 +6298,30 @@ msgid ""
 msgstr ""
 
 #. TRANS: Header for engine plugins section on the version page.
-#: actions/version.php:196
+#: actions/version.php:214
 msgid "Plugins"
 msgstr ""
 
 #. TRANS: Column header for plugins table on version page.
-#: actions/version.php:203
+#: actions/version.php:221
 msgctxt "HEADER"
 msgid "Name"
 msgstr ""
 
 #. TRANS: Column header for plugins table on version page.
-#: actions/version.php:205
+#: actions/version.php:223
 msgctxt "HEADER"
 msgid "Version"
 msgstr ""
 
 #. TRANS: Column header for plugins table on version page.
-#: actions/version.php:207
+#: actions/version.php:225
 msgctxt "HEADER"
 msgid "Author(s)"
 msgstr ""
 
 #. TRANS: Column header for plugins table on version page.
-#: actions/version.php:209
+#: actions/version.php:227
 msgctxt "HEADER"
 msgid "Description"
 msgstr ""
@@ -7008,26 +7004,6 @@ msgstr ""
 msgid "Expecting a root feed element but got a whole XML document."
 msgstr ""
 
-#. TRANS: Client exception thrown when ...
-#: lib/activityhandlerplugin.php:387
-msgid "Object not posted to this group."
-msgstr ""
-
-#. TRANS: Client exception when ...
-#: lib/activityhandlerplugin.php:405
-msgid "Object not posted to this user."
-msgstr ""
-
-#. TRANS: Server exception thrown when a micro app plugin uses a target that cannot be handled.
-#: lib/activityhandlerplugin.php:409
-msgid "Do not know how to handle this kind of target."
-msgstr ""
-
-#: lib/activityhandlerplugin.php:588
-#, php-format
-msgid "Error showing notice: %s"
-msgstr ""
-
 #. TRANS: Client exception thrown when using an unknown verb for the activity importer.
 #: lib/activityimporter.php:77
 #, php-format
@@ -7471,16 +7447,6 @@ msgstr ""
 #. TRANS: Title.
 #: lib/attachmentnoticesection.php:68
 msgid "Notices where this attachment appears"
-msgstr ""
-
-#. TRANS: Exception thrown when a password change fails.
-#: lib/authenticationplugin.php:219 lib/authenticationplugin.php:225
-msgid "Password changing failed."
-msgstr ""
-
-#. TRANS: Exception thrown when a password change attempt fails because it is not allowed.
-#: lib/authenticationplugin.php:236
-msgid "Password changing is not allowed."
 msgstr ""
 
 #. TRANS: Information displayed on the backup account page.
@@ -8349,45 +8315,6 @@ msgstr ""
 msgid "Unknown file type"
 msgstr ""
 
-#. TRANS: Body text for confirmation code e-mail.
-#. TRANS: %1$s is a user nickname, %2$s is the StatusNet sitename,
-#. TRANS: %3$s is the display name of an IM plugin.
-#: lib/implugin.php:255
-#, php-format
-msgid ""
-"User \"%1$s\" on %2$s has said that your %3$s screenname belongs to them. If "
-"that is true, you can confirm by clicking on this URL: %4$s . (If you cannot "
-"click it, copy-and-paste it into the address bar of your browser). If that "
-"user is not you, or if you did not request this confirmation, just ignore "
-"this message."
-msgstr ""
-
-#. TRANS: Exception thrown when trying to deliver a notice to an unknown inbox.
-#. TRANS: %d is the unknown inbox ID (number).
-#: lib/implugin.php:343
-#, php-format
-msgid "Unknown inbox source %d."
-msgstr ""
-
-#. TRANS: Message given when a status is too long. %1$s is the maximum number of characters,
-#. TRANS: %2$s is the number of characters sent (used for plural).
-#: lib/implugin.php:493
-#, php-format
-msgid "Message too long - maximum is %1$d character, you sent %2$d."
-msgid_plural "Message too long - maximum is %1$d characters, you sent %2$d."
-msgstr[0] ""
-msgstr[1] ""
-
-#. TRANS: Server exception thrown trying to initialise an IM plugin without meeting all prerequisites.
-#: lib/implugin.php:625
-msgid "Queueing must be enabled to use IM plugins."
-msgstr ""
-
-#. TRANS: Server exception thrown trying to initialise an IM plugin without a transport method.
-#: lib/implugin.php:630
-msgid "Transport cannot be null."
-msgstr ""
-
 #: lib/invalidfilenameexception.php:50
 msgid "Invalid filename."
 msgstr ""
@@ -8425,7 +8352,7 @@ msgstr ""
 
 #. TRANS: Send button for inviting friends
 #. TRANS: Button text for sending notice.
-#: lib/inviteform.php:128 lib/noticeform.php:307
+#: lib/inviteform.php:128 lib/noticeform.php:304
 msgctxt "BUTTON"
 msgid "Send"
 msgstr ""
@@ -8906,46 +8833,46 @@ msgid "No such user found."
 msgstr ""
 
 #. TRANS: Form legend for notice form.
-#: lib/noticeform.php:188
+#: lib/noticeform.php:185
 msgid "Send a notice"
 msgstr ""
 
-#: lib/noticeform.php:194
+#: lib/noticeform.php:191
 msgid "Write a reply..."
 msgstr ""
 
-#: lib/noticeform.php:197
+#: lib/noticeform.php:194
 msgid "Share your status..."
 msgstr ""
 
 #. TRANS: Title for notice label. %s is the user's nickname.
-#: lib/noticeform.php:211
+#: lib/noticeform.php:208
 #, php-format
 msgid "What's up, %s?"
 msgstr ""
 
 #. TRANS: Input label in notice form for adding an attachment.
-#: lib/noticeform.php:234
+#: lib/noticeform.php:231
 msgid "Attach"
 msgstr ""
 
 #. TRANS: Title for input field to attach a file to a notice.
-#: lib/noticeform.php:241
+#: lib/noticeform.php:238
 msgid "Attach a file."
 msgstr ""
 
 #. TRANS: Checkbox label to allow sharing geo location in notices.
-#: lib/noticeform.php:277
+#: lib/noticeform.php:274
 msgid "Share my location"
 msgstr ""
 
 #. TRANS: Text to not share location for a notice in notice form.
-#: lib/noticeform.php:281
+#: lib/noticeform.php:278
 msgid "Do not share my location"
 msgstr ""
 
 #. TRANS: Timeout error text for location retrieval in notice form.
-#: lib/noticeform.php:283
+#: lib/noticeform.php:280
 msgid ""
 "Sorry, retrieving your geo location is taking longer than expected, please "
 "try again later"
@@ -9273,25 +9200,20 @@ msgctxt "MENU"
 msgid "Replies"
 msgstr ""
 
-#. TRANS: Displayed as version information for a plugin if no version information was found.
-#: lib/plugin.php:174
-msgid "Unknown"
-msgstr ""
-
 #. TRANS: Plugin admin panel controls
-#: lib/plugindisableform.php:90
+#: lib/plugindisableform.php:78
 msgctxt "plugin"
 msgid "Disable"
 msgstr ""
 
 #. TRANS: Plugin admin panel controls
-#: lib/pluginenableform.php:112
+#: lib/pluginenableform.php:100
 msgctxt "plugin"
 msgid "Enable"
 msgstr ""
 
 #. TRANS: Plugin description for a disabled plugin.
-#: lib/pluginlist.php:195
+#: lib/pluginlist.php:183
 msgctxt "plugin-description"
 msgid ""
 "(The plugin description is unavailable when a plugin has been disabled.)"

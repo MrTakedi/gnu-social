@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-06-08 18:20+0100\n"
+"POT-Creation-Date: 2019-08-12 16:51+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,7 +17,12 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+<<<<<<< HEAD:modules/ActivityVerb/locale/ActivityVerb.pot
 #. TRANS: Module description.
 #: ActivityVerbModule.php:56
+=======
+#. TRANS: Plugin description.
+#: ActivityVerbPlugin.php:68
+>>>>>>> 396ea15dc9... [aab] Revert structural change of v2:plugins/ActivityVerb/locale/ActivityVerb.pot
 msgid "Adds more standardized verb handling for activities."
 msgstr ""

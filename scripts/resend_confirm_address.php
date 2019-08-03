@@ -2,7 +2,7 @@
 <?php
 
 define('INSTALLDIR', dirname(__DIR__));
-define('PUBLICDIR', INSTALLDIR . DIRECTORY_SEPARATOR . 'public');
+define('PUBLICDIR', INSTALLDIR);
 
 $shortoptions = 'e::ay';
 $longoptions = array('email=', 'all', 'yes');

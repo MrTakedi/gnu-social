@@ -8,7 +8,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
+<<<<<<< HEAD:DOCUMENTATION/DEVELOPERS/Plugins/Sample Plugins/Awesomeness/includes/locale/Awesomeness.pot
 "POT-Creation-Date: 2019-08-14 14:51+0100\n"
+=======
+"POT-Creation-Date: 2019-08-12 17:05+0100\n"
+>>>>>>> 57706fd92f... [aab] Revert structural change of v2:plugins/Awesomeness/locale/Awesomeness.pot
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"

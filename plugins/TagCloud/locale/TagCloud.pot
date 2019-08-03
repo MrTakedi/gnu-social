@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-08-14 14:51+0100\n"
+"POT-Creation-Date: 2019-08-14 15:57+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,13 +18,13 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #. TRANS: Menu item in search group navigation panel.
-#: TagCloudPlugin.php:29
+#: TagCloudModule.php:43
 msgctxt "MENU"
 msgid "Recent tags"
 msgstr ""
 
-#. TRANS: Plugin description.
-#: TagCloudPlugin.php:68
+#. TRANS: Module description.
+#: TagCloudModule.php:82
 msgid "Adds tag clouds to stream pages"
 msgstr ""
 
