@@ -182,7 +182,7 @@ class EmbedPlugin extends Plugin
                     ['rel'   =>'alternate',
                                   'type'  => "application/{$format}+oembed",
                                   'href'  => common_local_url(
-                                      'oembed',
+                                      'embed',
                                       [],
                                       ['format' => $format, 'url' => $url]
                                   ),
