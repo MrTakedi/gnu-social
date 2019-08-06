@@ -168,7 +168,7 @@ class WebInstaller extends Installer
         $dbRadios = '';
         $dbtype = $post->raw('dbtype');
         foreach (self::$dbModules as $type => $info) {
-            if ($this->checkExtension($info['check_module'])) {
+            if (extension_loaded($info['check_module'])) {
                 if ($dbtype == null || $dbtype == $type) {
                     $checked = 'checked="checked" ';
                     $dbtype = $type; // if we didn't have one checked, hit the first
@@ -181,14 +181,14 @@ class WebInstaller extends Installer
             }
         }
 
-        $ssl = array('always'=>null, 'never'=>null);
+        $ssl = ['always'=>null, 'never'=>null];
         if (!empty($_SERVER['HTTPS'])) {
             $ssl['always'] = 'checked="checked"';
         } else {
             $ssl['never'] = 'checked="checked"';
         }
 
-        echo<<<E_O_T
+        echo <<<E_O_T
     <form method="post" action="install.php" class="form_settings" id="form_install">
     	<legend>Site settings</legend>
     	<hr>
