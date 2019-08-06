@@ -32,6 +32,7 @@
  * @author    Tom Adams <tom@holizz.com>
  * @author    Zach Copley <zach@status.net>
  * @author    Diogo Cordeiro <diogo@fc.up.pt>
+ * @author   Kim <kim@surtdelcercle.cat>
  * @copyright 2019 Free Software Foundation, Inc http://www.fsf.org
  * @license   https://www.gnu.org/licenses/agpl.html GNU AGPL v3 or later
  */
@@ -136,10 +137,11 @@ class WebInstaller extends Installer
      */
     public function warning(string $message, string $submessage = '')
     {
-        print "<p class=\"error\">$message</p>\n";
+        print "<div class=\"alert alert-danger\" role=\"alert\">$message";
         if ($submessage != '') {
-            print "<p>$submessage</p>\n";
+            print "<hr><p class=\"mb-0\">$submessage</p>\n";
         }
+        print "</div>\n";
     }
 
     /**
@@ -149,140 +151,157 @@ class WebInstaller extends Installer
      */
     public function updateStatus(string $status, bool $error = false)
     {
-        echo '<li' . ($error ? ' class="error"' : '') . ">$status</li>";
+        print "<div class=\"alert alert-". ($error ? 'danger': 'info' ) ."\" role=\"alert\">";
+        if ($status != '') {
+            print "<hr><p class=\"mb-0\">$status</p>\n";
+        }
+        print "</div>\n";
     }
 
     /**
      * Show the web form!
      */
-    public function showForm()
+    function showForm()
     {
         global $dbModules;
         $post = new Posted();
         $dbRadios = '';
         $dbtype = $post->raw('dbtype');
         foreach (self::$dbModules as $type => $info) {
-            if (extension_loaded($info['check_module'])) {
+            if ($this->checkExtension($info['check_module'])) {
                 if ($dbtype == null || $dbtype == $type) {
                     $checked = 'checked="checked" ';
                     $dbtype = $type; // if we didn't have one checked, hit the first
                 } else {
                     $checked = '';
                 }
-                $dbRadios .= sprintf(
-                    '<input type="radio" name="dbtype" id="dbtype-%1$s" value="%1$s" %2$s/>%3$s<br>',
-                    htmlspecialchars($type),
-                    $checked,
-                    htmlspecialchars($info['name'])
-                );
+                $dbRadios .= sprintf('<div class="custom-control custom-switch"><input type="radio" name="dbtype" id="dbtype-%1$s" value="%1$s" class="custom-control-input" %2$s/><label class="custom-control-label" for="dbtype-mysql>%3$s</label></div>',
+                                htmlspecialchars($type), $checked,
+                                htmlspecialchars($info['name']));
             }
         }
 
-        $ssl = ['always' => null, 'never' => null];
+        $ssl = array('always'=>null, 'never'=>null);
         if (!empty($_SERVER['HTTPS'])) {
             $ssl['always'] = 'checked="checked"';
         } else {
             $ssl['never'] = 'checked="checked"';
         }
 
-        echo <<<E_O_T
+        echo<<<E_O_T
     <form method="post" action="install.php" class="form_settings" id="form_install">
-        <fieldset>
-            <fieldset id="settings_site">
-                <legend>Site settings</legend>
-                <ul class="form_data">
-                    <li>
-                        <label for="sitename">Site name</label>
-                        <input type="text" id="sitename" name="sitename" value="{$post->value('sitename')}">
-                        <p class="form_guide">The name of your site</p>
-                    </li>
-                    <li>
-                        <label for="fancy-enable">Fancy URLs</label>
-                        <input type="radio" name="fancy" id="fancy-enable" value="enable" checked='checked'> enable<br>
-                        <input type="radio" name="fancy" id="fancy-disable" value=""> disable<br>
-                        <p class="form_guide" id='fancy-form_guide'>Enable fancy (pretty) URLs. Auto-detection failed, it depends on Javascript.</p>
-                    </li>
-                    <li>
-                        <label for="ssl">Server SSL</label>
-                        <input type="radio" name="ssl" id="ssl-always" value="always" {$ssl['always']}> enable<br>
-                        <input type="radio" name="ssl" id="ssl-never" value="never" {$ssl['never']}> disable<br>
-                        <p class="form_guide" id="ssl-form_guide">Enabling SSL (https://) requires extra webserver configuration and certificate generation not offered by this installation.</p>
-                    </li>
-                </ul>
-            </fieldset>
+    	<legend>Site settings</legend>
+    	<hr>
+        <div class="form-group">
+            <label for="sitename">Site name</label>
+            <input type="text" id="sitename" name="sitename" class="form-control" value="{$post->value('sitename')}" />
+            <small class="form-text text-muted">The name of your site</small>
+        </div>
+        <div class="form-row">
+        	<div class="col-12 col-sm-6">
+		    	<label for="fancy">Fancy URLs</label>
+		    	<div class="custom-control custom-switch">            
+		        	<input type="radio" name="fancy" id="fancy-enable" value="enable" checked='checked' class="custom-control-input" />
+		        	<label class="custom-control-label" for="fancy-enable">Enable</label>
+		        </div>
+		        <div class="custom-control custom-switch">
+		        	<input type="radio" name="fancy" id="fancy-disable" value="" class="custom-control-input" />
+		        	<label class="custom-control-label" for="fancy-disable">Disable</label>
+		        </div>
+		        <small class="form-text text-muted">Enable fancy (pretty) URLs. Auto-detection failed, it depends on Javascript.</small>
+        	</div>
+        	<div class="col-12 col-sm-6">
+		        <label for="ssl">Server SSL</label>
+		        <div class="custom-control custom-switch">
+		        	<input type="radio" name="ssl" id="ssl-always" value="always" {$ssl['always']} class="custom-control-input" />
+		        	<label class="custom-control-label" for="ssl-always">Enable</label>
+		        </div>
+		        <div class="custom-control custom-switch">
+		        	<input type="radio" name="ssl" id="ssl-never" value="never" {$ssl['never']} class="custom-control-input" />
+		        	<label class="custom-control-label" for="ssl-never">Disable</label>
+		        </div>
+		        <small class="form-text text-muted">Enabling SSL (https://) requires extra webserver configuration and certificate generation not offered by this installation.</small>
+		     </div>
+        </div>
 
-            <fieldset id="settings_db">
-                <legend>Database settings</legend>
-                <ul class="form_data">
-                    <li>
-                        <label for="host">Hostname</label>
-                        <input type="text" id="host" name="host" value="{$post->value('host')}">
-                        <p class="form_guide">Database hostname</p>
-                    </li>
-                    <li>
-                        <label for="dbtype">Type</label>
-                        {$dbRadios}
-                        <p class="form_guide">Database type</p>
-                    </li>
-                    <li>
-                        <label for="database">Name</label>
-                        <input type="text" id="database" name="database" value="{$post->value('database')}">
-                        <p class="form_guide">Database name</p>
-                    </li>
-                    <li>
-                        <label for="dbusername">DB username</label>
-                        <input type="text" id="dbusername" name="dbusername" value="{$post->value('dbusername')}">
-                        <p class="form_guide">Database username</p>
-                    </li>
-                    <li>
-                        <label for="dbpassword">DB password</label>
-                        <input type="password" id="dbpassword" name="dbpassword" value="{$post->value('dbpassword')}">
-                        <p class="form_guide">Database password (optional)</p>
-                    </li>
-                </ul>
-            </fieldset>
+        <legend>Database settings</legend>
+        <hr>
+        <div class="form-group">
+            <label for="dbtype">Type</label>
+            {$dbRadios}
+            <small class="form-text text-muted">Database type</small>
+        </div>
+        <div class="form-row">
+        	<div class="col-12 col-sm-6">
+				<div class="form-group">
+				    <label for="host">Hostname</label>
+				    <input type="text" id="host" name="host" class="form-control" value="{$post->value('host')}" />
+				    <small class="form-text text-muted">Database hostname</small>
+				</div>
+				<div class="form-group">
+				    <label for="database">Name</label>
+				    <input type="text" id="database" name="database" class="form-control" value="{$post->value('database')}" />
+				    <small class="form-text text-muted">Database name</small>
+				</div>
+		    </div>
+		    <div class="col-12 col-sm-6">
+		    	<div class="form-group">
+				    <label for="dbusername">DB username</label>
+				    <input type="text" id="dbusername" name="dbusername" class="form-control" value="{$post->value('dbusername')}" />
+				    <small class="form-text text-muted">Database username</small>
+				</div>
+				<div class="form-group">
+				    <label for="dbpassword">DB password</label>
+				    <input type="password" id="dbpassword" name="dbpassword" class="form-control" value="{$post->value('dbpassword')}" />
+				    <small class="form-text text-muted">Database password (optional)</small>
+				</div>
+		    </div> 
+        </div>              
 
-            <fieldset id="settings_admin">
-                <legend>Administrator settings</legend>
-                <ul class="form_data">
-                    <li>
-                        <label for="admin_nickname">Administrator nickname</label>
-                        <input type="text" id="admin_nickname" name="admin_nickname" value="{$post->value('admin_nickname')}">
-                        <p class="form_guide">Nickname for the initial user (administrator)</p>
-                    </li>
-                    <li>
-                        <label for="admin_password">Administrator password</label>
-                        <input type="password" id="admin_password" name="admin_password" value="{$post->value('admin_password')}">
-                        <p class="form_guide">Password for the initial user (administrator)</p>
-                    </li>
-                    <li>
-                        <label for="admin_password2">Confirm password</label>
-                        <input type="password" id="admin_password2" name="admin_password2" value="{$post->value('admin_password2')}">
-                    </li>
-                    <li>
-                        <label for="admin_email">Administrator e-mail</label>
-                        <input id="admin_email" name="admin_email" value="{$post->value('admin_email')}">
-                        <p class="form_guide">Optional email address for the initial user (administrator)</p>
-                    </li>
-                </ul>
-            </fieldset>
-            <fieldset id="settings_profile">
-                <legend>Site profile</legend>
-                <ul class="form_data">
-                    <li>
-                        <label for="site_profile">Type of site</label>
-                        <select id="site_profile" name="site_profile">
-                            <option value="community">Community</option>
-                            <option value="public">Public (open registration)</option>
-                            <option value="singleuser">Single User</option>
-                            <option value="private">Private (no federation)</option>
-                        </select>
-                        <p class="form_guide">Initial access settings for your site</p>
-                    </li>
-                </ul>
-            </fieldset>
-            <input type="submit" name="submit" class="submit" value="Submit">
-        </fieldset>
+        <legend>Administrator settings</legend>
+        <hr>
+        <div class="form-row">
+        	<div class="col-12 col-sm-6">
+				<div class="form-group">
+				    <label for="admin_nickname">Administrator nickname</label>
+				    <input type="text" id="admin_nickname" name="admin_nickname" class="form-control" value="{$post->value('admin_nickname')}" />
+				    <small class="form-text text-muted">Nickname for the initial user (administrator)</small>
+				</div>
+				<div class="form-group">
+				    <label for="admin_password">Administrator password</label>
+				    <input type="password" id="admin_password" name="admin_password" class="form-control" value="{$post->value('admin_password')}" />
+				    <small class="form-text text-muted">Password for the initial user (administrator)</small>
+				</div>
+			</div>
+			<div class="col-12 col-sm-6">
+				<div class="form-group">
+				    <label for="admin_password2">Confirm password</label>
+				    <input type="password" id="admin_password2" name="admin_password2" class="form-control" value="{$post->value('admin_password2')}" />
+				    <small class="form-text text-muted">Confirm your password</small>
+				</div>
+				<div class="form-group">
+				    <label for="admin_email">Administrator e-mail</label>
+				    <input id="admin_email" name="admin_email" class="form-control" value="{$post->value('admin_email')}" />
+				    <small class="form-text text-muted">Optional email address for the initial user (administrator)</small>
+				</div>
+			</div>
+		</div>
+
+        <legend>Site profile</legend>
+        <hr>
+        <div class="form-group">
+            <label for="site_profile">Type of site</label>
+            <select id="site_profile" class="form-control" name="site_profile">
+                <option value="community">Community</option>
+                <option value="public">Public (open registration)</option>
+                <option value="singleuser">Single User</option>
+                <option value="private">Private (no federation)</option>
+            </select>
+            <small class="form-text text-muted">Initial access settings for your site</small>
+        </div>
+
+        <input type="submit" name="submit" class="btn btn-primary submit" value="Submit" />
+
     </form>
 
 E_O_T;
@@ -371,50 +390,31 @@ STR;
 }
 
 ?>
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <title>Install GNU social</title>
-    <link rel="shortcut icon" href="favicon.ico">
-    <link rel="stylesheet" type="text/css" href="theme/base/css/display.css" media="screen, projection, tv">
-    <link rel="stylesheet" type="text/css" href="theme/neo/css/display.css" media="screen, projection, tv">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <script src="js/extlib/jquery.js"></script>
-    <script src="js/install.js"></script>
-</head>
-<body id="install">
-<div id="wrap">
-    <div id="header">
-        <address id="site_contact" class="h-card">
-            <a class="u-url p-name home bookmark org" href=".">
-                <img class="logo u-photo" src="theme/neo/logo.png" alt="GNU social"/>
-                GNU social
-            </a>
-        </address>
-        <div id="site_nav_global_primary"></div>
-    </div>
-    <div id="core">
-        <div id="aside_primary_wrapper">
-            <div id="content_wrapper">
-                <div id="site_nav_local_views_wrapper">
-                    <div id="site_nav_local_views"></div>
+  	<head>
+    	<meta charset="utf-8">
+    	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>Install GNU social</title>
+        <link rel="shortcut icon" href="favicon.ico"/>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    </head>
+    <body id="install">
+        <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
+  			<img class="logo u-photo" src="theme/neo/logo.png" alt="GNU social"/>
+		</div>
+		<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+  			<h1 class="display-4">Install GNU social</h1>
+		</div>
 
-                    <div id="content">
-                        <div id="content_inner">
-                            <h1>Install GNU social</h1>
-                            <?php
-                            $installer = new WebInstaller();
-                            $installer->main();
-                            ?>
-                        </div>
-                    </div>
-
-                    <div id="aside_primary" class="aside"></div>
-                </div>
-            </div>
+        <div class="container">
+		<?php
+		$installer = new WebInstaller();
+		$installer->main();
+		?>
         </div>
-    </div>
-    <div id="footer"></div>
-</div>
-</body>
+
+        <div id="footer" class="py-5"></div>
+
+    </body>
 </html>
