@@ -396,9 +396,10 @@ class MysqlSchema extends Schema
     function mapType($column)
     {
         $map = [
-            'serial' => 'int',
+            'serial'  => 'int',
             'integer' => 'int',
-            'numeric' => 'decimal'
+            'bool'    => 'boolean',
+            'numeric' => 'decimal',
         ];
 
         $type = $column['type'];

@@ -96,7 +96,7 @@ class Profile_tag extends Managed_DataObject
         $qry = sprintf($qry, $tagger, $tagged);
 
         if (!$include_priv) {
-            $qry .= ' and profile_list.private = 0';
+            $qry .= ' and profile_list.private = false';
         }
 
         $profile_list->query($qry);
@@ -122,7 +122,7 @@ class Profile_tag extends Managed_DataObject
         );
 
         if (!$scoped instanceof Profile || $scoped->getID() !== $tagger) {
-            $qry .= 'and profile_list.private = 0';
+            $qry .= 'and profile_list.private = false';
         }
 
         $tags = array();
