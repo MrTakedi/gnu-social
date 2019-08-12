@@ -172,12 +172,9 @@ The ones that you may want to set are listed below for clarity.
     'MDB2' to use the other driver type for DB_DataObject, but note that it
     breaks the OpenID libraries, which only support PEAR::DB.
 
-* `quote_identifiers`(boolean, default false): Set this to true if you're using
-    postgresql.
-
-* `type` (enum["mysql", "postgresql"], default 'mysql'): Used for certain
-    database-specific optimization code.  Assumes mysql if not set.  MySQL also
-    covers MySQLi and MariaDB.
+* `type` (enum["mysql", "pgsql"], default 'mysql'): Used for certain
+    database-specific optimization code.  Assumes mysql if not set.  "mysql"
+    covers MariaDB, Oracle MySQL, mysqli or otherwise.
 
 * `mirror` (array, default null): you can set this to an array of DSNs, in the
     format of the above 'database' value. If it's set, certain read-only
