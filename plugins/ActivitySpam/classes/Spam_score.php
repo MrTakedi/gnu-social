@@ -32,7 +32,7 @@ defined('GNUSOCIAL') || die();
  * @copyright 2011 StatusNet, Inc.
  * @license   https://www.gnu.org/licenses/agpl.html GNU AGPL v3 or later
  *
- * @see      DB_DataObject
+ * @see       DB_DataObject
  */
 class Spam_score extends Managed_DataObject
 {
@@ -83,7 +83,7 @@ class Spam_score extends Managed_DataObject
                 'notice_id' => array('type' => 'int',
                     'not null' => true,
                     'description' => 'notice getting scored'),
-                'score' => array('type' => 'double',
+                'score' => array('type' => 'double precision',
                     'not null' => true,
                     'description' => 'score for the notice (0.0, 1.0)'),
                 'scaled' => array('type' => 'int',

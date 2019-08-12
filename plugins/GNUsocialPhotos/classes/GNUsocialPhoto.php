@@ -71,7 +71,7 @@ class GNUsocialPhoto extends Managed_DataObject
             ),
             'foreign keys' => array(
                 'gnusocialphoto_notice_id_fkey' => array('notice', array('notice_id' => 'id')),
-                'gnusocialphoto_album_id_fkey' => array('GNUsocialPhotoAlbum', array('album_id' => 'id')),
+                'gnusocialphoto_album_id_fkey' => array('GNUsocialPhotoAlbum', array('id' => 'album_id')),
             ),
             'indexes' => array(
                 'gnusocialphoto_title_idx' => array('title'),

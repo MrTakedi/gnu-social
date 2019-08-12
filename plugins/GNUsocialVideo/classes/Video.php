@@ -71,7 +71,9 @@ class Video extends Managed_DataObject
                 'profile_id' => array('type' => 'int', 'not null' => true),
             ),
             'primary key' => array('id'),
-            'foreign keys' => array('video_profile_id__key' => array('profile' => array('profile_id' => 'id'))),
+            'foreign keys' => array(
+                'video_profile_id_fkey' => array('profile', array('profile_id' => 'id')),
+            ),
         );
     }
 

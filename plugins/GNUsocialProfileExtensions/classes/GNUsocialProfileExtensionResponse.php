@@ -56,7 +56,6 @@ class GNUsocialProfileExtensionResponse extends Managed_DataObject
             'primary key' => array('id'),
             'foreign keys' => array(
                 'gnusocialprofileextensionresponse_profile_id_fkey' => array('profile', array('profile_id' => 'id')),
-                'gnusocialprofileextensionresponse_extension_id_fkey' => array('gnusocialprofileextensionfield', array('extension_id' => 'id')),
             ),
             'indexes' => array(
                 'gnusocialprofileextensionresponse_extension_id_idx' => array('extension_id'),

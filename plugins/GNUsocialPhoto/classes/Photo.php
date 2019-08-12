@@ -1,38 +1,34 @@
 <?php
+// This file is part of GNU social - https://www.gnu.org/software/social
+//
+// GNU social is free software: you can redistribute it and/or modify
+// it under the terms of the GNU Affero General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// GNU social is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU Affero General Public License for more details.
+//
+// You should have received a copy of the GNU Affero General Public License
+// along with GNU social.  If not, see <http://www.gnu.org/licenses/>.
+
 /**
- * GNU Social
- * Copyright (C) 2011, Free Software Foundation, Inc.
- *
- * PHP version 5
- *
- * LICENCE:
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * @package   GNU Social
+ * @package   GNUsocial
  * @author    Ian Denhardt <ian@zenhack.net>
- * @copyright 2011 Free Software Foundation, Inc.
- * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html AGPL 3.0
+ * @copyright 2011 Free Software Foundation, Inc http://www.fsf.org
+ * @license   https://www.gnu.org/licenses/agpl.html GNU AGPL v3 or later
  */
 
-if(!defined('STATUSNET')){
-    exit(1);
-}
+defined('GNUSOCIAL') || die();
 
 /**
- * Data class for photos.
+ * Data class for photos
+ *
+ * @copyright 2011 Free Software Foundation, Inc http://www.fsf.org
+ * @license   https://www.gnu.org/licenses/agpl.html GNU AGPL v3 or later
  */
-
 class Photo extends Managed_DataObject
 {
     const OBJECT_TYPE = 'http://activitystrea.ms/schema/1.0/photo';
@@ -77,11 +73,13 @@ class Photo extends Managed_DataObject
                 'profile_id' => array('type' => 'int', 'not null' => true),
             ),
             'primary key' => array('id'),
-            'foreign keys' => array('photo_profile_id__key' => array('profile' => array('profile_id' => 'id'))),
+            'foreign keys' => array(
+                'photo_profile_id_fkey' => array('profile', array('profile_id' => 'id')),
+            ),
         );
     }
 
-    static function saveNew(Profile $profile, $photo_uri, $thumb_uri, $title, $description, $options=array())
+    public static function saveNew(Profile $profile, $photo_uri, $thumb_uri, $title, $description, $options = [])
     {
         $photo = new Photo();
 
@@ -93,23 +91,27 @@ class Photo extends Managed_DataObject
 
         $options['object_type'] = Photo::OBJECT_TYPE;
 
-        if (!array_key_exists('uri', $options)) { 
+        if (!array_key_exists('uri', $options)) {
             $options['uri'] = common_local_url('showphoto', array('id' => $photo->id));
         }
 
         if (!array_key_exists('rendered', $options)) {
-            $options['rendered'] = sprintf("<img src=\"%s\" alt=\"%s\"></img>", $photo_uri,
-                $title);
+            $options['rendered'] = sprintf(
+                "<img src=\"%s\" alt=\"%s\"></img>",
+                $photo_uri,
+                $title
+            );
         }
 
         $photo->uri = $options['uri'];
         
         $photo->insert();
 
-        return Notice::saveNew($profile->id,
-                               '',
-                               'web',
-                               $options);
-
+        return Notice::saveNew(
+            $profile->id,
+            '',
+            'web',
+            $options
+        );
     }
 }

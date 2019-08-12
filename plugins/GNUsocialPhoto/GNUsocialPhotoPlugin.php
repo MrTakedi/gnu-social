@@ -1,41 +1,34 @@
 <?php
+// This file is part of GNU social - https://www.gnu.org/software/social
+//
+// GNU social is free software: you can redistribute it and/or modify
+// it under the terms of the GNU Affero General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// GNU social is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU Affero General Public License for more details.
+//
+// You should have received a copy of the GNU Affero General Public License
+// along with GNU social.  If not, see <http://www.gnu.org/licenses/>.
+
 /**
- * GNU Social
- * Copyright (C) 2011, Free Software Foundation, Inc.
- *
- * PHP version 5
- *
- * LICENCE:
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
  * @category  Widget
- * @package   GNU Social
+ * @package   GNUsocial
  * @author    Ian Denhardt <ian@zenhack.net>
- * @copyright 2011 Free Software Foundation, Inc.
- * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html AGPL 3.0
+ * @copyright 2011 Free Software Foundation, Inc http://www.fsf.org
+ * @license   https://www.gnu.org/licenses/agpl.html GNU AGPL v3 or later
  */
 
-if (!defined('STATUSNET')) {
-    exit(1);
-}
+defined('GNUSOCIAL') || die();
 
 class GNUsocialPhotoPlugin extends MicroAppPlugin
 {
+    public $oldSaveNew = true;
 
-    var $oldSaveNew = true;
-
-    function onCheckSchema()
+    public function onCheckSchema()
     {
         $schema = Schema::get();
 
@@ -44,37 +37,36 @@ class GNUsocialPhotoPlugin extends MicroAppPlugin
         return true;
     }
 
-    function onRouterInitialized($m)
+    public function onRouterInitialized($m)
     {
         $m->connect('main/photo/new', ['action' => 'newphoto']);
         $m->connect('main/photo/:id', ['action' => 'showphoto']);
         return true;
     }
 
-    function entryForm($out)
+    public function entryForm($out)
     {
         return new NewPhotoForm($out);
     }
 
-    function appTitle()
+    public function appTitle()
     {
         return _('Photo');
     }
 
-    function tag()
+    public function tag()
     {
         return 'Photo';
     }
 
-    function types()
+    public function types()
     {
         return array(Photo::OBJECT_TYPE);
     }
 
-    function saveNoticeFromActivity(Activity $activity, Profile $actor, array $options=array())
+    public function saveNoticeFromActivity(Activity $activity, Profile $actor, array $options = [])
     {
-
-        if(count($activity->objects) != 1) {
+        if (count($activity->objects) != 1) {
             throw new Exception('Too many activity objects.');
         }
 
@@ -86,24 +78,22 @@ class GNUsocialPhotoPlugin extends MicroAppPlugin
 
         $photo_uri = $photoObj->largerImage;
         $thumb_uri = $photo_uri;
-        if(!empty($photoObj->thumbnail)){
+        if (!empty($photoObj->thumbnail)) {
             $thumb_uri = $photoObj->thumbnail;
         }
 
         $description = $photoObj->description;
         $title = $photoObj->title;
-        
+
         $options['object_type'] = Photo::OBJECT_TYPE;
 
         Photo::saveNew($actor, $photo_uri, $thumb_uri, $title, $description, $options);
-   
     }
 
-    function activityObjectFromNotice(Notice $notice)
+    public function activityObjectFromNotice(Notice $notice)
     {
-
         $photo = Photo::getByNotice($notice);
-        
+
         $object = new ActivityObject();
         $object->id = $notice->uri;
         $object->type = Photo::OBJECT_TYPE;
@@ -114,16 +104,15 @@ class GNUsocialPhotoPlugin extends MicroAppPlugin
         $object->largerImage = $photo->photo_uri;
         $object->thumbnail = $photo->thumb_uri;
         $object->description = $photo->description;
-        
+
         return $object;
-        
     }
 
-    function showNoticeContent(Notice $notice, HTMLOutputter $out)
+    public function showNoticeContent(Notice $notice, HTMLOutputter $out, Profile $scoped = null)
     {
         $photo = Photo::getByNotice($notice);
         if ($photo) {
-            if($photo->title){
+            if ($photo->title) {
                 // TODO: ugly. feel like we should have a more abstract way
                 // of choosing the h-level.
                 $out->element('h3', array(), $title);
@@ -134,7 +123,7 @@ class GNUsocialPhotoPlugin extends MicroAppPlugin
         }
     }
 
-    function deleteRelated(Notice $notice)
+    public function deleteRelated(Notice $notice)
     {
         $photo = Photo::getByNotice($notice);
         if ($photo) {
