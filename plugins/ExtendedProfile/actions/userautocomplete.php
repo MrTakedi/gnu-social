@@ -34,7 +34,7 @@ if (!defined('STATUSNET')) {
 
 class UserautocompleteAction extends Action
 {
-    var $query;
+    public $query;
 
     /**
      * Initialization.
@@ -43,7 +43,7 @@ class UserautocompleteAction extends Action
      *
      * @return boolean true if nothing goes wrong
      */
-    function prepare(array $args = array())
+    public function prepare(array $args = [])
     {
         parent::prepare($args);
         $this->query = $this->trimmed('term');
@@ -57,7 +57,7 @@ class UserautocompleteAction extends Action
      *
      * @return void
      */
-    function handle()
+    public function handle()
     {
         parent::handle();
         $this->showResults();
@@ -69,7 +69,7 @@ class UserautocompleteAction extends Action
      *
      * @return void
      */
-    function showResults()
+    public function showResults()
     {
         $people = array();
 
@@ -83,18 +83,17 @@ class UserautocompleteAction extends Action
         $cnt = $profile->find();
 
         if ($cnt > 0) {
-
             $sql = 'SELECT profile.* FROM profile, user WHERE profile.id = user.id '
                 . ' AND LEFT(LOWER(profile.nickname), '
                 . strlen($this->query)
                 . ') = \'%s\' '
-                . ' LIMIT 0, 10';
+                . ' LIMIT 10';
 
             $profile->query(sprintf($sql, $this->query));
         }
         
         while ($profile->fetch()) {
-             $people[] = $profile->nickname;
+            $people[] = $profile->nickname;
         }
 
         header('Content-Type: application/json; charset=utf-8');
@@ -106,7 +105,7 @@ class UserautocompleteAction extends Action
      *
      * @return boolean true
      */
-    function isReadOnly($args)
+    public function isReadOnly($args)
     {
         return true;
     }

@@ -1,34 +1,28 @@
 <?php
+// This file is part of GNU social - https://www.gnu.org/software/social
+//
+// GNU social is free software: you can redistribute it and/or modify
+// it under the terms of the GNU Affero General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// GNU social is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU Affero General Public License for more details.
+//
+// You should have received a copy of the GNU Affero General Public License
+// along with GNU social.  If not, see <http://www.gnu.org/licenses/>.
+
 /**
- * GNU Social
- * Copyright (C) 2010, Free Software Foundation, Inc.
- *
- * PHP version 5
- *
- * LICENCE:
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
  * @category  Widget
- * @package   GNU Social
+ * @package   GNUsocial
  * @author    Ian Denhardt <ian@zenhack.net>
- * @copyright 2010 Free Software Foundation, Inc.
- * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html AGPL 3.0
+ * @copyright 2010 Free Software Foundation, Inc http://www.fsf.org
+ * @license   https://www.gnu.org/licenses/agpl.html GNU AGPL v3 or later
  */
 
-if (!defined('STATUSNET')) {
-    exit(1);
-}
+defined('GNUSOCIAL') || die();
 
 require_once INSTALLDIR . '/classes/Memcached_DataObject.php';
 
@@ -40,8 +34,8 @@ class GNUsocialPhoto extends Managed_DataObject
     public $album_id;   // int(11)
     public $uri;        // varchar(191)   not 255 because utf8mb4 takes more space
     public $thumb_uri;  // varchar(191)   not 255 because utf8mb4 takes more space
-	public $title;      // varchar(191)   not 255 because utf8mb4 takes more space
-	public $photo_description; // text
+    public $title;      // varchar(191)   not 255 because utf8mb4 takes more space
+    public $photo_description; // text
     public $created;           // datetime()   not_null
     public $modified;          // timestamp()   not_null default_CURRENT_TIMESTAMP
 
@@ -85,16 +79,20 @@ class GNUsocialPhoto extends Managed_DataObject
         );
     }
 
-    static function saveNew($profile_id, $album_id, $thumb_uri, $uri, $source, $insert_now, $title = null, $photo_description = null)
+    public static function saveNew($profile_id, $album_id, $thumb_uri, $uri, $source, $insert_now, $title = null, $photo_description = null)
     {
         $photo = new GNUsocialPhoto();
         $photo->thumb_uri = $thumb_uri;
         $photo->uri = $uri;
-		$photo->album_id = $album_id;
-		if(!empty($title)) $photo->title = $title;
-		if(!empty($photo_description)) $photo->photo_description = (string)$photo_description;
+        $photo->album_id = $album_id;
+        if (!empty($title)) {
+            $photo->title = $title;
+        }
+        if (!empty($photo_description)) {
+            $photo->photo_description = (string) $photo_description;
+        }
 
-        if($insert_now) {
+        if ($insert_now) {
             $notice = Notice::saveNew($profile_id, $uri, $source);
             $photo->notice_id = $notice->id;
             $photo_id = $photo->insert();
@@ -108,7 +106,7 @@ class GNUsocialPhoto extends Managed_DataObject
         }
     }
 
-    function getPageLink()
+    public function getPageLink()
     {
         return '/photo/' . $this->id;
     }
@@ -120,11 +118,11 @@ class GNUsocialPhoto extends Managed_DataObject
      * @param int gallery_size The number of thumbnails to show per page in the gallery.
      * @return array Array of GNUsocialPhotos for this gallery page.
      */
-    static function getGalleryPage($page_id, $album_id, $gallery_size)
+    public static function getGalleryPage($page_id, $album_id, $gallery_size)
     {
-		$page_offset = ($page_id-1) * $gallery_size; 
-        $sql = 'SELECT * FROM GNUsocialPhoto WHERE album_id = ' . $album_id . 
-               ' ORDER BY notice_id LIMIT ' . $page_offset . ',' . $gallery_size;
+        $page_offset = ($page_id-1) * $gallery_size;
+        $sql = 'SELECT * FROM GNUsocialPhoto WHERE album_id = ' . $album_id .
+               ' ORDER BY notice_id LIMIT ' . $gallery_size . ' OFFSET ' . $page_offset;
         $photo = new GNUsocialPhoto();
         $photo->query($sql);
         $photos = array();
