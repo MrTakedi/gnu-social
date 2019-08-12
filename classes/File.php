@@ -880,7 +880,7 @@ class File extends Managed_DataObject
 
         $file = new File();
         $file->query(sprintf(
-            'SELECT id, LEFT(url, 191) AS shortenedurl, COUNT(*) FROM %1$s ' .
+            'SELECT id, LEFT(url, 191) AS shortenedurl FROM %1$s ' .
             'WHERE LENGTH(url) > 191 GROUP BY id, shortenedurl HAVING COUNT(*) > 1',
             common_database_tablename($table)
         ));

@@ -1,46 +1,36 @@
 <?php
+// This file is part of GNU social - https://www.gnu.org/software/social
+//
+// GNU social is free software: you can redistribute it and/or modify
+// it under the terms of the GNU Affero General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// GNU social is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU Affero General Public License for more details.
+//
+// You should have received a copy of the GNU Affero General Public License
+// along with GNU social.  If not, see <http://www.gnu.org/licenses/>.
+
 /**
- * StatusNet - the distributed open-source microblogging tool
- * Copyright (C) 2011, StatusNet, Inc.
- *
  * A plugin to enable local tab subscription
  *
- * PHP version 5
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
  * @category  SearchSubPlugin
- * @package   StatusNet
+ * @package   GNUsocial
  * @author    Brion Vibber <brion@status.net>
  * @copyright 2011 StatusNet, Inc.
- * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html AGPL 3.0
- * @link      http://status.net/
+ * @license   https://www.gnu.org/licenses/agpl.html GNU AGPL v3 or later
  */
 
-if (!defined('STATUSNET')) {
-    exit(1);
-}
+defined('GNUSOCIAL') || die();
 
 /**
  * SearchSub plugin main class
  *
- * @category  SearchSubPlugin
- * @package   StatusNet
- * @author    Brion Vibber <brionv@status.net>
  * @copyright 2011 StatusNet, Inc.
- * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html AGPL 3.0
- * @link      http://status.net/
+ * @license   https://www.gnu.org/licenses/agpl.html GNU AGPL v3 or later
  */
 class SearchSubPlugin extends Plugin
 {
@@ -53,7 +43,7 @@ class SearchSubPlugin extends Plugin
      *
      * @return boolean hook value; true means continue processing, false means stop.
      */
-    function onCheckSchema()
+    public function onCheckSchema()
     {
         $schema = Schema::get();
         $schema->ensureTable('searchsub', SearchSub::schemaDef());
@@ -69,15 +59,21 @@ class SearchSubPlugin extends Plugin
      */
     public function onRouterInitialized(URLMapper $m)
     {
-        $m->connect('search/:search/subscribe',
-                    ['action' => 'searchsub'],
-                    ['search' => Router::REGEX_TAG]);
-        $m->connect('search/:search/unsubscribe',
-                    ['action' => 'searchunsub'],
-                    ['search' => Router::REGEX_TAG]);
-        $m->connect(':nickname/search-subscriptions',
-                    ['action' => 'searchsubs'],
-                    ['nickname' => Nickname::DISPLAY_FMT]);
+        $m->connect(
+            'search/:search/subscribe',
+            ['action' => 'searchsub'],
+            ['search' => Router::REGEX_TAG]
+        );
+        $m->connect(
+            'search/:search/unsubscribe',
+            ['action' => 'searchunsub'],
+            ['search' => Router::REGEX_TAG]
+        );
+        $m->connect(
+            ':nickname/search-subscriptions',
+            ['action' => 'searchsubs'],
+            ['nickname' => Nickname::DISPLAY_FMT]
+        );
         return true;
     }
 
@@ -88,7 +84,7 @@ class SearchSubPlugin extends Plugin
      *
      * @return value
      */
-    function onPluginVersion(array &$versions)
+    public function onPluginVersion(array &$versions)
     {
         $versions[] = array('name' => 'SearchSub',
                             'version' => self::PLUGIN_VERSION,
@@ -112,12 +108,14 @@ class SearchSubPlugin extends Plugin
      * @param array $ni in/out map of profile IDs to inbox constants
      * @return boolean hook result
      */
-    function onStartNoticeWhoGets(Notice $notice, array &$ni)
+    public function onStartNoticeWhoGets(Notice $notice, array &$ni)
     {
         // Warning: this is potentially very slow
         // with a lot of searches!
         $sub = new SearchSub();
         $sub->groupBy('search');
+        $sub->selectAdd();
+        $sub->selectAdd('search');
         $sub->find();
         while ($sub->fetch()) {
             $search = $sub->search;
@@ -150,7 +148,7 @@ class SearchSubPlugin extends Plugin
      * @param string $search
      * @return boolean
      */
-    function matchSearch(Notice $notice, $search)
+    public function matchSearch(Notice $notice, $search)
     {
         return (mb_stripos($notice->content, $search) !== false);
     }
@@ -162,7 +160,7 @@ class SearchSubPlugin extends Plugin
      * @param Notice $notice
      * @return boolean hook result
      */
-    function onStartNoticeSearchShowResults($action, $q, $notice)
+    public function onStartNoticeSearchShowResults($action, $q, $notice)
     {
         $user = common_current_user();
         if ($user) {
@@ -192,17 +190,19 @@ class SearchSubPlugin extends Plugin
      *
      * @return boolean hook return
      */
-    function onEndSubGroupNav($widget)
+    public function onEndSubGroupNav($widget)
     {
         $action = $widget->out;
         $action_name = $action->trimmed('action');
 
-        $action->menuItem(common_local_url('searchsubs', array('nickname' => $action->user->nickname)),
-                          // TRANS: SearchSub plugin menu item on user settings page.
-                          _m('MENU', 'Searches'),
-                          // TRANS: SearchSub plugin tooltip for user settings menu item.
-                          _m('Configure search subscriptions'),
-                          $action_name == 'searchsubs' && $action->arg('nickname') == $action->user->nickname);
+        $action->menuItem(
+            common_local_url('searchsubs', ['nickname' => $action->user->nickname]),
+            // TRANS: SearchSub plugin menu item on user settings page.
+            _m('MENU', 'Searches'),
+            // TRANS: SearchSub plugin tooltip for user settings menu item.
+            _m('Configure search subscriptions'),
+            ($action_name == 'searchsubs' && $action->arg('nickname') === $action->user->nickname)
+        );
 
         return true;
     }
@@ -217,18 +217,18 @@ class SearchSubPlugin extends Plugin
      * @param Command $result
      * @return boolean hook result
      */
-    function onEndInterpretCommand($cmd, $arg, $user, &$result)
+    public function onEndInterpretCommand($cmd, $arg, $user, &$result)
     {
         if ($result instanceof TrackCommand) {
             $result = new SearchSubTrackCommand($user, $arg);
             return false;
-        } else if ($result instanceof TrackOffCommand) {
+        } elseif ($result instanceof TrackOffCommand) {
             $result = new SearchSubTrackOffCommand($user);
             return false;
-        } else if ($result instanceof TrackingCommand) {
+        } elseif ($result instanceof TrackingCommand) {
             $result = new SearchSubTrackingCommand($user);
             return false;
-        } else if ($result instanceof UntrackCommand) {
+        } elseif ($result instanceof UntrackCommand) {
             $result = new SearchSubUntrackCommand($user, $arg);
             return false;
         } else {
@@ -236,7 +236,7 @@ class SearchSubPlugin extends Plugin
         }
     }
 
-    function onHelpCommandMessages($cmd, &$commands)
+    public function onHelpCommandMessages($cmd, &$commands)
     {
         // TRANS: Help message for IM/SMS command "track <word>"
         $commands["track <word>"] = _m('COMMANDHELP', "Start following notices matching the given search query.");
@@ -252,7 +252,7 @@ class SearchSubPlugin extends Plugin
         $commands["tracking"] = _m('COMMANDHELP', "List all your search subscriptions.");
     }
 
-    function onEndDefaultLocalNav($menu, $user)
+    public function onEndDefaultLocalNav($menu, $user)
     {
         $user = common_current_user();
 
@@ -262,7 +262,7 @@ class SearchSubPlugin extends Plugin
             if (!empty($searches) && count($searches) > 0) {
                 $searchSubMenu = new SearchSubMenu($menu->out, $user, $searches);
                 // TRANS: Sub menu for searches.
-                $menu->submenu(_m('MENU','Searches'), $searchSubMenu);
+                $menu->submenu(_m('MENU', 'Searches'), $searchSubMenu);
             }
         }
 
