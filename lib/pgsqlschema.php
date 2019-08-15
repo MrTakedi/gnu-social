@@ -122,8 +122,10 @@ class PgsqlSchema extends Schema
         // This can give us primary & unique key info, but not foreign key constraints
         // so we exclude them and pick them up later.
         $indexInfo = $this->getIndexInfo($table);
+
         foreach ($indexInfo as $row) {
             $keyName = $row['key_name'];
+            $keyDef = $row['key_def'];
 
             // Dig the column references out!
             //
@@ -140,7 +142,11 @@ class PgsqlSchema extends Schema
                 }
             }
 
-            $def['indexes'][$keyName] = $cols;
+            if (preg_match('/^[^\(]+ USING gin \(/i', $keyDef)) {
+                $def['fulltext indexes'][$keyName] = $cols;
+            } else {
+                $def['indexes'][$keyName] = $cols;
+            }
         }
 
         // Pull constraint data from INFORMATION_SCHEMA:
@@ -161,7 +167,7 @@ class PgsqlSchema extends Schema
             // name hack -- is this reliable?
             if ($keyName == "{$table}_pkey") {
                 $def['primary key'] = $cols;
-            } elseif (preg_match("/^{$table}_(.*)_fkey$/", $keyName, $matches)) {
+            } elseif (preg_match("/^{$table}_(.+)_fkey$/", $keyName)) {
                 $fkey = $this->getForeignKeyInfo($table, $keyName);
                 $colMap = array_combine($cols, $fkey['col_names']);
                 $def['foreign keys'][$keyName] = [$fkey['table_name'], $colMap];
@@ -200,13 +206,15 @@ class PgsqlSchema extends Schema
      */
     public function getIndexInfo($table)
     {
-        $query = 'SELECT ' .
-            '(SELECT relname FROM pg_class WHERE oid=indexrelid) AS key_name, ' .
-            '* FROM pg_index ' .
-            'WHERE indrelid=(SELECT oid FROM pg_class WHERE relname=\'%s\') ' .
-            'AND indisprimary=\'f\' AND indisunique=\'f\' ' .
-            'ORDER BY indrelid, indexrelid';
-        $sql = sprintf($query, $table);
+        $sql = sprintf('SELECT relname AS key_name, indexdef AS key_def, pg_index.* ' .
+            'FROM pg_index ' .
+            'JOIN pg_class ON pg_index.indexrelid = pg_class.oid ' .
+            'JOIN pg_indexes ON pg_class.relname = pg_indexes.indexname ' .
+            'WHERE indrelid = (SELECT oid FROM pg_class WHERE relname = \'%s\') ' .
+            'AND indisprimary = false AND indisunique = false ' .
+            'ORDER BY indrelid, indexrelid',
+            $table
+        );
         return $this->fetchQueryData($sql);
     }
 
@@ -365,6 +373,20 @@ class PgsqlSchema extends Schema
     }
 
     /**
+     * Append an SQL statement with an index definition for a full-text search
+     * index over one or more columns on a table.
+     *
+     * @param array $statements
+     * @param string $table
+     * @param string $name
+     * @param array $def
+     */
+    public function appendCreateFulltextIndex(array &$statements, $table, $name, array $def)
+    {
+        $statements[] = "CREATE INDEX $name ON $table USING gin " . $this->buildFulltextIndexList($table, $def);
+    }
+
+    /**
      * Append an SQL statement to drop an index from a table.
      * Note that in PostgreSQL, index names are DB-unique.
      *
@@ -375,6 +397,24 @@ class PgsqlSchema extends Schema
     public function appendDropIndex(array &$statements, $table, $name)
     {
         $statements[] = "DROP INDEX $name";
+    }
+
+    public function buildFulltextIndexList($table, array $def)
+    {
+        foreach ($def as &$val) {
+            $cols[] = $this->buildFulltextIndexItem($table, $val);
+        }
+
+        return '(TO_TSVECTOR(\'english\', ' . implode(" || ' ' || ", $cols) . '))';
+    }
+
+    public function buildFulltextIndexItem($table, $def)
+    {
+        return sprintf(
+            "COALESCE(%s.%s, '')",
+            $this->quoteIdentifier($table),
+            $def
+        );
     }
 
     public function mapType($column)
