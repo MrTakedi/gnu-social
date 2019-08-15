@@ -158,10 +158,9 @@ The ones that you may want to set are listed below for clarity.
 
 * `database` (string, required, default null): a DSN (Data Source Name) for your
     GNU social database. This is in the format
-    'protocol://username:password@hostname/databasename', where 'protocol' is '
-    mysql' or 'mysqli' (or possibly 'postgresql', if you really know what
-    you're doing), 'username' is the username, 'password' is the password,
-    and etc.
+    'protocol://username:password@hostname/databasename', where 'protocol' is
+    'mysqli' or 'pgsql' or 'mysql', 'username' is the username, 'password' is
+    the password, and etc.
 
 * `ini_yourdbname` (string, default null): if your database is not named 'statusnet',
     you'll need to set this to point to the location of the statusnet.ini file.

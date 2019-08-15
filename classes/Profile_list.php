@@ -209,15 +209,16 @@ class Profile_list extends Managed_DataObject
         );
         $subs->whereAdd('profile_tag_subscription.profile_tag_id = ' . $this->id);
 
-        $subs->selectAdd('unix_timestamp(profile_tag_subscription.' .
-                         'created) as "cursor"');
-
         if ($since != 0) {
-            $subs->whereAdd('cursor > ' . $since);
+            $subs->whereAdd(
+                "profile_tag_subscription > '" . common_sql_date($since) . "'"
+            );
         }
 
         if ($upto != 0) {
-            $subs->whereAdd('cursor <= ' . $upto);
+            $subs->whereAdd(
+                "profile_tag_subscription <= '" . common_sql_date($upto) . "'"
+            );
         }
 
         if ($limit != null) {
@@ -285,7 +286,6 @@ class Profile_list extends Managed_DataObject
 
     /**
      * Get profiles tagged with this people tag,
-     * include modified timestamp as a "cursor" field
      * order by descending order of modified time
      *
      * @param integer $offset   offset
@@ -301,17 +301,19 @@ class Profile_list extends Managed_DataObject
         $tagged = new Profile();
         $tagged->joinAdd(array('id', 'profile_tag:tagged'));
 
-        #@fixme: postgres
-        $tagged->selectAdd('unix_timestamp(profile_tag.modified) as "cursor"');
         $tagged->whereAdd('profile_tag.tagger = '.$this->tagger);
         $tagged->whereAdd("profile_tag.tag = '{$this->tag}'");
 
         if ($since != 0) {
-            $tagged->whereAdd('cursor > ' . $since);
+            $tagged->whereAdd(
+                "profile_tag.modified > '" . common_sql_date($since) . "'"
+            );
         }
 
         if ($upto != 0) {
-            $tagged->whereAdd('cursor <= ' . $upto);
+            $tagged->whereAdd(
+                "profile_tag.modified <= '" . common_sql_date($upto) . "'"
+            );
         }
 
         if ($limit != null) {

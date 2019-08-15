@@ -936,12 +936,20 @@ class File extends Managed_DataObject
         $tablefix = new $classname;
         // urlhash is hash('sha256', $url) in the File table
         echo "Updating urlhash fields in $table table...";
-        // Maybe very MySQL specific :(
+        switch (common_config('db', 'type')) {
+            case 'pgsql':
+                $url_sha256 = 'ENCODE(SHA256(CAST("url" AS BYTEA)), \'hex\')';
+                break;
+            case 'mysql':
+                $url_sha256 = 'SHA2(`url`, 256)';
+                break;
+            default:
+                throw new ServerException('Unknown DB type selected.');
+        }
         $tablefix->query(sprintf(
             'UPDATE %1$s SET urlhash = %2$s;',
             $tablefix->escapedTableName(),
-            // The line below is "result of sha256 on column `url`"
-            'SHA2(url, 256)'
+            $url_sha256
         ));
         echo "DONE.\n";
         echo "Resuming core schema upgrade...";

@@ -483,31 +483,31 @@ class Profile extends Managed_DataObject
         $list = new Profile_list();
 
         $qry = sprintf(
-            'SELECT profile_list.*, UNIX_TIMESTAMP(profile_tag.modified) AS "cursor" ' .
-            'FROM profile_tag join profile_list '.
+            'SELECT profile_list.* ' .
+            'FROM profile_tag JOIN profile_list '.
             'ON (profile_tag.tagger = profile_list.tagger ' .
-            '    AND profile_tag.tag = profile_list.tag) ' .
-            'WHERE profile_tag.tagged = %d ',
+            '    AND profile_tag.tag = profile_list.tag ' .
+            '    AND profile_tag.tagged = %d) ',
             $this->id
         );
 
         if (!is_null($scoped)) {
             $qry .= sprintf(
-                'AND ( ( profile_list.private = false ) ' .
+                'WHERE ( profile_list.private = false ' .
                 'OR ( profile_list.tagger = %d AND ' .
                 'profile_list.private = true ) )',
                 $scoped->getID()
             );
         } else {
-            $qry .= 'AND profile_list.private = false ';
+            $qry .= 'WHERE profile_list.private = false ';
         }
 
         if ($since > 0) {
-            $qry .= sprintf('AND (cursor > %d) ', $since);
+            $qry .= "AND profile_tag.modified > '" . common_sql_date($since) . "'";
         }
 
         if ($upto > 0) {
-            $qry .= sprintf('AND (cursor < %d) ', $upto);
+            $qry .= "AND profile_tag.modified < '" . common_sql_date($upto) . "'";
         }
 
         $qry .= 'ORDER BY profile_tag.modified DESC ';
@@ -558,31 +558,31 @@ class Profile extends Managed_DataObject
         return ($tags->N == 0) ? false : true;
     }
 
-    public function getTagSubscriptions($offset = 0, $limit = null, $since_id = 0, $max_id = 0)
+    public function getTagSubscriptions($offset = 0, $limit = null, $since = 0, $upto = 0)
     {
         $lists = new Profile_list();
         $subs = new Profile_tag_subscription();
 
         $lists->joinAdd(array('id', 'profile_tag_subscription:profile_tag_id'));
-
-        #@fixme: postgres (round(date_part('epoch', my_date)))
-        $lists->selectAdd('unix_timestamp(profile_tag_subscription.created) as "cursor"');
-
         $lists->whereAdd('profile_tag_subscription.profile_id = '.$this->id);
 
-        if ($since_id>0) {
-            $lists->whereAdd('cursor > ' . $since_id);
+        if ($since > 0) {
+            $lists->whereAdd(
+                "profile_tag_subscription.created > '" . common_sql_date($since) . "'"
+            );
         }
 
-        if ($max_id>0) {
-            $lists->whereAdd('cursor <= ' . $max_id);
+        if ($upto > 0) {
+            $lists->whereAdd(
+                "profile_tag_subscription.created <= '" . common_sql_date($upto) . "'"
+            );
         }
 
         if ($offset>=0 && !is_null($limit)) {
             $lists->limit($offset, $limit);
         }
 
-        $lists->orderBy('"cursor" DESC');
+        $lists->orderBy('profile_tag_subscription.created DESC');
         $lists->find();
 
         return $lists;
@@ -1172,10 +1172,12 @@ class Profile extends Managed_DataObject
             if (empty($role)) {
                 // TRANS: Exception thrown when trying to revoke an existing role for a user that does not exist.
                 // TRANS: %1$s is the role name, %2$s is the user ID (number).
-                throw new Exception(sprintf(
-                    _('Cannot revoke role "%1$s" for user #%2$d; does not exist.'),
-                    $name,
-                    $this->id)
+                throw new Exception(
+                    sprintf(
+                        _('Cannot revoke role "%1$s" for user #%2$d; does not exist.'),
+                        $name,
+                        $this->id
+                )
                 );
             }
 
@@ -1185,10 +1187,12 @@ class Profile extends Managed_DataObject
                 common_log_db_error($role, 'DELETE', __FILE__);
                 // TRANS: Exception thrown when trying to revoke a role for a user with a failing database query.
                 // TRANS: %1$s is the role name, %2$s is the user ID (number).
-                throw new Exception(sprintf(
-                    _('Cannot revoke role "%1$s" for user #%2$d; database error.'),
-                    $name,
-                    $this->id)
+                throw new Exception(
+                    sprintf(
+                        _('Cannot revoke role "%1$s" for user #%2$d; database error.'),
+                        $name,
+                        $this->id
+                )
                 );
             }
 

@@ -44,13 +44,14 @@ class MysqlSchema extends Schema
      * Main public entry point. Use this to get
      * the singleton object.
      *
-     * @param null $conn
+     * @param object|null $conn
+     * @param string|null dummy param
      * @return Schema the (single) Schema object
      */
-    public static function get($conn = null)
+    public static function get($conn = null, $_ = 'mysql')
     {
         if (empty(self::$_single)) {
-            self::$_single = new Schema($conn);
+            self::$_single = new Schema($conn, 'mysql');
         }
         return self::$_single;
     }
@@ -305,7 +306,7 @@ class MysqlSchema extends Schema
      *
      * @param array $phrase
      */
-    public function appendAlterDropPrimary(array &$phrase)
+    public function appendAlterDropPrimary(array &$phrase, string $tableName)
     {
         $phrase[] = 'DROP PRIMARY KEY';
     }
