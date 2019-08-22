@@ -126,7 +126,7 @@ class Cache
 
             $names = [];
 
-            foreach (GNUsocial::getActivePlugins() as $plugin => $attrs) {
+            foreach (GNUsocial::getActiveModules() as $plugin => $attrs) {
                 $names[] = $plugin;
             }
 
