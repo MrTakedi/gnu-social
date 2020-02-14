@@ -25,6 +25,8 @@
  * We extend atomusernoticefeed since it does some nice setup for us.
  *
  */
+use GNUsocial\Event;
+
 class UserActivityStream extends AtomUserNoticeFeed
 {
     public $activities = array();
@@ -78,7 +80,7 @@ class UserActivityStream extends AtomUserNoticeFeed
 
         $objs = array_merge($subscriptions, $subscribers, $groups, $notices);
 
-        \GNUsocial\Event::handle('AppendUserActivityStreamObjects', array($this, &$objs));
+        Event::handle('AppendUserActivityStreamObjects', array($this, &$objs));
 
         $subscriptions = null;
         $subscribers   = null;

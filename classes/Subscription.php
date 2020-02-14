@@ -19,6 +19,8 @@
  * @license   https://www.gnu.org/licenses/agpl.html GNU AGPL v3 or later
  */
 
+use GNUsocial\Event;
+
 defined('GNUSOCIAL') || die();
 
 /**
@@ -93,7 +95,7 @@ class Subscription extends Managed_DataObject
             throw new Exception(_('User has blocked you.'));
         }
 
-        if (\GNUsocial\Event::handle('StartSubscribe', array($subscriber, $other))) {
+        if (Event::handle('StartSubscribe', array($subscriber, $other))) {
             // unless subscription is forced, the user policy for subscription approvals is tested
             if (!$force && $other->requiresSubscriptionApproval($subscriber)) {
                 try {
@@ -131,7 +133,7 @@ class Subscription extends Managed_DataObject
             }
 
             if ($sub instanceof Subscription) { // i.e. not Subscription_queue
-                \GNUsocial\Event::handle('EndSubscribe', array($subscriber, $other));
+                Event::handle('EndSubscribe', array($subscriber, $other));
             }
         }
 
@@ -216,7 +218,7 @@ class Subscription extends Managed_DataObject
             throw new Exception(_('Could not delete self-subscription.'));
         }
 
-        if (\GNUsocial\Event::handle('StartUnsubscribe', array($subscriber, $other))) {
+        if (Event::handle('StartUnsubscribe', array($subscriber, $other))) {
             $sub = Subscription::pkeyGet(array('subscriber' => $subscriber->id,
                                                'subscribed' => $other->id));
 
@@ -240,7 +242,7 @@ class Subscription extends Managed_DataObject
             $subscriber->blowSubscriptionCount();
             $other->blowSubscriberCount();
 
-            \GNUsocial\Event::handle('EndUnsubscribe', array($subscriber, $other));
+            Event::handle('EndUnsubscribe', array($subscriber, $other));
         }
 
         return;

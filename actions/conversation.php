@@ -28,6 +28,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+use GNUsocial\Event;
+
 if (!defined('GNUSOCIAL')) {
     exit(1);
 }
@@ -78,12 +80,12 @@ class ConversationAction extends ManagedAction
      */
     public function showContent()
     {
-        if (\GNUsocial\Event::handle('StartShowConversation', [$this, $this->conv, $this->scoped])) {
+        if (Event::handle('StartShowConversation', [$this, $this->conv, $this->scoped])) {
             $notices = $this->conv->getNotices($this->scoped);
             $nl = new FullThreadedNoticeList($notices, $this, $this->scoped);
             $cnt = $nl->show();
         }
-        \GNUsocial\Event::handle('EndShowConversation', [$this, $this->conv, $this->scoped]);
+        Event::handle('EndShowConversation', [$this, $this->conv, $this->scoped]);
     }
 
     public function isReadOnly($args)

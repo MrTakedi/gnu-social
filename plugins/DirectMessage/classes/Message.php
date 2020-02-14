@@ -24,6 +24,8 @@
  * @license   https://www.gnu.org/licenses/agpl.html GNU AGPL v3 or later
  */
 
+use GNUsocial\Event;
+
 defined('GNUSOCIAL') || die();
 
 /**
@@ -137,7 +139,7 @@ class Message extends Managed_DataObject
     {
         $act = new Activity();
 
-        if (\GNUsocial\Event::handle('StartMessageAsActivity', array($this, &$act))) {
+        if (Event::handle('StartMessageAsActivity', array($this, &$act))) {
             $act->verb = ActivityVerb::POST;
             $act->time = strtotime($this->created);
 
@@ -166,7 +168,7 @@ class Message extends Managed_DataObject
                 $act->generator = ActivityObject::fromNoticeSource($source);
             }
 
-            \GNUsocial\Event::handle('EndMessageAsActivity', array($this, &$act));
+            Event::handle('EndMessageAsActivity', array($this, &$act));
         }
 
         return $act;

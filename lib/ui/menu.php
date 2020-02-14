@@ -28,6 +28,8 @@
  * @link      http://status.net/
  */
 
+use GNUsocial\Event;
+
 if (!defined('STATUSNET')) {
     // This check helps protect against security problems;
     // your code file can't be executed directly from the web.
@@ -89,7 +91,7 @@ class Menu extends Widget
             $attrs['id']  = 'nav_' . $tag;
         }
 
-        if (\GNUsocial\Event::handle('StartNav', array($this, &$tag, &$items))) {
+        if (Event::handle('StartNav', array($this, &$tag, &$items))) {
 
             $this->out->elementStart('ul', $attrs);
 
@@ -100,7 +102,7 @@ class Menu extends Widget
         
             $this->out->elementEnd('ul');
             
-            \GNUsocial\Event::handle('EndNav', array($this, $tag, $items));
+            Event::handle('EndNav', array($this, $tag, $items));
         }
     }
     
@@ -150,12 +152,12 @@ class Menu extends Widget
 
     function submenu($label, $menu)
     {
-        if (\GNUsocial\Event::handle('StartSubMenu', [$this->action, $menu, $label])) {
+        if (Event::handle('StartSubMenu', [$this->action, $menu, $label])) {
             $this->action->elementStart('li');
             $this->action->element('h3', null, $label);
             $menu->show();
             $this->action->elementEnd('li');
-            \GNUsocial\Event::handle('EndSubMenu', [$this->action, $menu, $label]);
+            Event::handle('EndSubMenu', [$this->action, $menu, $label]);
         }
     }
 }

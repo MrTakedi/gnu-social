@@ -28,6 +28,8 @@
  * @link      http://status.net/
  */
 
+use GNUsocial\Event;
+
 if (!defined('STATUSNET')) {
     exit(1);
 }
@@ -93,10 +95,10 @@ class ApiBlockCreateAction extends ApiAuthAction
         }
 
         if (!$this->user->hasBlocked($this->other)) {
-            if (\GNUsocial\Event::handle('StartBlockProfile', array($this->user, $this->other))) {
+            if (Event::handle('StartBlockProfile', array($this->user, $this->other))) {
                 $result = $this->user->block($this->other);
                 if ($result) {
-                    \GNUsocial\Event::handle('EndBlockProfile', array($this->user, $this->other));
+                    Event::handle('EndBlockProfile', array($this->user, $this->other));
                 }
             }
         }

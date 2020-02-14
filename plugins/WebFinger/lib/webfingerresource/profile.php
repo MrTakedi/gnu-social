@@ -9,6 +9,8 @@
  * @link      http://status.net/
  */
 
+use GNUsocial\Event;
+
 class WebFingerResource_Profile extends WebFingerResource
 {
     const PROFILEPAGE = 'http://webfinger.net/rel/profile-page';
@@ -40,7 +42,7 @@ class WebFingerResource_Profile extends WebFingerResource
     {
         $acct = null;
 
-        if (\GNUsocial\Event::handle('StartWebFingerReconstruction', array($this->object, &$acct))) {
+        if (Event::handle('StartWebFingerReconstruction', array($this->object, &$acct))) {
             // TODO: getUri may not always give us the correct host on remote users?
             $host = parse_url($this->object->getUri(), PHP_URL_HOST);
             if (empty($this->object->getNickname()) || empty($host)) {
@@ -48,7 +50,7 @@ class WebFingerResource_Profile extends WebFingerResource
             }
             $acct = mb_strtolower(sprintf('acct:%s@%s', $this->object->getNickname(), $host));
 
-            \GNUsocial\Event::handle('EndWebFingerReconstruction', array($this->object, &$acct));
+            Event::handle('EndWebFingerReconstruction', array($this->object, &$acct));
         }
 
         return $acct;
@@ -56,7 +58,7 @@ class WebFingerResource_Profile extends WebFingerResource
 
     public function updateXRD(XML_XRD $xrd)
     {
-        if (\GNUsocial\Event::handle('StartWebFingerProfileLinks', array($xrd, $this->object))) {
+        if (Event::handle('StartWebFingerProfileLinks', array($xrd, $this->object))) {
 
             if (common_config('site', 'fancy')) {
                 $apiRoot = common_path('api/', true);
@@ -98,7 +100,7 @@ class WebFingerResource_Profile extends WebFingerResource
                                                                 'application/rdf+xml');
             }
 
-            \GNUsocial\Event::handle('EndWebFingerProfileLinks', array($xrd, $this->object));
+            Event::handle('EndWebFingerProfileLinks', array($xrd, $this->object));
         }
     }
 }

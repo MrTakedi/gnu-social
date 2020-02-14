@@ -27,6 +27,8 @@
  * @link      http://status.net/
  */
 
+use GNUsocial\Event;
+
 if (!defined('GNUSOCIAL') && !defined('STATUSNET')) { exit(1); }
 
 /**
@@ -157,7 +159,7 @@ class RegisterAction extends Action
      */
     function tryRegister()
     {
-        if (\GNUsocial\Event::handle('StartRegistrationTry', array($this))) {
+        if (Event::handle('StartRegistrationTry', array($this))) {
             $token = $this->trimmed('token');
             if (!$token || $token != common_session_token()) {
                 // TRANS: Client error displayed when the session token does not match or is not given.
@@ -250,7 +252,7 @@ class RegisterAction extends Action
                     // Re-init language env in case it changed (not yet, but soon)
                     common_init_language();
 
-                    \GNUsocial\Event::handle('EndRegistrationTry', array($this));
+                    Event::handle('EndRegistrationTry', array($this));
 
                     $this->showSuccess();
                 } catch (Exception $e) {
@@ -282,7 +284,7 @@ class RegisterAction extends Action
 
     // overrrided to add entry-title class
     function showPageTitle() {
-        if (\GNUsocial\Event::handle('StartShowPageTitle', array($this))) {
+        if (Event::handle('StartShowPageTitle', array($this))) {
             $this->element('h1', array('class' => 'entry-title'), $this->title());
         }
     }
@@ -394,7 +396,7 @@ class RegisterAction extends Action
         }
 
         $this->elementStart('ul', 'form_data');
-        if (\GNUsocial\Event::handle('StartRegistrationFormData', array($this))) {
+        if (Event::handle('StartRegistrationFormData', array($this))) {
             $this->elementStart('li');
             // TRANS: Field label on account registration page.
             $this->input('nickname', _('Nickname'), $this->trimmed('nickname'),
@@ -470,7 +472,7 @@ class RegisterAction extends Action
                          _('Where you are, like "City, '.
                            'State (or Region), Country".'));
             $this->elementEnd('li');
-            \GNUsocial\Event::handle('EndRegistrationFormData', array($this));
+            Event::handle('EndRegistrationFormData', array($this));
             $this->elementStart('li', array('id' => 'settings_rememberme'));
             // TRANS: Checkbox label on account registration page.
             $this->checkbox('rememberme', _('Remember me'),
@@ -568,7 +570,7 @@ class RegisterAction extends Action
      */
     function showSuccessContent()
     {
-        if (\GNUsocial\Event::handle('StartRegisterSuccess', array($this))) {
+        if (Event::handle('StartRegisterSuccess', array($this))) {
             $nickname = $this->arg('nickname');
 
             $profileurl = common_local_url('showstream',
@@ -612,7 +614,7 @@ class RegisterAction extends Action
             }
             $this->elementEnd('div');
 
-            \GNUsocial\Event::handle('EndRegisterSuccess', array($this));
+            Event::handle('EndRegisterSuccess', array($this));
         }
     }
 

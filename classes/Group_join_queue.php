@@ -14,6 +14,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with GNU social.  If not, see <http://www.gnu.org/licenses/>.
 
+use GNUsocial\Event;
+
 defined('GNUSOCIAL') || die();
 
 /**
@@ -99,9 +101,9 @@ class Group_join_queue extends Managed_DataObject
         $profile = $this->getMember();
         $group = $this->getGroup();
 
-        if (\GNUsocial\Event::handle('StartCancelJoinGroup', array($profile, $group))) {
+        if (Event::handle('StartCancelJoinGroup', array($profile, $group))) {
             $this->delete();
-            \GNUsocial\Event::handle('EndCancelJoinGroup', array($profile, $group));
+            Event::handle('EndCancelJoinGroup', array($profile, $group));
         }
     }
 
@@ -115,10 +117,10 @@ class Group_join_queue extends Managed_DataObject
         $join = null;
         $profile = $this->getMember();
         $group = $this->getGroup();
-        if (\GNUsocial\Event::handle('StartJoinGroup', array($profile, $group))) {
+        if (Event::handle('StartJoinGroup', array($profile, $group))) {
             $join = Group_member::join($group->id, $profile->id);
             $this->delete();
-            \GNUsocial\Event::handle('EndJoinGroup', array($profile, $group));
+            Event::handle('EndJoinGroup', array($profile, $group));
         }
         if (!$join) {
             throw new Exception('Internal error: group join failed.');

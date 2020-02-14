@@ -28,6 +28,8 @@
  * @link      http://status.net/
  */
 
+use GNUsocial\Event;
+
 if (!defined('STATUSNET')) {
     // This check helps protect against security problems;
     // your code file can't be executed directly from the web.
@@ -50,7 +52,7 @@ class SecondaryNav extends Menu
     {
         $this->out->elementStart('ul', array('class' => 'nav',
                                              'id' => 'site_nav_global_secondary'));
-        if (\GNUsocial\Event::handle('StartSecondaryNav', array($this->action))) {
+        if (Event::handle('StartSecondaryNav', array($this->action))) {
             $this->out->menuItem(common_local_url('doc', array('title' => 'help')),
                                  // TRANS: Secondary navigation menu item leading to help on StatusNet.
                                  _m('MENU','Help'));
@@ -79,7 +81,7 @@ class SecondaryNav extends Menu
                                  // TRANS: Secondary navigation menu item leading to e-mail contact information on the
                                  // TRANS: StatusNet site, where to report bugs, ...
                                  _m('MENU','Contact'));
-            \GNUsocial\Event::handle('EndSecondaryNav', array($this->action));
+            Event::handle('EndSecondaryNav', array($this->action));
         }
         $this->out->elementEnd('ul');
     }

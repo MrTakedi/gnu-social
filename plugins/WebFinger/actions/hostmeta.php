@@ -25,6 +25,8 @@
  * @author   Mikael Nordfeldth <mmn@hethane.se>
  */
 
+use GNUsocial\Event;
+
 if (!defined('GNUSOCIAL')) { exit(1); }
 
 // @todo XXX: Add documentation.
@@ -34,8 +36,8 @@ class HostMetaAction extends XrdAction
 
     protected function setXRD()
     {
-        if(\GNUsocial\Event::handle('StartHostMetaLinks', array(&$this->xrd->links))) {
-            \GNUsocial\Event::handle('EndHostMetaLinks', array(&$this->xrd->links));
+        if(Event::handle('StartHostMetaLinks', array(&$this->xrd->links))) {
+            Event::handle('EndHostMetaLinks', array(&$this->xrd->links));
         }
     }
 }

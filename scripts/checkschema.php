@@ -18,6 +18,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+use GNUsocial\Event;
+
 define('INSTALLDIR', dirname(__DIR__));
 define('PUBLICDIR', INSTALLDIR . DIRECTORY_SEPARATOR . 'public');
 
@@ -62,5 +64,5 @@ if (have_option('x', 'extensions')) {
     }
 }
 
-\GNUsocial\Event::handle('BeforePluginCheckSchema');
-\GNUsocial\Event::handle('CheckSchema');
+Event::handle('BeforePluginCheckSchema');
+Event::handle('CheckSchema');

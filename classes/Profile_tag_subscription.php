@@ -2,6 +2,8 @@
 /**
  * Table Definition for profile_tag_subscription
  */
+use GNUsocial\Event;
+
 require_once INSTALLDIR.'/classes/Memcached_DataObject.php';
 
 class Profile_tag_subscription extends Managed_DataObject
@@ -47,7 +49,7 @@ class Profile_tag_subscription extends Managed_DataObject
             return false;
         }
 
-        if (\GNUsocial\Event::handle('StartSubscribePeopletag', array($peopletag, $profile))) {
+        if (Event::handle('StartSubscribePeopletag', array($peopletag, $profile))) {
             $args = array('profile_tag_id' => $peopletag->id,
                           'profile_id' => $profile->id);
             $existing = Profile_tag_subscription::pkeyGet($args);
@@ -71,7 +73,7 @@ class Profile_tag_subscription extends Managed_DataObject
             $ptag = Profile_list::getKV('id', $peopletag->id);
             $ptag->subscriberCount(true);
 
-            \GNUsocial\Event::handle('EndSubscribePeopletag', array($peopletag, $profile));
+            Event::handle('EndSubscribePeopletag', array($peopletag, $profile));
             return $ptag;
         }
     }
@@ -86,7 +88,7 @@ class Profile_tag_subscription extends Managed_DataObject
             return true;
         }
 
-        if (\GNUsocial\Event::handle('StartUnsubscribePeopletag', array($peopletag, $profile))) {
+        if (Event::handle('StartUnsubscribePeopletag', array($peopletag, $profile))) {
             $result = $sub->delete();
 
             if (!$result) {
@@ -97,7 +99,7 @@ class Profile_tag_subscription extends Managed_DataObject
 
             $peopletag->subscriberCount(true);
 
-            \GNUsocial\Event::handle('EndUnsubscribePeopletag', array($peopletag, $profile));
+            Event::handle('EndUnsubscribePeopletag', array($peopletag, $profile));
             return true;
         }
     }
@@ -110,10 +112,10 @@ class Profile_tag_subscription extends Managed_DataObject
 
         while($subs->fetch()) {
             $profile = Profile::getKV('id', $subs->profile_id);
-            \GNUsocial\Event::handle('StartUnsubscribePeopletag', array($profile_list, $profile));
+            Event::handle('StartUnsubscribePeopletag', array($profile_list, $profile));
             // Delete anyway
             $subs->delete();
-            \GNUsocial\Event::handle('StartUnsubscribePeopletag', array($profile_list, $profile));
+            Event::handle('StartUnsubscribePeopletag', array($profile_list, $profile));
         }
     }
 

@@ -27,6 +27,8 @@
  * @link      http://status.net/
  */
 
+use GNUsocial\Event;
+
 if (!defined('STATUSNET') && !defined('LACONICA')) {
     exit(1);
 }
@@ -57,7 +59,7 @@ class LoginGroupNav extends Menu
 
         $this->action->elementStart('ul', array('class' => 'nav'));
 
-        if (\GNUsocial\Event::handle('StartLoginGroupNav', array($this->action))) {
+        if (Event::handle('StartLoginGroupNav', array($this->action))) {
 
             $this->action->menuItem(common_local_url('login'),
                                     // TRANS: Menu item for logging in to the StatusNet site.
@@ -76,7 +78,7 @@ class LoginGroupNav extends Menu
                                         $action_name === 'register');
             }
 
-            \GNUsocial\Event::handle('EndLoginGroupNav', array($this->action));
+            Event::handle('EndLoginGroupNav', array($this->action));
         }
 
         $this->action->elementEnd('ul');

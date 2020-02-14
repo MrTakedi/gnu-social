@@ -27,6 +27,8 @@
  * @link      http://status.net/
  */
 
+use GNUsocial\Event;
+
 if (!defined('STATUSNET') && !defined('LACONICA')) {
     exit(1);
 }
@@ -81,14 +83,14 @@ class ApiOAuthPinAction extends InfoAction
         $this->elementStart('body', $attrs);
 
         $this->elementStart('div', array('id' => 'wrap'));
-        if (\GNUsocial\Event::handle('StartShowHeader', array($this))) {
+        if (Event::handle('StartShowHeader', array($this))) {
             $this->showHeader();
-            \GNUsocial\Event::handle('EndShowHeader', array($this));
+            Event::handle('EndShowHeader', array($this));
         }
         $this->showCore();
-        if (\GNUsocial\Event::handle('StartShowFooter', array($this))) {
+        if (Event::handle('StartShowFooter', array($this))) {
             $this->showFooter();
-            \GNUsocial\Event::handle('EndShowFooter', array($this));
+            Event::handle('EndShowFooter', array($this));
         }
         $this->elementEnd('div');
         $this->showScripts();

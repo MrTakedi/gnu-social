@@ -28,6 +28,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+use GNUsocial\Event;
+
 if (!defined('STATUSNET') && !defined('LACONICA')) {
     exit(1);
 }
@@ -174,10 +176,10 @@ class BlockAction extends ProfileFormAction
     {
         $cur = common_current_user();
 
-        if (\GNUsocial\Event::handle('StartBlockProfile', array($cur, $this->profile))) {
+        if (Event::handle('StartBlockProfile', array($cur, $this->profile))) {
             $result = $cur->block($this->profile);
             if ($result) {
-                \GNUsocial\Event::handle('EndBlockProfile', array($cur, $this->profile));
+                Event::handle('EndBlockProfile', array($cur, $this->profile));
             }
         }
 

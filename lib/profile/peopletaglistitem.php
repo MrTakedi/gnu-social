@@ -27,6 +27,8 @@
  * @link      http://status.net/
  */
 
+use GNUsocial\Event;
+
 if (!defined('GNUSOCIAL')) { exit(1); }
 
 class PeopletagListItem extends Widget
@@ -70,12 +72,12 @@ class PeopletagListItem extends Widget
             return;
         }
 
-        if (\GNUsocial\Event::handle('StartShowPeopletagItem', array($this))) {
+        if (Event::handle('StartShowPeopletagItem', array($this))) {
             $this->showStart();
             $this->showPeopletag();
             $this->showStats();
             $this->showEnd();
-            \GNUsocial\Event::handle('EndShowPeopletagItem', array($this));
+            Event::handle('EndShowPeopletagItem', array($this));
         }
     }
 
@@ -143,7 +145,7 @@ class PeopletagListItem extends Widget
     {
         $this->out->elementStart('li');
 
-        if (\GNUsocial\Event::handle('StartSubscribePeopletagForm', array($this->out, $this->peopletag))) {
+        if (Event::handle('StartSubscribePeopletagForm', array($this->out, $this->peopletag))) {
             if ($this->current) {
                 if ($this->peopletag->hasSubscriber($this->current->id)) {
                     $form = new UnsubscribePeopletagForm($this->out, $this->peopletag);
@@ -153,7 +155,7 @@ class PeopletagListItem extends Widget
                     $form->show();
                 }
             }
-            \GNUsocial\Event::handle('EndSubscribePeopletagForm', array($this->out, $this->peopletag));
+            Event::handle('EndSubscribePeopletagForm', array($this->out, $this->peopletag));
         }
 
         $this->out->elementEnd('li');

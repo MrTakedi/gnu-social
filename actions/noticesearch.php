@@ -29,6 +29,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+use GNUsocial\Event;
+
 if (!defined('STATUSNET') && !defined('LACONICA')) {
     exit(1);
 }
@@ -65,7 +67,7 @@ class NoticesearchAction extends SearchAction
 
         if (!empty($this->q)) {
 
-            \GNUsocial\Event::handle('StartNoticeSearch', [$this->q]);
+            Event::handle('StartNoticeSearch', [$this->q]);
 
             $stream  = new SearchNoticeStream($this->q, $this->scoped);
             $page    = $this->trimmed('page');
@@ -133,7 +135,7 @@ class NoticesearchAction extends SearchAction
      */
     function showResults($q, $page)
     {
-        if (\GNUsocial\Event::handle('StartNoticeSearchShowResults', array($this, $q, $this->notice))) {
+        if (Event::handle('StartNoticeSearchShowResults', array($this, $q, $this->notice))) {
             if ($this->notice->N === 0) {
                 $this->showEmptyResults($q, $page);
             } else {
@@ -146,7 +148,7 @@ class NoticesearchAction extends SearchAction
                                   'noticesearch',
                                   array('q' => $q));
             }
-            \GNUsocial\Event::handle('EndNoticeSearchShowResults', array($this, $q, $this->notice));
+            Event::handle('EndNoticeSearchShowResults', array($this, $q, $this->notice));
         }
     }
 

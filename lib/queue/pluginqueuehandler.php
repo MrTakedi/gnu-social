@@ -14,6 +14,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with GNU social.  If not, see <http://www.gnu.org/licenses/>.
 
+use GNUsocial\Event;
+
 defined('GNUSOCIAL') || die();
 
 /**
@@ -45,7 +47,7 @@ class PluginQueueHandler extends QueueHandler
         }
 
         try {
-            \GNUsocial\Event::handle('HandleQueuedNotice', array(&$notice));
+            Event::handle('HandleQueuedNotice', array(&$notice));
         } catch (NoProfileException $unp) {
             // We can't do anything about this, so just skip
             return true;

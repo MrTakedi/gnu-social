@@ -28,6 +28,8 @@
  * @link      http://status.net/
  */
 
+use GNUsocial\Event;
+
 if (!defined('STATUSNET')) {
     // This check helps protect against security problems;
     // your code file can't be executed directly from the web.
@@ -91,7 +93,7 @@ class TrainAction extends Action
 
         $filter = null;
 
-        \GNUsocial\Event::handle('GetSpamFilter', array(&$filter));
+        Event::handle('GetSpamFilter', array(&$filter));
 
         if (empty($filter)) {
             throw new ServerException(_("No spam filter configured."));

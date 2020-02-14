@@ -28,6 +28,8 @@
  * @link      http://status.net/
  */
 
+use GNUsocial\Event;
+
 if (!defined('STATUSNET')) {
     exit(1);
 }
@@ -142,12 +144,12 @@ class PasswordsettingsAction extends SettingsAction
             }
         }
 
-        if (\GNUsocial\Event::handle('StartChangePassword', [$this->scoped, $oldpassword, $newpassword])) {
+        if (Event::handle('StartChangePassword', [$this->scoped, $oldpassword, $newpassword])) {
             // no handler changed the password, so change the password internally
             $user = $this->scoped->getUser();
             $user->setPassword($newpassword);
 
-            \GNUsocial\Event::handle('EndChangePassword', [$this->scoped]);
+            Event::handle('EndChangePassword', [$this->scoped]);
         }
 
         // TRANS: Form validation notice on page where to change password.

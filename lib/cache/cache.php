@@ -41,6 +41,8 @@
  * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html AGPL 3.0
  * @link      http://status.net/
  */
+use GNUsocial\Event;
+
 class Cache
 {
     /**
@@ -174,12 +176,12 @@ class Cache
         $value = false;
 
         common_perf_counter('Cache::get', $key);
-        if (\GNUsocial\Event::handle('StartCacheGet', [&$key, &$value])) {
+        if (Event::handle('StartCacheGet', [&$key, &$value])) {
             if ($this->_inlineCache && array_key_exists($key, $this->_items)) {
                 $value = unserialize($this->_items[$key]);
             }
         }
-        \GNUsocial\Event::handle('EndCacheGet', [$key, &$value]);
+        Event::handle('EndCacheGet', [$key, &$value]);
 
         return $value;
     }
@@ -199,13 +201,13 @@ class Cache
         $success = false;
 
         common_perf_counter('Cache::set', $key);
-        if (\GNUsocial\Event::handle('StartCacheSet', [&$key, &$value, &$flag, &$expiry, &$success])) {
+        if (Event::handle('StartCacheSet', [&$key, &$value, &$flag, &$expiry, &$success])) {
             if ($this->_inlineCache) {
                 $this->_items[$key] = serialize($value);
             }
             $success = true;
         }
-        \GNUsocial\Event::handle('EndCacheSet', [$key, $value, $flag, $expiry]);
+        Event::handle('EndCacheSet', [$key, $value, $flag, $expiry]);
 
         return $success;
     }
@@ -223,7 +225,7 @@ class Cache
     {
         $value = false;
         common_perf_counter('Cache::increment', $key);
-        if (\GNUsocial\Event::handle('StartCacheIncrement', [&$key, &$step, &$value])) {
+        if (Event::handle('StartCacheIncrement', [&$key, &$step, &$value])) {
             // Fallback is not guaranteed to be atomic,
             // and may original expiry value.
             $value = $this->get($key);
@@ -233,7 +235,7 @@ class Cache
                 $got = $this->get($key);
             }
         }
-        \GNUsocial\Event::handle('EndCacheIncrement', [$key, $step, $value]);
+        Event::handle('EndCacheIncrement', [$key, $step, $value]);
         return $value;
     }
 
@@ -249,13 +251,13 @@ class Cache
         $success = false;
 
         common_perf_counter('Cache::delete', $key);
-        if (\GNUsocial\Event::handle('StartCacheDelete', [&$key, &$success])) {
+        if (Event::handle('StartCacheDelete', [&$key, &$success])) {
             if ($this->_inlineCache && array_key_exists($key, $this->_items)) {
                 unset($this->_items[$key]);
             }
             $success = true;
         }
-        \GNUsocial\Event::handle('EndCacheDelete', [$key]);
+        Event::handle('EndCacheDelete', [$key]);
 
         return $success;
     }
@@ -270,10 +272,10 @@ class Cache
     {
         $success = false;
 
-        if (\GNUsocial\Event::handle('StartCacheReconnect', [&$success])) {
+        if (Event::handle('StartCacheReconnect', [&$success])) {
             $success = true;
         }
-        \GNUsocial\Event::handle('EndCacheReconnect', []);
+        Event::handle('EndCacheReconnect', []);
 
         return $success;
     }

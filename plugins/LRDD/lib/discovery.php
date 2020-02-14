@@ -32,6 +32,8 @@
  * @link      http://www.gnu.org/software/social/
  */
 
+use GNUsocial\Event;
+
 if (!defined('GNUSOCIAL')) { exit(1); }
 
 class Discovery
@@ -57,8 +59,8 @@ class Discovery
 
     public function __construct()
     {
-        if (\GNUsocial\Event::handle('StartDiscoveryMethodRegistration', array($this))) {
-            \GNUsocial\Event::handle('EndDiscoveryMethodRegistration', array($this));
+        if (Event::handle('StartDiscoveryMethodRegistration', array($this))) {
+            Event::handle('EndDiscoveryMethodRegistration', array($this));
         }
     }
 

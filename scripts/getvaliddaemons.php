@@ -25,6 +25,8 @@
  * daemon names.
  */
 
+use GNUsocial\Event;
+
 define('INSTALLDIR', dirname(__DIR__));
 define('PUBLICDIR', INSTALLDIR . DIRECTORY_SEPARATOR . 'public');
 
@@ -45,7 +47,7 @@ if (common_config('queue', 'daemon')) {
     $daemons[] = INSTALLDIR.'/scripts/queuedaemon.php';
 }
 
-if (\GNUsocial\Event::handle('GetValidDaemons', array(&$daemons))) {
+if (Event::handle('GetValidDaemons', array(&$daemons))) {
     foreach ($daemons as $daemon) {
         print $daemon . ' ';
     }

@@ -21,6 +21,8 @@
  * @license   https://www.gnu.org/licenses/agpl.html GNU AGPL v3 or later
  */
 
+use GNUsocial\Event;
+
 defined('GNUSOCIAL') || die();
 
 /**
@@ -553,7 +555,7 @@ abstract class ActivityHandlerModule extends Module
 
         $this->openNoticeListItemElement($nli);
 
-        \GNUsocial\Event::handle('EndOpenNoticeListItemElement', [$nli]);
+        Event::handle('EndOpenNoticeListItemElement', [$nli]);
         return false;
     }
 
@@ -565,7 +567,7 @@ abstract class ActivityHandlerModule extends Module
 
         $this->closeNoticeListItemElement($nli);
 
-        \GNUsocial\Event::handle('EndCloseNoticeListItemElement', [$nli]);
+        Event::handle('EndCloseNoticeListItemElement', [$nli]);
         return false;
     }
 
@@ -619,7 +621,7 @@ abstract class ActivityHandlerModule extends Module
             $nli->out->element('p', 'error', sprintf(_('Error showing notice: %s'), $e->getMessage()));
         }
 
-        \GNUsocial\Event::handle('EndShowNoticeItem', array($nli));
+        Event::handle('EndShowNoticeItem', array($nli));
         return false;
     }
 
@@ -638,7 +640,7 @@ abstract class ActivityHandlerModule extends Module
 
         $this->showNoticeItemNotice($nli);
 
-        \GNUsocial\Event::handle('EndShowNoticeItemNotice', array($nli));
+        Event::handle('EndShowNoticeItemNotice', array($nli));
         return false;
     }
 

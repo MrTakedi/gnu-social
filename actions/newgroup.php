@@ -29,6 +29,8 @@
  * @link      http://status.net/
  */
 
+use GNUsocial\Event;
+
 if (!defined('GNUSOCIAL')) { exit(1); }
 
 /**
@@ -75,7 +77,7 @@ class NewgroupAction extends FormAction
 
     protected function doPost()
     {
-        if (\GNUsocial\Event::handle('StartGroupSaveForm', array($this))) {
+        if (Event::handle('StartGroupSaveForm', array($this))) {
             $nickname = Nickname::normalize($this->trimmed('newnickname'), true);
 
             $fullname    = $this->trimmed('fullname');
@@ -143,7 +145,7 @@ class NewgroupAction extends FormAction
 
             $this->group = $group;
 
-            \GNUsocial\Event::handle('EndGroupSaveForm', array($this));
+            Event::handle('EndGroupSaveForm', array($this));
 
             common_redirect($group->homeUrl(), 303);
         }

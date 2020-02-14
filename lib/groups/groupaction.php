@@ -27,6 +27,8 @@
  * @link      http://status.net/
  */
 
+use GNUsocial\Event;
+
 if (!defined('GNUSOCIAL')) { exit(1); }
 
 define('MEMBERS_PER_SECTION', 27);
@@ -128,7 +130,7 @@ class GroupAction extends ShowstreamAction
         $this->elementStart('div', array('id' => 'entity_members',
                                          'class' => 'section'));
 
-        if (\GNUsocial\Event::handle('StartShowGroupMembersMiniList', array($this))) {
+        if (Event::handle('StartShowGroupMembersMiniList', array($this))) {
             $this->elementStart('h2');
 
             $this->element('a', array('href' => common_local_url('groupmembers', array('nickname' =>
@@ -158,7 +160,7 @@ class GroupAction extends ShowstreamAction
                                _('All members'));
             }
 
-            \GNUsocial\Event::handle('EndShowGroupMembersMiniList', array($this));
+            Event::handle('EndShowGroupMembersMiniList', array($this));
         }
 
         $this->elementEnd('div');
@@ -185,7 +187,7 @@ class GroupAction extends ShowstreamAction
         $this->elementStart('div', array('id' => 'entity_pending',
                                          'class' => 'section'));
 
-        if (\GNUsocial\Event::handle('StartShowGroupPendingMiniList', array($this))) {
+        if (Event::handle('StartShowGroupPendingMiniList', array($this))) {
 
             $this->elementStart('h2');
 
@@ -203,7 +205,7 @@ class GroupAction extends ShowstreamAction
             $gmml = new ProfileMiniList($request, $this);
             $gmml->show();
 
-            \GNUsocial\Event::handle('EndShowGroupPendingMiniList', array($this));
+            Event::handle('EndShowGroupPendingMiniList', array($this));
         }
 
         $this->elementEnd('div');
@@ -216,7 +218,7 @@ class GroupAction extends ShowstreamAction
         $this->elementStart('div', array('id' => 'entity_blocked',
                                          'class' => 'section'));
 
-        if (\GNUsocial\Event::handle('StartShowGroupBlockedMiniList', array($this))) {
+        if (Event::handle('StartShowGroupBlockedMiniList', array($this))) {
 
             $this->elementStart('h2');
 
@@ -247,7 +249,7 @@ class GroupAction extends ShowstreamAction
                                _('All members'));
             }
 
-            \GNUsocial\Event::handle('EndShowGroupBlockedMiniList', array($this));
+            Event::handle('EndShowGroupBlockedMiniList', array($this));
         }
 
         $this->elementEnd('div');

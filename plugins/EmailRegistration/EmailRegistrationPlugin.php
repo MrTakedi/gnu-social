@@ -28,6 +28,8 @@
  * @link      http://status.net/
  */
 
+use GNUsocial\Event;
+
 if (!defined('STATUSNET')) {
     // This check helps protect against security problems;
     // your code file can't be executed directly from the web.
@@ -98,9 +100,9 @@ class EmailRegistrationPlugin extends Plugin
 
         $valid = false;
 
-        if (\GNUsocial\Event::handle('StartValidateUserEmail', array(null, $email, &$valid))) {
+        if (Event::handle('StartValidateUserEmail', array(null, $email, &$valid))) {
             $valid = Validate::email($email, common_config('email', 'check_domain'));
-            \GNUsocial\Event::handle('EndValidateUserEmail', array(null, $email, &$valid));
+            Event::handle('EndValidateUserEmail', array(null, $email, &$valid));
         }
 
         if (!$valid) {

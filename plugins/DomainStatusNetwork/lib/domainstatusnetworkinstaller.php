@@ -28,6 +28,8 @@
  * @link      http://status.net/
  */
 
+use GNUsocial\Event;
+
 if (!defined('STATUSNET')) {
     // This check helps protect against security problems;
     // your code file can't be executed directly from the web.
@@ -229,7 +231,7 @@ class DomainStatusNetworkInstaller extends Installer
 
         $schemaUpdater->checkSchema();
 
-        \GNUsocial\Event::handle('CheckSchema');
+        Event::handle('CheckSchema');
     }
 
     function getStatusNetwork()

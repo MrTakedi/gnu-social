@@ -27,6 +27,8 @@
  * @link      http://status.net/
  */
 
+use GNUsocial\Event;
+
 if (!defined('STATUSNET')) {
     exit(1);
 }
@@ -189,7 +191,7 @@ class BitlyAdminPanelForm extends AdminForm
 
         // Do we have global defaults to fall back on?
         $login = $apiKey = false;
-        \GNUsocial\Event::handle('BitlyDefaultCredentials', array(&$login, &$apiKey));
+        Event::handle('BitlyDefaultCredentials', array(&$login, &$apiKey));
         $haveGlobalDefaults = ($login && $apiKey);
         if ($login && $apiKey) {
             $this->out->element('p', 'form_guide',

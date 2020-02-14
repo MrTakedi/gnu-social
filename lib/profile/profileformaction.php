@@ -27,6 +27,8 @@
  * @link     http://status.net/
  */
 
+use GNUsocial\Event;
+
 if (!defined('STATUSNET') && !defined('LACONICA')) {
     exit(1);
 }
@@ -65,7 +67,7 @@ class ProfileFormAction extends RedirectingAction
                 // Redirect to login.
                 common_set_returnto($this->selfUrl());
                 $user = common_current_user();
-                if (\GNUsocial\Event::handle('RedirectToLogin', array($this, $user))) {
+                if (Event::handle('RedirectToLogin', array($this, $user))) {
                     common_redirect(common_local_url('login'), 303);
                 }
             }

@@ -28,6 +28,8 @@
  * @link      http://status.net/
  */
 
+use GNUsocial\Event;
+
 if (!defined('GNUSOCIAL')) { exit(1); }
 
 // @todo FIXME: documentation needed.
@@ -65,9 +67,9 @@ class DeletenoticeAction extends FormAction
     protected function doPost()
     {
         if ($this->arg('yes')) {
-            if (\GNUsocial\Event::handle('StartDeleteOwnNotice', array($this->scoped->getUser(), $this->notice))) {
+            if (Event::handle('StartDeleteOwnNotice', array($this->scoped->getUser(), $this->notice))) {
                 $this->notice->deleteAs($this->scoped);
-                \GNUsocial\Event::handle('EndDeleteOwnNotice', array($this->scoped->getUser(), $this->notice));
+                Event::handle('EndDeleteOwnNotice', array($this->scoped->getUser(), $this->notice));
             }
         }
 

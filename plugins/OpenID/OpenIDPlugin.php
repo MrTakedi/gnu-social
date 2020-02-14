@@ -27,6 +27,8 @@
  * @link      http://status.net/
  */
 
+use GNUsocial\Event;
+
 if (!defined('STATUSNET')) {
     exit(1);
 }
@@ -211,7 +213,7 @@ class OpenIDPlugin extends Plugin
                                   // TRANS: Main menu option when logged in or when the StatusNet instance is not private
                                   _m('MENU', 'Search'), $tooltip, false, 'nav_search');
             }
-            \GNUsocial\Event::handle('EndPrimaryNav', array($action));
+            Event::handle('EndPrimaryNav', array($action));
             return false;
         }
         return true;

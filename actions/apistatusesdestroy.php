@@ -34,6 +34,8 @@
  * @link      http://status.net/
  */
 
+use GNUsocial\Event;
+
 if (!defined('GNUSOCIAL')) { exit(1); }
 
 /**
@@ -88,9 +90,9 @@ class ApiStatusesDestroyAction extends ApiAuthAction
             throw new AuthorizationException(_('You may not delete another user\'s status.'));
         }
 
-        if (\GNUsocial\Event::handle('StartDeleteOwnNotice', array($this->scoped->getUser(), $this->notice))) {
+        if (Event::handle('StartDeleteOwnNotice', array($this->scoped->getUser(), $this->notice))) {
             $this->notice->deleteAs($this->scoped);
-            \GNUsocial\Event::handle('EndDeleteOwnNotice', array($this->scoped->getUser(), $this->notice));
+            Event::handle('EndDeleteOwnNotice', array($this->scoped->getUser(), $this->notice));
         }
         $this->showNotice();
     }

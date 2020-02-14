@@ -28,6 +28,8 @@
  * @link      http://status.net/
  */
 
+use GNUsocial\Event;
+
 if (!defined('GNUSOCIAL')) { exit(1); }
 
 /**
@@ -118,7 +120,7 @@ class TagProfileForm extends Form
      */
     function formData()
     {
-        if (\GNUsocial\Event::handle('StartShowTagProfileFormData', array($this))) {
+        if (Event::handle('StartShowTagProfileFormData', array($this))) {
             $this->hidden('token', common_session_token());  
             $this->hidden('id', $this->target->id);
 
@@ -133,7 +135,7 @@ class TagProfileForm extends Form
                          _('Lists for this user (letters, numbers, -, ., and _), comma- or space- separated.'));
             $this->elementEnd('li');
             $this->elementEnd('ul');
-            \GNUsocial\Event::handle('EndShowTagProfileFormData', array($this));
+            Event::handle('EndShowTagProfileFormData', array($this));
         }
     }
 

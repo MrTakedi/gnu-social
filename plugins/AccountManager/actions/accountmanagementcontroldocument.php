@@ -27,6 +27,8 @@
  * @link      http://status.net/
  */
 
+use GNUsocial\Event;
+
 if (!defined('STATUSNET')) {
     exit(1);
 }
@@ -57,7 +59,7 @@ class AccountManagementControlDocumentAction extends Action
 
         $amcd = array();
 
-        if(\GNUsocial\Event::handle('StartAccountManagementControlDocument', array(&$amcd))) {
+        if(Event::handle('StartAccountManagementControlDocument', array(&$amcd))) {
 
             $amcd['version'] = 1;
             $amcd['sessionstatus'] = array(
@@ -81,7 +83,7 @@ class AccountManagementControlDocumentAction extends Action
                 )
             );
 
-            \GNUsocial\Event::handle('EndAccountManagementControlDocument', array(&$amcd));
+            Event::handle('EndAccountManagementControlDocument', array(&$amcd));
         }
         
         print json_encode($amcd);

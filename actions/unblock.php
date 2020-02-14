@@ -28,6 +28,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+use GNUsocial\Event;
+
 if (!defined('STATUSNET') && !defined('LACONICA')) {
     exit(1);
 }
@@ -73,10 +75,10 @@ class UnblockAction extends ProfileFormAction
 
         $result = false;
 
-        if (\GNUsocial\Event::handle('StartUnblockProfile', array($cur, $this->profile))) {
+        if (Event::handle('StartUnblockProfile', array($cur, $this->profile))) {
             $result = $cur->unblock($this->profile);
             if ($result) {
-                \GNUsocial\Event::handle('EndUnblockProfile', array($cur, $this->profile));
+                Event::handle('EndUnblockProfile', array($cur, $this->profile));
             }
         }
 

@@ -27,6 +27,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+use GNUsocial\Event;
+
 if (!defined('GNUSOCIAL')) { exit(1); }
 
 /**
@@ -42,7 +44,7 @@ class RobotstxtAction extends ManagedAction
 {
     public function showPage()
     {
-        if (\GNUsocial\Event::handle('StartRobotsTxt', array($this))) {
+        if (Event::handle('StartRobotsTxt', array($this))) {
 
             header('Content-Type: text/plain');
 
@@ -65,7 +67,7 @@ class RobotstxtAction extends ManagedAction
                 }
             }
 
-            \GNUsocial\Event::handle('EndRobotsTxt', array($this));
+            Event::handle('EndRobotsTxt', array($this));
         }
     }
 

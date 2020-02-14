@@ -24,6 +24,8 @@
  * @license   https://www.gnu.org/licenses/agpl.html GNU AGPL v3 or later
  */
 
+use GNUsocial\Event;
+
 defined('GNUSOCIAL') || die();
 
 /**
@@ -56,7 +58,7 @@ class Nodeinfo_2_0Action extends Action
         $plugin_version = [];
         $plugins = [];
 
-        \GNUsocial\Event::handle('PluginVersion', [&$plugin_version]);
+        Event::handle('PluginVersion', [&$plugin_version]);
 
         foreach ($plugin_version as $plugin) {
             $plugins[str_replace(' ', '', strtolower($plugin['name']))] = true;
@@ -170,7 +172,7 @@ class Nodeinfo_2_0Action extends Action
     {
         $protocols = [];
 
-        \GNUsocial\Event::handle('NodeInfoProtocols', [&$protocols]);
+        Event::handle('NodeInfoProtocols', [&$protocols]);
 
         return $protocols;
     }

@@ -28,6 +28,8 @@
  * @link      http://status.net/
  */
 
+use GNUsocial\Event;
+
 if (!defined('STATUSNET')) {
     exit(1);
 }
@@ -100,9 +102,9 @@ abstract class UAPPlugin extends Plugin
             $action->elementStart('div', array('id' => 'aside_primary',
                                                'class' => 'aside'));
 
-            if (\GNUsocial\Event::handle('StartShowSections', array($action))) {
+            if (Event::handle('StartShowSections', array($action))) {
                 $action->showSections();
-                \GNUsocial\Event::handle('EndShowSections', array($action));
+                Event::handle('EndShowSections', array($action));
             }
 
             $action->elementEnd('div');

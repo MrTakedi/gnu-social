@@ -28,6 +28,8 @@
  * @link      http://status.net/
  */
 
+use GNUsocial\Event;
+
 if (!defined('STATUSNET')) {
     // This check helps protect against security problems;
     // your code file can't be executed directly from the web.
@@ -63,7 +65,7 @@ class DocFile
 
         $filename = null;
 
-        if (\GNUsocial\Event::handle('StartDocFileForTitle', array($title, &$paths, &$filename))) {
+        if (Event::handle('StartDocFileForTitle', array($title, &$paths, &$filename))) {
 
             foreach ($paths as $path) {
 
@@ -85,7 +87,7 @@ class DocFile
                 }
             }
 
-            \GNUsocial\Event::handle('EndDocFileForTitle', array($title, $paths, &$filename));
+            Event::handle('EndDocFileForTitle', array($title, $paths, &$filename));
         }
 
         if (empty($filename)) {

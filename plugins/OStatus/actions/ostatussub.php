@@ -22,6 +22,8 @@
  * @maintainer Brion Vibber <brion@status.net>
  */
 
+use GNUsocial\Event;
+
 if (!defined('GNUSOCIAL') && !defined('STATUSNET')) { exit(1); }
 
 /**
@@ -47,7 +49,7 @@ class OStatusSubAction extends Action
         if (!common_logged_in()) {
             // XXX: selfURL() didn't work. :<
             common_set_returnto($_SERVER['REQUEST_URI']);
-            if (\GNUsocial\Event::handle('RedirectToLogin', array($this, null))) {
+            if (Event::handle('RedirectToLogin', array($this, null))) {
                 common_redirect(common_local_url('login'), 303);
             }
             return false;

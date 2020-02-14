@@ -17,6 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+use GNUsocial\Event;
+
 if (!defined('GNUSOCIAL')) { exit(1); }
 
 /**
@@ -37,8 +39,8 @@ class WebfingerAction extends XrdAction
         $this->resource = Discovery::normalize($this->trimmed('resource'));
 
         try {
-            if (\GNUsocial\Event::handle('StartGetWebFingerResource', array($this->resource, &$this->target, $this->args))) {
-                \GNUsocial\Event::handle('EndGetWebFingerResource', array($this->resource, &$this->target, $this->args));
+            if (Event::handle('StartGetWebFingerResource', array($this->resource, &$this->target, $this->args))) {
+                Event::handle('EndGetWebFingerResource', array($this->resource, &$this->target, $this->args));
             }
         } catch (NoSuchUserException $e) {
             throw new ServerException($e->getMessage(), 404);

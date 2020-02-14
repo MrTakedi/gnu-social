@@ -28,6 +28,8 @@
  * @link      http://status.net/
  */
 
+use GNUsocial\Event;
+
 if (!defined('GNUSOCIAL')) { exit(1); }
 
 /**
@@ -60,7 +62,7 @@ class ActivityImporter extends QueueHandler
         $done = null;
 
         try {
-            if (\GNUsocial\Event::handle('StartImportActivity',
+            if (Event::handle('StartImportActivity',
                               array($user, $author, $activity, $trusted, &$done))) {
                 switch ($activity->verb) {
                 case ActivityVerb::FOLLOW:
@@ -76,7 +78,7 @@ class ActivityImporter extends QueueHandler
                     // TRANS: Client exception thrown when using an unknown verb for the activity importer.
                     throw new ClientException(sprintf(_("Unknown verb: \"%s\"."),$activity->verb));
                 }
-                \GNUsocial\Event::handle('EndImportActivity',
+                Event::handle('EndImportActivity',
                               array($user, $author, $activity, $trusted));
                 $done = true;
             }

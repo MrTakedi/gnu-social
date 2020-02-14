@@ -28,6 +28,8 @@
  * @link      http://status.net/
  */
 
+use GNUsocial\Event;
+
 if (!defined('STATUSNET')) {
     // This check helps protect against security problems;
     // your code file can't be executed directly from the web.
@@ -52,7 +54,7 @@ class DefaultLocalNav extends Menu
 
         $this->action->elementStart('ul', array('id' => 'nav_local_default'));
 
-        if (\GNUsocial\Event::handle('StartDefaultLocalNav', array($this, $user))) {
+        if (Event::handle('StartDefaultLocalNav', array($this, $user))) {
 
             if (!empty($user)) {
                 $pn = new PersonalGroupNav($this->action);
@@ -80,7 +82,7 @@ class DefaultLocalNav extends Menu
                 }
             }
 
-            \GNUsocial\Event::handle('EndDefaultLocalNav', array($this, $user));
+            Event::handle('EndDefaultLocalNav', array($this, $user));
         }
 
         $this->action->elementEnd('ul');

@@ -23,6 +23,8 @@
  * @license   https://www.gnu.org/licenses/agpl.html GNU AGPL v3 or later
  */
 
+use GNUsocial\Event;
+
 defined('GNUSOCIAL') || die();
 
 require_once(INSTALLDIR . '/plugins/OpenID/openid.php');
@@ -106,14 +108,14 @@ class FinishsynchopenidAction extends Action
 
             $cur->query('BEGIN');
 
-            if (\GNUsocial\Event::handle('StartOpenIDUpdateUser', [$cur, $canonical, &$sreg])) {
+            if (Event::handle('StartOpenIDUpdateUser', [$cur, $canonical, &$sreg])) {
                 if (!oid_update_user($cur, $sreg)) {
                     // TRANS: Message in case the user or the user profile cannot be saved in StatusNet.
                     $this->message(_m('Error updating profile.'));
                     return;
                 }
             }
-            \GNUsocial\Event::handle('EndOpenIDUpdateUser', [$cur, $canonical, $sreg]);
+            Event::handle('EndOpenIDUpdateUser', [$cur, $canonical, $sreg]);
             
             // success!
 

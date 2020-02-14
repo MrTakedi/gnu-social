@@ -24,6 +24,8 @@
  * @license   https://www.gnu.org/licenses/agpl.html GNU AGPL v3 or later
  */
 
+use GNUsocial\Event;
+
 defined('GNUSOCIAL') || die();
 
 // require needed abstractions first
@@ -152,7 +154,7 @@ class DirectMessagePlugin extends Plugin
             return true;
         }
 
-        if (!$profile->isLocal() && \GNUsocial\Event::handle('DirectMessageProfilePageActions', [$profile])) {
+        if (!$profile->isLocal() && Event::handle('DirectMessageProfilePageActions', [$profile])) {
             // nothing to do if remote profile and no one to validate it
             return true;
         }

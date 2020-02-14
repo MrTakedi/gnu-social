@@ -25,6 +25,8 @@
  * @license   https://www.gnu.org/licenses/agpl.html GNU AGPL v3 or later
  */
 
+use GNUsocial\Event;
+
 defined('GNUSOCIAL') || die();
 
 /*
@@ -263,7 +265,7 @@ class FeedSub extends Managed_DataObject
             common_log(LOG_WARNING, sprintf('Attempting to (re)start WebSub subscription to %s in unexpected state %s', $this->getUri(), $this->sub_state));
         }
 
-        if (!\GNUsocial\Event::handle('FeedSubscribe', array($this))) {
+        if (!Event::handle('FeedSubscribe', array($this))) {
             // A plugin handled it
             return;
         }
@@ -300,7 +302,7 @@ class FeedSub extends Managed_DataObject
             common_log(LOG_WARNING, sprintf('Attempting to (re)end WebSub subscription to %s in unexpected state %s', $this->getUri(), $this->sub_state));
         }
 
-        if (!\GNUsocial\Event::handle('FeedUnsubscribe', array($this))) {
+        if (!Event::handle('FeedUnsubscribe', array($this))) {
             // A plugin handled it
             return;
         }
@@ -349,7 +351,7 @@ class FeedSub extends Managed_DataObject
         // WebSub subscription is either active or in an indeterminate state.
         // Check if we're out of subscribers, and if so send an unsubscribe.
         $count = 0;
-        \GNUsocial\Event::handle('FeedSubSubscriberCount', array($this, &$count));
+        Event::handle('FeedSubSubscriberCount', array($this, &$count));
 
         if ($count > 0) {
             common_log(LOG_INFO, __METHOD__ . ': ok, ' . $count . ' user(s) left for ' . $this->getUri());
@@ -583,8 +585,8 @@ class FeedSub extends Managed_DataObject
         $this->last_update = common_sql_now();
         $this->update($orig);
 
-        \GNUsocial\Event::handle('StartFeedSubReceive', array($this, $feed));
-        \GNUsocial\Event::handle('EndFeedSubReceive', array($this, $feed));
+        Event::handle('StartFeedSubReceive', array($this, $feed));
+        Event::handle('EndFeedSubReceive', array($this, $feed));
     }
 
     /**

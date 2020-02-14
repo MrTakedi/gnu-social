@@ -28,6 +28,8 @@
  * @link      http://status.net/
  */
 
+use GNUsocial\Event;
+
 if (!defined('STATUSNET')) {
     // This check helps protect against security problems;
     // your code file can't be executed directly from the web.
@@ -102,9 +104,9 @@ class GroupProfileBlock extends ProfileBlock
         // TRANS: Group actions header (h2). Text hidden by default.
         $this->out->element('h2', null, _('Group actions'));
         $this->out->elementStart('ul');
-        if (\GNUsocial\Event::handle('StartGroupActionsList', array($this, $this->group))) {
+        if (Event::handle('StartGroupActionsList', array($this, $this->group))) {
             $this->out->elementStart('li', 'entity_subscribe');
-            if (\GNUsocial\Event::handle('StartGroupSubscribe', array($this, $this->group))) {
+            if (Event::handle('StartGroupSubscribe', array($this, $this->group))) {
                 if ($cur) {
                     $profile = $cur->getProfile();
                     if ($profile->isMember($this->group)) {
@@ -118,7 +120,7 @@ class GroupProfileBlock extends ProfileBlock
                         $jf->show();
                     }
                 }
-                \GNUsocial\Event::handle('EndGroupSubscribe', array($this, $this->group));
+                Event::handle('EndGroupSubscribe', array($this, $this->group));
             }
             $this->out->elementEnd('li');
             if ($cur && $cur->isAdmin($this->group)) {
@@ -148,7 +150,7 @@ class GroupProfileBlock extends ProfileBlock
                 $this->out->elementEnd('li');
             }
 
-            \GNUsocial\Event::handle('EndGroupActionsList', array($this, $this->group));
+            Event::handle('EndGroupActionsList', array($this, $this->group));
         }
         $this->out->elementEnd('ul');
         $this->out->elementEnd('div');
@@ -157,9 +159,9 @@ class GroupProfileBlock extends ProfileBlock
     function show()
     {
         $this->out->elementStart('div', 'profile_block group_profile_block section');
-        if (\GNUsocial\Event::handle('StartShowGroupProfileBlock', array($this->out, $this->group))) {
+        if (Event::handle('StartShowGroupProfileBlock', array($this->out, $this->group))) {
             parent::show();
-            \GNUsocial\Event::handle('EndShowGroupProfileBlock', array($this->out, $this->group));
+            Event::handle('EndShowGroupProfileBlock', array($this->out, $this->group));
         }
         $this->out->elementEnd('div');
     }

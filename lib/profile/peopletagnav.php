@@ -26,6 +26,8 @@
  * @link      http://status.net/
  */
 
+use GNUsocial\Event;
+
 if (!defined('STATUSNET') && !defined('LACONICA')) {
     exit(1);
 }
@@ -71,7 +73,7 @@ class PeopletagNav extends Menu
         $nickname = $this->profile->nickname;
 
         $this->out->elementStart('ul', array('class' => 'nav'));
-        if (\GNUsocial\Event::handle('StartPeopletagGroupNav', array($this))) {
+        if (Event::handle('StartPeopletagGroupNav', array($this))) {
             $this->out->menuItem(common_local_url('peopletagsubscriptions', array('nickname' =>
                                                                      $nickname)),
                                  // TRANS: Menu item in the group navigation page.
@@ -101,7 +103,7 @@ class PeopletagNav extends Menu
                                  sprintf(_m('TOOLTIP','Lists by %s.'), $nickname),
                                  $action_name == 'peopletagsbyuser',
                                  'nav_lists_by');
-            \GNUsocial\Event::handle('EndPeopletagGroupNav', array($this));
+            Event::handle('EndPeopletagGroupNav', array($this));
         }
         $this->out->elementEnd('ul');
     }

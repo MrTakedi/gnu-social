@@ -14,6 +14,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with GNU social.  If not, see <http://www.gnu.org/licenses/>.
 
+use GNUsocial\Event;
+
 defined('GNUSOCIAL') || die();
 
 /**
@@ -176,7 +178,7 @@ class Profile_tag extends Managed_DataObject
         $tagger_profile = Profile::getByID($tagger);
         $tagged_profile = Profile::getByID($tagged);
 
-        if (\GNUsocial\Event::handle('StartTagProfile', array($tagger_profile, $tagged_profile, $tag))) {
+        if (Event::handle('StartTagProfile', array($tagger_profile, $tagged_profile, $tag))) {
             if (!$tagger_profile->canTag($tagged_profile)) {
                 // TRANS: Client exception thrown trying to set a tag for a user that cannot be tagged.
                 throw new ClientException(_('You cannot tag this user.'));
@@ -228,7 +230,7 @@ class Profile_tag extends Managed_DataObject
 
             try {
                 $plist->query('COMMIT');
-                \GNUsocial\Event::handle('EndTagProfile', array($newtag));
+                Event::handle('EndTagProfile', array($newtag));
             } catch (Exception $e) {
                 $newtag->delete();
                 $profile_list->delete();
@@ -251,14 +253,14 @@ class Profile_tag extends Managed_DataObject
             return true;
         }
 
-        if (\GNUsocial\Event::handle('StartUntagProfile', array($ptag))) {
+        if (Event::handle('StartUntagProfile', array($ptag))) {
             $orig = clone($ptag);
             $result = $ptag->delete();
             if ($result === false) {
                 common_log_db_error($this, 'DELETE', __FILE__);
                 return false;
             }
-            \GNUsocial\Event::handle('EndUntagProfile', array($orig));
+            Event::handle('EndUntagProfile', array($orig));
             $profile_list = Profile_list::pkeyGet(array('tag' => $tag, 'tagger' => $tagger));
             if (!empty($profile_list)) {
                 $profile_list->taggedCount(true);
@@ -277,13 +279,13 @@ class Profile_tag extends Managed_DataObject
         $ptag->find();
 
         while ($ptag->fetch()) {
-            if (\GNUsocial\Event::handle('StartUntagProfile', array($ptag))) {
+            if (Event::handle('StartUntagProfile', array($ptag))) {
                 $orig = clone($ptag);
                 $result = $ptag->delete();
                 if (!$result) {
                     common_log_db_error($this, 'DELETE', __FILE__);
                 }
-                \GNUsocial\Event::handle('EndUntagProfile', array($orig));
+                Event::handle('EndUntagProfile', array($orig));
             }
         }
     }

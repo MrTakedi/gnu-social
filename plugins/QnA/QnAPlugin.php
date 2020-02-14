@@ -28,6 +28,8 @@
  * @link      http://status.net/
  */
 
+use GNUsocial\Event;
+
 if (!defined('STATUSNET')) {
     // This check helps protect against security problems;
     // your code file can't be executed directly from the web.
@@ -279,7 +281,7 @@ class QnAPlugin extends MicroAppPlugin
                     'id'    => 'notice-' . $id
                 )
             );
-            \GNUsocial\Event::handle('EndOpenNoticeListItemElement', array($nli));
+            Event::handle('EndOpenNoticeListItemElement', array($nli));
             return false;
             break;
         case QnA_Answer::OBJECT_TYPE:
@@ -300,7 +302,7 @@ class QnAPlugin extends MicroAppPlugin
                     'id'    => 'notice-' . $id
                 )
             );
-            \GNUsocial\Event::handle('EndOpenNoticeListItemElement', array($nli));
+            Event::handle('EndOpenNoticeListItemElement', array($nli));
             return false;
             break;
         default:

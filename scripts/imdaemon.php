@@ -18,6 +18,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+use GNUsocial\Event;
+
 define('INSTALLDIR', dirname(__DIR__));
 define('PUBLICDIR', INSTALLDIR . DIRECTORY_SEPARATOR . 'public');
 
@@ -82,13 +84,13 @@ class ImMaster extends IoMaster
     function initManagers()
     {
         $classes = array();
-        if (\GNUsocial\Event::handle('StartImDaemonIoManagers', array(&$classes))) {
+        if (Event::handle('StartImDaemonIoManagers', array(&$classes))) {
             $qm = QueueManager::get();
             $qm->setActiveGroup('im');
             $classes[] = $qm;
             $classes[] = $this->processManager;
         }
-        \GNUsocial\Event::handle('EndImDaemonIoManagers', array(&$classes));
+        Event::handle('EndImDaemonIoManagers', array(&$classes));
         foreach ($classes as $class) {
             $this->instantiate($class);
         }

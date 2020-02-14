@@ -28,6 +28,8 @@
  * @link      http://status.net/
  */
 
+use GNUsocial\Event;
+
 if (!defined('GNUSOCIAL') && !defined('STATUSNET')) { exit(1); }
 
 /**
@@ -211,7 +213,7 @@ class AtompubfavoritefeedAction extends ApiAuthAction
 
         // Favorite plugin handles these as ActivityHandlerModule through Notice->saveActivity
         // which in turn uses "StoreActivityObject" event.
-        \GNUsocial\Event::handle('StartAtomPubNewActivity', array(&$activity, $this->scoped, &$notice));
+        Event::handle('StartAtomPubNewActivity', array(&$activity, $this->scoped, &$notice));
         assert($notice instanceof Notice);
 
         $act = $notice->asActivity();

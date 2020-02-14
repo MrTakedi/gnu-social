@@ -25,6 +25,8 @@
  * @license   https://www.gnu.org/licenses/agpl.html GNU AGPL v3 or later
  */
 
+use GNUsocial\Event;
+
 defined('GNUSOCIAL') || die();
 
 class FavoritedSliceAction extends FavoritedAction
@@ -47,7 +49,7 @@ class FavoritedSliceAction extends FavoritedAction
 
         $this->slice = $this->arg('slice', 'default');
         $data = array();
-        if (\GNUsocial\Event::handle('SlicedFavoritesGetSettings', array($this->slice, &$data))) {
+        if (Event::handle('SlicedFavoritesGetSettings', array($this->slice, &$data))) {
             // TRANS: Client exception.
             throw new ClientException(_m('Unknown favorites slice.'));
         }

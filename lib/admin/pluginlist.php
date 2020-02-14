@@ -14,6 +14,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with GNU social.  If not, see <http://www.gnu.org/licenses/>.
 
+use GNUsocial\Event;
+
 defined('STATUSNET') || die();
 
 require INSTALLDIR . "/lib/admin/pluginenableform.php";
@@ -118,7 +120,7 @@ class PluginList extends Widget
     {
         if (!is_array(self::$versions)) {
             $plugin_versions = [];
-            \GNUsocial\Event::handle('PluginVersion', [&$plugin_versions]);
+            Event::handle('PluginVersion', [&$plugin_versions]);
             self::$versions = $plugin_versions;
         }
         return self::$versions;

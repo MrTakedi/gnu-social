@@ -28,6 +28,8 @@
  * @link      http://status.net/
  */
 
+use GNUsocial\Event;
+
 if (!defined('STATUSNET')) {
     // This check helps protect against security problems;
     // your code file can't be executed directly from the web.
@@ -68,7 +70,7 @@ class AdminPanelNav extends Menu
         $this->action->element('h3', null, _m('HEADER','Admin'));
         $this->action->elementStart('ul', array('class' => 'nav'));
 
-        if (\GNUsocial\Event::handle('StartAdminPanelNav', array($this))) {
+        if (Event::handle('StartAdminPanelNav', array($this))) {
 
             if (AdminPanelAction::canAdmin('site')) {
                 // TRANS: Menu item title in administrator navigation panel.
@@ -134,7 +136,7 @@ class AdminPanelNav extends Menu
                                      $menu_title, $action_name == 'pluginsadminpanel', 'nav_plugin_admin_panel');
             }
 
-            \GNUsocial\Event::handle('EndAdminPanelNav', array($this));
+            Event::handle('EndAdminPanelNav', array($this));
         }
         $this->action->elementEnd('ul');
         $this->action->elementEnd('li');

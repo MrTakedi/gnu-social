@@ -27,6 +27,8 @@
  * @license   https://www.gnu.org/licenses/agpl.html GNU AGPL v3 or later
  */
 
+use GNUsocial\Event;
+
 defined('GNUSOCIAL') || die();
 
 require_once 'Mail.php';
@@ -328,7 +330,7 @@ function mail_profile_block($profile)
     $blocklink = common_local_url('block', array('profileid' => $profile->id));
     // This'll let ModPlus add the remote profile info so it's possible
     // to block remote users directly...
-    \GNUsocial\Event::handle('MailProfileInfoBlockLink', array($profile, &$blocklink));
+    Event::handle('MailProfileInfoBlockLink', array($profile, &$blocklink));
 
     // TRANS: This is a paragraph in a new-subscriber e-mail.
     // TRANS: %s is a URL where the subscriber can be reported as abusive.

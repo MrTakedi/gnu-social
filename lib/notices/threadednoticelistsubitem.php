@@ -1,5 +1,7 @@
 <?php
 
+use GNUsocial\Event;
+
 if (!defined('GNUSOCIAL')) { exit(1); }
 
 // @todo FIXME: needs documentation.
@@ -48,9 +50,9 @@ class ThreadedNoticeListSubItem extends NoticeListItem
     function showEnd()
     {
         $threadActive = null;   // unused here for now, but maybe in the future?
-        if (\GNUsocial\Event::handle('StartShowThreadedNoticeTailItems', array($this, $this->notice, &$threadActive))) {
+        if (Event::handle('StartShowThreadedNoticeTailItems', array($this, $this->notice, &$threadActive))) {
             // Repeats and Faves/Likes are handled in plugins.
-            \GNUsocial\Event::handle('EndShowThreadedNoticeTailItems', array($this, $this->notice, &$threadActive));
+            Event::handle('EndShowThreadedNoticeTailItems', array($this, $this->notice, &$threadActive));
         }
         parent::showEnd();
     }

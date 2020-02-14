@@ -27,6 +27,8 @@
  * @license   https://www.gnu.org/licenses/agpl.html GNU AGPL v3 or later
  */
 
+use GNUsocial\Event;
+
 define('INSTALLDIR', dirname(__DIR__));
 define('PUBLICDIR', INSTALLDIR . DIRECTORY_SEPARATOR . 'public');
 
@@ -52,7 +54,7 @@ function main()
     // that aren't really _required_ for the upgrade
     $iterate_files = (bool)have_option('f', 'files');
 
-    if (\GNUsocial\Event::handle('StartUpgrade')) {
+    if (Event::handle('StartUpgrade')) {
         fixupConversationURIs();
 
         updateSchemaCore();
@@ -87,7 +89,7 @@ function main()
 
         migrateProfilePrefs();
 
-        \GNUsocial\Event::handle('EndUpgrade');
+        Event::handle('EndUpgrade');
     }
 }
 
@@ -116,8 +118,8 @@ function updateSchemaPlugins()
 {
     printfnq("Upgrading plugin schema...");
 
-    \GNUsocial\Event::handle('BeforePluginCheckSchema');
-    \GNUsocial\Event::handle('CheckSchema');
+    Event::handle('BeforePluginCheckSchema');
+    Event::handle('CheckSchema');
 
     printfnq("DONE.\n");
 }
@@ -656,7 +658,7 @@ function migrateProfilePrefs()
     printfnq("Finding and possibly migrating Profile_prefs entries: ");
 
     $prefs = [];   // ['qvitter' => ['cover_photo'=>'profile_banner_url', ...], ...]
-    \GNUsocial\Event::handle('GetProfilePrefsMigrations', [&$prefs]);
+    Event::handle('GetProfilePrefsMigrations', [&$prefs]);
 
     foreach ($prefs as $namespace=>$mods) {
         echo "$namespace... ";

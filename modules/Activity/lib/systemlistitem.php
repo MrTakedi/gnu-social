@@ -28,6 +28,8 @@
  * @link      http://status.net/
  */
 
+use GNUsocial\Event;
+
 if (!defined('STATUSNET')) {
     // This check helps protect against security problems;
     // your code file can't be executed directly from the web.
@@ -75,17 +77,17 @@ class SystemListItem extends NoticeListItemAdapter
 
     function showNoticeOptions()
     {
-        if (\GNUsocial\Event::handle('StartShowNoticeOptions', array($this))) {
+        if (Event::handle('StartShowNoticeOptions', array($this))) {
             $user = common_current_user();
             if (!empty($user)) {
                 $this->nli->out->elementStart('div', 'notice-options');
-                if (\GNUsocial\Event::handle('StartShowNoticeOptionItems', array($this))) {
+                if (Event::handle('StartShowNoticeOptionItems', array($this))) {
                     $this->showReplyLink();
-                    \GNUsocial\Event::handle('EndShowNoticeOptionItems', array($this));
+                    Event::handle('EndShowNoticeOptionItems', array($this));
                 }
                 $this->nli->out->elementEnd('div');
             }
-            \GNUsocial\Event::handle('EndShowNoticeOptions', array($this));
+            Event::handle('EndShowNoticeOptions', array($this));
         }
     }
 }

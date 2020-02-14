@@ -28,6 +28,8 @@
  * @link      http://status.net/
  */
 
+use GNUsocial\Event;
+
 if (!defined('GNUSOCIAL')) { exit(1); }
 
 /**
@@ -59,7 +61,7 @@ class FeedList extends Widget
 
     public function show()
     {
-        if (\GNUsocial\Event::handle('StartShowFeedLinkList', array($this->action, &$this->feeds))) {
+        if (Event::handle('StartShowFeedLinkList', array($this->action, &$this->feeds))) {
             if (!empty($this->feeds)) {
                 $this->out->elementStart('div', array('id' => 'export_data',
                                                       'class' => 'section'));
@@ -74,13 +76,13 @@ class FeedList extends Widget
                 $this->out->elementEnd('ul');
                 $this->out->elementEnd('div');
             }
-            \GNUsocial\Event::handle('EndShowFeedLinkList', array($this->action, &$this->feeds));
+            Event::handle('EndShowFeedLinkList', array($this->action, &$this->feeds));
         }
     }
 
     function feedItem($feed)
     {
-        if (\GNUsocial\Event::handle('StartShowFeedLink', array($this->action, &$feed))) {
+        if (Event::handle('StartShowFeedLink', array($this->action, &$feed))) {
             $classname = null;
 
             switch ($feed->type) {
@@ -106,7 +108,7 @@ class FeedList extends Widget
                                            'title' => $feed->title),
                                 $feed->typeName());
             $this->out->elementEnd('li');
-            \GNUsocial\Event::handle('EndShowFeedLink', array($this->action, $feed));
+            Event::handle('EndShowFeedLink', array($this->action, $feed));
         }
     }
 }

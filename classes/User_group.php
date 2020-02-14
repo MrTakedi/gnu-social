@@ -14,6 +14,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with GNU social.  If not, see <http://www.gnu.org/licenses/>.
 
+use GNUsocial\Event;
+
 defined('GNUSOCIAL') || die();
 
 /**
@@ -142,26 +144,26 @@ class User_group extends Managed_DataObject
     public function getUri()
     {
         $uri = null;
-        if (\GNUsocial\Event::handle('StartUserGroupGetUri', array($this, &$uri))) {
+        if (Event::handle('StartUserGroupGetUri', array($this, &$uri))) {
             if (!empty($this->uri)) {
                 $uri = $this->uri;
             } elseif ($this->isLocal()) {
                 $uri = common_local_url('groupbyid', ['id' => $this->id]);
             }
         }
-        \GNUsocial\Event::handle('EndUserGroupGetUri', array($this, &$uri));
+        Event::handle('EndUserGroupGetUri', array($this, &$uri));
         return $uri;
     }
 
     public function permalink()
     {
         $url = null;
-        if (\GNUsocial\Event::handle('StartUserGroupPermalink', array($this, &$url))) {
+        if (Event::handle('StartUserGroupPermalink', array($this, &$url))) {
             if ($this->isLocal()) {
                 $url = common_local_url('groupbyid', ['id' => $this->id]);
             }
         }
-        \GNUsocial\Event::handle('EndUserGroupPermalink', array($this, &$url));
+        Event::handle('EndUserGroupPermalink', array($this, &$url));
         return $url;
     }
 
@@ -661,7 +663,7 @@ class User_group extends Managed_DataObject
             $group->force_scope = 0;
         }
 
-        if (\GNUsocial\Event::handle('StartGroupSave', array(&$group))) {
+        if (Event::handle('StartGroupSave', array(&$group))) {
             $result = $group->insert();
 
             if ($result === false) {
@@ -721,7 +723,7 @@ class User_group extends Managed_DataObject
                 }
             }
 
-            \GNUsocial\Event::handle('EndGroupSave', array($group));
+            Event::handle('EndGroupSave', array($group));
         }
 
         $profile->query('COMMIT');
@@ -758,7 +760,7 @@ class User_group extends Managed_DataObject
                          'Group_member',
                          'Related_group');
 
-        \GNUsocial\Event::handle('UserGroupDeleteRelated', array($this, &$related));
+        Event::handle('UserGroupDeleteRelated', array($this, &$related));
 
         foreach ($related as $cls) {
             $inst = new $cls();

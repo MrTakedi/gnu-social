@@ -21,6 +21,8 @@
  * @license   https://www.gnu.org/licenses/agpl.html GNU AGPL v3 or later
  */
 
+use GNUsocial\Event;
+
 defined('GNUSOCIAL') || die();
 
 class FavoriteModule extends ActivityVerbHandlerModule
@@ -368,7 +370,7 @@ class FavoriteModule extends ActivityVerbHandlerModule
      */
     public function onStartShowNoticeOptionItems($nli)
     {
-        if (\GNUsocial\Event::handle('StartShowFaveForm', array($nli))) {
+        if (Event::handle('StartShowFaveForm', array($nli))) {
             $scoped = Profile::current();
             if ($scoped instanceof Profile) {
                 if (Fave::existsForProfile($nli->notice, $scoped)) {
@@ -379,7 +381,7 @@ class FavoriteModule extends ActivityVerbHandlerModule
                     $favor->show();
                 }
             }
-            \GNUsocial\Event::handle('EndShowFaveForm', array($nli));
+            Event::handle('EndShowFaveForm', array($nli));
         }
     }
 

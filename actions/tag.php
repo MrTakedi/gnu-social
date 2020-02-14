@@ -17,6 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+use GNUsocial\Event;
+
 if (!defined('GNUSOCIAL')) { exit(1); }
 
 // @todo FIXME: documentation missing.
@@ -109,7 +111,7 @@ class TagAction extends ManagedAction
 
     protected function showContent()
     {
-        if(\GNUsocial\Event::handle('StartTagShowContent', array($this))) {
+        if(Event::handle('StartTagShowContent', array($this))) {
 
             $nl = new PrimaryNoticeList($this->notice, $this, array('show_n'=>NOTICES_PER_PAGE));
 
@@ -118,7 +120,7 @@ class TagAction extends ManagedAction
             $this->pagination($this->page > 1, $cnt > NOTICES_PER_PAGE,
                               $this->page, 'tag', array('tag' => $this->tag));
 
-            \GNUsocial\Event::handle('EndTagShowContent', array($this));
+            Event::handle('EndTagShowContent', array($this));
         }
     }
 

@@ -28,6 +28,8 @@
  * @link      http://status.net/
  */
 
+use GNUsocial\Event;
+
 if (!defined('GNUSOCIAL')) {
     exit(1);
 }
@@ -463,7 +465,7 @@ class ActivityObject
     {
         $object = new ActivityObject();
 
-        if (\GNUsocial\Event::handle('StartActivityObjectFromGroup', [$group, &$object])) {
+        if (Event::handle('StartActivityObjectFromGroup', [$group, &$object])) {
             $object->type = ActivityObject::GROUP;
             $object->id = $group->getUri();
             $object->title = $group->getBestName();
@@ -485,7 +487,7 @@ class ActivityObject
             );
 
             $object->poco = PoCo::fromGroup($group);
-            \GNUsocial\Event::handle('EndActivityObjectFromGroup', [$group, &$object]);
+            Event::handle('EndActivityObjectFromGroup', [$group, &$object]);
         }
 
         return $object;
@@ -494,7 +496,7 @@ class ActivityObject
     public static function fromPeopletag($ptag)
     {
         $object = new ActivityObject();
-        if (\GNUsocial\Event::handle('StartActivityObjectFromPeopletag', [$ptag, &$object])) {
+        if (Event::handle('StartActivityObjectFromPeopletag', [$ptag, &$object])) {
             $object->type = ActivityObject::_LIST;
 
             $object->id = $ptag->getUri();
@@ -503,7 +505,7 @@ class ActivityObject
             $object->link = $ptag->homeUrl();
             $object->owner = Profile::getKV('id', $ptag->tagger);
             $object->poco = PoCo::fromProfile($object->owner);
-            \GNUsocial\Event::handle('EndActivityObjectFromPeopletag', [$ptag, &$object]);
+            Event::handle('EndActivityObjectFromPeopletag', [$ptag, &$object]);
         }
         return $object;
     }
@@ -512,7 +514,7 @@ class ActivityObject
     {
         $object = new ActivityObject();
 
-        if (\GNUsocial\Event::handle('StartActivityObjectFromFile', [$file, &$object])) {
+        if (Event::handle('StartActivityObjectFromFile', [$file, &$object])) {
             $object->type = self::mimeTypeToObjectType($file->mimetype);
             $object->id = TagURI::mint(sprintf("file:%d", $file->id));
             $object->link = $file->getAttachmentUrl();
@@ -544,7 +546,7 @@ class ActivityObject
                     break;
             }
 
-            \GNUsocial\Event::handle('EndActivityObjectFromFile', [$file, &$object]);
+            Event::handle('EndActivityObjectFromFile', [$file, &$object]);
         }
 
         return $object;
@@ -590,7 +592,7 @@ class ActivityObject
         $wellKnown = ['web', 'xmpp', 'mail', 'omb', 'system', 'api', 'ostatus',
             'activity', 'feed', 'mirror', 'twitter', 'facebook'];
 
-        if (\GNUsocial\Event::handle('StartActivityObjectFromNoticeSource', [$source, &$object])) {
+        if (Event::handle('StartActivityObjectFromNoticeSource', [$source, &$object])) {
             $object->type = ActivityObject::APPLICATION;
 
             if (in_array($source->code, $wellKnown)) {
@@ -620,7 +622,7 @@ class ActivityObject
 
             $object->extra[] = ['status_net', ['source_code' => $source->code]];
 
-            \GNUsocial\Event::handle('EndActivityObjectFromNoticeSource', [$source, &$object]);
+            Event::handle('EndActivityObjectFromNoticeSource', [$source, &$object]);
         }
 
         return $object;
@@ -630,7 +632,7 @@ class ActivityObject
     {
         $object = new ActivityObject();
 
-        if (\GNUsocial\Event::handle('StartActivityObjectFromMessage', [$message, &$object])) {
+        if (Event::handle('StartActivityObjectFromMessage', [$message, &$object])) {
             $object->type = ActivityObject::NOTE;
             $object->id = ($message->uri) ? $message->uri : (($message->url) ? $message->url : TagURI::mint(sprintf("message:%d", $message->id)));
             $object->content = $message->rendered;
@@ -644,7 +646,7 @@ class ActivityObject
 
             $object->extra[] = ['status_net', ['message_id' => $message->id]];
 
-            \GNUsocial\Event::handle('EndActivityObjectFromMessage', [$message, &$object]);
+            Event::handle('EndActivityObjectFromMessage', [$message, &$object]);
         }
 
         return $object;
@@ -672,7 +674,7 @@ class ActivityObject
             $xo->elementStart($tag);
         }
 
-        if (\GNUsocial\Event::handle('StartActivityObjectOutputAtom', [$this, $xo])) {
+        if (Event::handle('StartActivityObjectOutputAtom', [$this, $xo])) {
             $xo->element('activity:object-type', null, $this->type);
 
             // <author> uses URI
@@ -774,7 +776,7 @@ class ActivityObject
                 $xo->element($extraTag, $attrs, $content);
             }
 
-            \GNUsocial\Event::handle('EndActivityObjectOutputAtom', [$this, $xo]);
+            Event::handle('EndActivityObjectOutputAtom', [$this, $xo]);
         }
 
         if (!empty($tag)) {
@@ -788,7 +790,7 @@ class ActivityObject
     {
         $object = [];
 
-        if (\GNUsocial\Event::handle('StartActivityObjectOutputJson', [$this, &$object])) {
+        if (Event::handle('StartActivityObjectOutputJson', [$this, &$object])) {
             // XXX: attachments are added by Activity
 
             // author (Add object for author? Could be useful for repeats.)
@@ -951,7 +953,7 @@ class ActivityObject
                     break;
             }
 
-            \GNUsocial\Event::handle('EndActivityObjectOutputJson', [$this, &$object]);
+            Event::handle('EndActivityObjectOutputJson', [$this, &$object]);
         }
         return array_filter($object);
     }

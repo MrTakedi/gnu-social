@@ -35,6 +35,8 @@
  * @link     http://status.net
  */
 
+use GNUsocial\Event;
+
 if (!defined('GNUSOCIAL')) { exit(1); }
 
 class AllAction extends ShowstreamAction
@@ -131,7 +133,7 @@ class AllAction extends ShowstreamAction
 
     function showContent()
     {
-        if (\GNUsocial\Event::handle('StartShowAllContent', array($this))) {
+        if (Event::handle('StartShowAllContent', array($this))) {
             if ($this->scoped instanceof Profile && $this->scoped->isLocal() && $this->scoped->getUser()->streamModeOnly()) {
                 $nl = new PrimaryNoticeList($this->notice, $this, array('show_n'=>NOTICES_PER_PAGE));
             } else {
@@ -149,7 +151,7 @@ class AllAction extends ShowstreamAction
                 $this->page, 'all', array('nickname' => $this->target->getNickname())
             );
 
-            \GNUsocial\Event::handle('EndShowAllContent', array($this));
+            Event::handle('EndShowAllContent', array($this));
         }
     }
 

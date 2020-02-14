@@ -28,6 +28,8 @@
  * @link      http://status.net/
  */
 
+use GNUsocial\Event;
+
 if (!defined('GNUSOCIAL')) { exit(1); }
 
 /**
@@ -86,7 +88,7 @@ class AccountProfileBlock extends ProfileBlock
     {
         $others = array();
 
-        \GNUsocial\Event::handle('OtherAccountProfiles', array($this->profile, &$others));
+        Event::handle('OtherAccountProfiles', array($this->profile, &$others));
         
         return $others;
     }
@@ -109,7 +111,7 @@ class AccountProfileBlock extends ProfileBlock
 
     function showActions()
     {
-        if (\GNUsocial\Event::handle('StartProfilePageActionsSection', array($this->out, $this->profile))) {
+        if (Event::handle('StartProfilePageActionsSection', array($this->out, $this->profile))) {
 
             if ($this->profile->hasRole(Profile_role::DELETED)) {
                 $this->out->elementStart('div', 'entity_actions');
@@ -132,10 +134,10 @@ class AccountProfileBlock extends ProfileBlock
             $this->out->element('h2', null, _('User actions'));
             $this->out->elementStart('ul');
 
-            if (\GNUsocial\Event::handle('StartProfilePageActionsElements', array($this->out, $this->profile))) {
+            if (Event::handle('StartProfilePageActionsElements', array($this->out, $this->profile))) {
                 if (empty($cur)) { // not logged in
-                    if (\GNUsocial\Event::handle('StartProfileRemoteSubscribe', array($this->out, $this->profile))) {
-                        \GNUsocial\Event::handle('EndProfileRemoteSubscribe', array($this->out, $this->profile));
+                    if (Event::handle('StartProfileRemoteSubscribe', array($this->out, $this->profile))) {
+                        Event::handle('EndProfileRemoteSubscribe', array($this->out, $this->profile));
                     }
                 } else {
                     if ($cur->id == $this->profile->id) { // your own page
@@ -255,13 +257,13 @@ class AccountProfileBlock extends ProfileBlock
                     }
                 }
 
-                \GNUsocial\Event::handle('EndProfilePageActionsElements', array($this->out, $this->profile));
+                Event::handle('EndProfilePageActionsElements', array($this->out, $this->profile));
             }
 
             $this->out->elementEnd('ul');
             $this->out->elementEnd('div');
 
-            \GNUsocial\Event::handle('EndProfilePageActionsSection', array($this->out, $this->profile));
+            Event::handle('EndProfilePageActionsSection', array($this->out, $this->profile));
         }
     }
 
@@ -284,9 +286,9 @@ class AccountProfileBlock extends ProfileBlock
     function show()
     {
         $this->out->elementStart('div', 'profile_block account_profile_block section');
-        if (\GNUsocial\Event::handle('StartShowAccountProfileBlock', array($this->out, $this->profile))) {
+        if (Event::handle('StartShowAccountProfileBlock', array($this->out, $this->profile))) {
             parent::show();
-            \GNUsocial\Event::handle('EndShowAccountProfileBlock', array($this->out, $this->profile));
+            Event::handle('EndShowAccountProfileBlock', array($this->out, $this->profile));
         }
         $this->out->elementEnd('div');
     }

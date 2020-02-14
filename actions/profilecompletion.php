@@ -27,6 +27,8 @@
  * @link      http://status.net/
  */
 
+use GNUsocial\Event;
+
 if (!defined('STATUSNET')) {
     exit(1);
 }
@@ -165,7 +167,7 @@ class ProfilecompletionAction extends Action
         $profile = new Profile();
         $search_engine = $profile->getSearchEngine('profile');
 
-        if (\GNUsocial\Event::handle('StartProfileCompletionSearch', array($this, &$profile, $search_engine))) {
+        if (Event::handle('StartProfileCompletionSearch', array($this, &$profile, $search_engine))) {
             $search_engine->set_sort_mode('chron');
             $search_engine->limit((($page-1)*PROFILES_PER_PAGE), PROFILES_PER_PAGE + 1);
 
@@ -175,7 +177,7 @@ class ProfilecompletionAction extends Action
             else {
                 $cnt = $profile->find();
             }
-            \GNUsocial\Event::handle('EndProfileCompletionSearch', array($this, &$profile, $search_engine));
+            Event::handle('EndProfileCompletionSearch', array($this, &$profile, $search_engine));
         }
 
         while ($profile->fetch()) {

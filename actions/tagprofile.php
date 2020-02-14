@@ -17,6 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+use GNUsocial\Event;
+
 if (!defined('GNUSOCIAL')) { exit(1); }
 
 class TagprofileAction extends FormAction
@@ -111,9 +113,9 @@ class TagprofileAction extends FormAction
 
         $this->elementEnd('div');
 
-        if (\GNUsocial\Event::handle('StartShowTagProfileForm', array($this, $this->target))) {
+        if (Event::handle('StartShowTagProfileForm', array($this, $this->target))) {
             parent::showContent();
-            \GNUsocial\Event::handle('EndShowTagProfileForm', array($this, $this->target));
+            Event::handle('EndShowTagProfileForm', array($this, $this->target));
         }
     }
 
@@ -122,7 +124,7 @@ class TagprofileAction extends FormAction
         $tagstring = $this->trimmed('tags');
         $token = $this->trimmed('token');
 
-        if (\GNUsocial\Event::handle('StartSavePeopletags', array($this, $tagstring))) {
+        if (Event::handle('StartSavePeopletags', array($this, $tagstring))) {
             $tags = array();
             $tag_priv = array();
 
@@ -172,7 +174,7 @@ class TagprofileAction extends FormAction
                 $this->showForm();
             }
 
-            \GNUsocial\Event::handle('EndSavePeopletags', array($this, $tagstring));
+            Event::handle('EndSavePeopletags', array($this, $tagstring));
         }
     }
 }

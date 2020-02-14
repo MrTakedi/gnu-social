@@ -28,6 +28,8 @@
  * @link      http://status.net/
  */
 
+use GNUsocial\Event;
+
 if (!defined('GNUSOCIAL')) { exit(1); }
 
 /**
@@ -136,7 +138,7 @@ abstract class ProfileAction extends ManagedAction
     {
         $this->elementStart('div', array('id' => 'entity_subscriptions',
                                          'class' => 'section'));
-        if (\GNUsocial\Event::handle('StartShowSubscriptionsMiniList', array($this))) {
+        if (Event::handle('StartShowSubscriptionsMiniList', array($this))) {
             $this->elementStart('h2');
             // TRANS: H2 text for user subscription statistics.
             $this->statsSectionLink('subscriptions', _('Following'));
@@ -153,7 +155,7 @@ abstract class ProfileAction extends ManagedAction
                 $this->element('p', null, _('(None)'));
             }
 
-            \GNUsocial\Event::handle('EndShowSubscriptionsMiniList', array($this));
+            Event::handle('EndShowSubscriptionsMiniList', array($this));
         }
         $this->elementEnd('div');
     }
@@ -163,7 +165,7 @@ abstract class ProfileAction extends ManagedAction
         $this->elementStart('div', array('id' => 'entity_subscribers',
                                          'class' => 'section'));
 
-        if (\GNUsocial\Event::handle('StartShowSubscribersMiniList', array($this))) {
+        if (Event::handle('StartShowSubscribersMiniList', array($this))) {
 
             $this->elementStart('h2');
             // TRANS: H2 text for user subscriber statistics.
@@ -181,7 +183,7 @@ abstract class ProfileAction extends ManagedAction
                 $this->element('p', null, _('(None)'));
             }
 
-            \GNUsocial\Event::handle('EndShowSubscribersMiniList', array($this));
+            Event::handle('EndShowSubscribersMiniList', array($this));
         }
 
         $this->elementEnd('div');
@@ -234,7 +236,7 @@ abstract class ProfileAction extends ManagedAction
         );
 
         // Give plugins a chance to add stats entries
-        \GNUsocial\Event::handle('ProfileStats', array($profile, &$stats));
+        Event::handle('ProfileStats', array($profile, &$stats));
 
         foreach ($stats as $row) {
             $this->showStatsRow($row);
@@ -262,7 +264,7 @@ abstract class ProfileAction extends ManagedAction
 
         $this->elementStart('div', array('id' => 'entity_groups',
                                          'class' => 'section'));
-        if (\GNUsocial\Event::handle('StartShowGroupsMiniList', array($this))) {
+        if (Event::handle('StartShowGroupsMiniList', array($this))) {
             $this->elementStart('h2');
             // TRANS: H2 text for user group membership statistics.
             $this->statsSectionLink('usergroups', _('Groups'));
@@ -278,7 +280,7 @@ abstract class ProfileAction extends ManagedAction
                 $this->element('p', null, _('(None)'));
             }
 
-            \GNUsocial\Event::handle('EndShowGroupsMiniList', array($this));
+            Event::handle('EndShowGroupsMiniList', array($this));
         }
             $this->elementEnd('div');
     }
@@ -291,7 +293,7 @@ abstract class ProfileAction extends ManagedAction
             $this->elementStart('div', array('id' => 'entity_lists',
                                              'class' => 'section'));
 
-            if (\GNUsocial\Event::handle('StartShowListsMiniList', array($this))) {
+            if (Event::handle('StartShowListsMiniList', array($this))) {
 
                 $url = common_local_url('peopletagsbyuser',
                                         array('nickname' => $this->target->getNickname()));
@@ -330,7 +332,7 @@ abstract class ProfileAction extends ManagedAction
 
                 $this->elementEnd('ul');
 
-                \GNUsocial\Event::handle('EndShowListsMiniList', array($this));
+                Event::handle('EndShowListsMiniList', array($this));
             }
             $this->elementEnd('div');
         }

@@ -3,6 +3,8 @@
  * Table Definition for fave
  */
 
+use GNUsocial\Event;
+
 class Fave extends Managed_DataObject
 {
     public $__table = 'fave';                            // table name
@@ -120,12 +122,12 @@ class Fave extends Managed_DataObject
             $profile = $this->getActor();
             $notice  = $this->getTarget();
 
-            if (\GNUsocial\Event::handle('StartDisfavorNotice', array($profile, $notice, &$result))) {
+            if (Event::handle('StartDisfavorNotice', array($profile, $notice, &$result))) {
 
                 $result = parent::delete($useWhere);
 
                 if ($result !== false) {
-                    \GNUsocial\Event::handle('EndDisfavorNotice', array($profile, $notice));
+                    Event::handle('EndDisfavorNotice', array($profile, $notice));
                 }
             }
 
@@ -411,7 +413,7 @@ class Fave extends Managed_DataObject
         self::blowCacheForNoticeId($object->notice_id);
         self::blow('popular');
 
-        \GNUsocial\Event::handle('EndFavorNotice', array($stored->getProfile(), $object->getTarget()));
+        Event::handle('EndFavorNotice', array($stored->getProfile(), $object->getTarget()));
         return $object;
     }
 

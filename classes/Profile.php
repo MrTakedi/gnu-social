@@ -19,6 +19,8 @@
  * @license   https://www.gnu.org/licenses/agpl.html GNU AGPL v3 or later
  */
 
+use GNUsocial\Event;
+
 defined('GNUSOCIAL') || die();
 
 /**
@@ -619,12 +621,12 @@ class Profile extends Managed_DataObject
         if ($group->join_policy == User_group::JOIN_POLICY_MODERATE) {
             $join = Group_join_queue::saveNew($this, $group);
         } else {
-            if (\GNUsocial\Event::handle('StartJoinGroup', array($group, $this))) {
+            if (Event::handle('StartJoinGroup', array($group, $this))) {
                 $join = Group_member::join($group->id, $this->id);
                 self::blow('profile:groups:%d', $this->id);
                 self::blow('group:member_ids:%d', $group->id);
                 self::blow('group:member_count:%d', $group->id);
-                \GNUsocial\Event::handle('EndJoinGroup', array($group, $this));
+                Event::handle('EndJoinGroup', array($group, $this));
             }
         }
         if ($join) {
@@ -641,12 +643,12 @@ class Profile extends Managed_DataObject
      */
     public function leaveGroup(User_group $group)
     {
-        if (\GNUsocial\Event::handle('StartLeaveGroup', array($group, $this))) {
+        if (Event::handle('StartLeaveGroup', array($group, $this))) {
             Group_member::leave($group->id, $this->id);
             self::blow('profile:groups:%d', $this->id);
             self::blow('group:member_ids:%d', $group->id);
             self::blow('group:member_count:%d', $group->id);
-            \GNUsocial\Event::handle('EndLeaveGroup', array($group, $this));
+            Event::handle('EndLeaveGroup', array($group, $this));
         }
     }
 
@@ -965,7 +967,7 @@ class Profile extends Managed_DataObject
                          'text' => _('Homepage'),
                          'image' => null];
         }
-        \GNUsocial\Event::handle('OtherAccountProfiles', array($this, &$relMes));
+        Event::handle('OtherAccountProfiles', array($this, &$relMes));
         return $relMes;
     }
 
@@ -985,7 +987,7 @@ class Profile extends Managed_DataObject
             'Group_member',
             'Profile_role',
         ];
-        \GNUsocial\Event::handle('ProfileDeleteRelated', array($this, &$related));
+        Event::handle('ProfileDeleteRelated', array($this, &$related));
 
         foreach ($related as $cls) {
             $inst = new $cls();
@@ -1147,18 +1149,18 @@ class Profile extends Managed_DataObject
     public function hasRole($name)
     {
         $has_role = false;
-        if (\GNUsocial\Event::handle('StartHasRole', array($this, $name, &$has_role))) {
+        if (Event::handle('StartHasRole', array($this, $name, &$has_role))) {
             $role = Profile_role::pkeyGet(array('profile_id' => $this->id,
                                                 'role' => $name));
             $has_role = !empty($role);
-            \GNUsocial\Event::handle('EndHasRole', array($this, $name, $has_role));
+            Event::handle('EndHasRole', array($this, $name, $has_role));
         }
         return $has_role;
     }
 
     public function grantRole($name)
     {
-        if (\GNUsocial\Event::handle('StartGrantRole', array($this, $name))) {
+        if (Event::handle('StartGrantRole', array($this, $name))) {
             $role = new Profile_role();
 
             $role->profile_id = $this->id;
@@ -1175,7 +1177,7 @@ class Profile extends Managed_DataObject
                 User::blow('user:site_owner');
             }
 
-            \GNUsocial\Event::handle('EndGrantRole', array($this, $name));
+            Event::handle('EndGrantRole', array($this, $name));
         }
 
         return $result;
@@ -1183,7 +1185,7 @@ class Profile extends Managed_DataObject
 
     public function revokeRole($name)
     {
-        if (\GNUsocial\Event::handle('StartRevokeRole', array($this, $name))) {
+        if (Event::handle('StartRevokeRole', array($this, $name))) {
             $role = Profile_role::pkeyGet(array('profile_id' => $this->id,
                                                 'role' => $name));
 
@@ -1214,7 +1216,7 @@ class Profile extends Managed_DataObject
                 User::blow('user:site_owner');
             }
 
-            \GNUsocial\Event::handle('EndRevokeRole', array($this, $name));
+            Event::handle('EndRevokeRole', array($this, $name));
 
             return true;
         }
@@ -1297,7 +1299,7 @@ class Profile extends Managed_DataObject
 
     public function isPrivileged()
     {
-        // TODO: An \GNUsocial\Event::handle so plugins can report if users are privileged.
+        // TODO: An Event::handle so plugins can report if users are privileged.
         // The ModHelper is the only one I care about when coding this, and that
         // can be tested with Right::SILENCEUSER which I do below:
         switch (true) {
@@ -1330,7 +1332,7 @@ class Profile extends Managed_DataObject
             return false;
         }
 
-        if (\GNUsocial\Event::handle('UserRightsCheck', array($this, $right, &$result))) {
+        if (Event::handle('UserRightsCheck', array($this, $right, &$result))) {
             switch ($right) {
             case Right::DELETEOTHERSNOTICE:
             case Right::MAKEGROUPADMIN:
@@ -1486,7 +1488,7 @@ class Profile extends Managed_DataObject
     {
         $object = new ActivityObject();
 
-        if (\GNUsocial\Event::handle('StartActivityObjectFromProfile', array($this, &$object))) {
+        if (Event::handle('StartActivityObjectFromProfile', array($this, &$object))) {
             $object->type   = $this->getObjectType();
             $object->id     = $this->getUri();
             $object->title  = $this->getBestName();
@@ -1533,7 +1535,7 @@ class Profile extends Managed_DataObject
                 $object->extra[] = array('followers', array('url' => common_local_url('subscribers', array('nickname' => $this->getNickname()))));
             }
 
-            \GNUsocial\Event::handle('EndActivityObjectFromProfile', array($this, &$object));
+            Event::handle('EndActivityObjectFromProfile', array($this, &$object));
         }
 
         return $object;
@@ -1549,12 +1551,12 @@ class Profile extends Managed_DataObject
         $url = null;
         if ($this->isGroup()) {
             // FIXME: Get rid of this event, it fills no real purpose, data should be in Profile->profileurl (replaces User_group->mainpage)
-            if (\GNUsocial\Event::handle('StartUserGroupHomeUrl', array($this->getGroup(), &$url))) {
+            if (Event::handle('StartUserGroupHomeUrl', array($this->getGroup(), &$url))) {
                 $url = $this->getGroup()->isLocal()
                         ? common_local_url('showgroup', array('nickname' => $this->getNickname()))
                         : $this->profileurl;
             }
-            \GNUsocial\Event::handle('EndUserGroupHomeUrl', array($this->getGroup(), $url));
+            Event::handle('EndUserGroupHomeUrl', array($this->getGroup(), $url));
         } elseif ($this->isLocal()) {
             $url = common_local_url('showstream', array('nickname' => $this->getNickname()));
         } else {
@@ -1605,7 +1607,7 @@ class Profile extends Managed_DataObject
         $uri = null;
 
         // give plugins a chance to set the URI
-        if (\GNUsocial\Event::handle('StartGetProfileUri', array($this, &$uri))) {
+        if (Event::handle('StartGetProfileUri', array($this, &$uri))) {
 
             // check for a local user first
             $user = User::getKV('id', $this->id);
@@ -1618,7 +1620,7 @@ class Profile extends Managed_DataObject
                 }
             }
 
-            \GNUsocial\Event::handle('EndGetProfileUri', array($this, &$uri));
+            Event::handle('EndGetProfileUri', array($this, &$uri));
         }
 
         return $uri;
@@ -1633,8 +1635,8 @@ class Profile extends Managed_DataObject
     {
         $acct = null;
 
-        if (\GNUsocial\Event::handle('StartGetProfileAcctUri', array($this, &$acct))) {
-            \GNUsocial\Event::handle('EndGetProfileAcctUri', array($this, &$acct));
+        if (Event::handle('StartGetProfileAcctUri', array($this, &$acct))) {
+            Event::handle('EndGetProfileAcctUri', array($this, &$acct));
         }
 
         if ($acct === null) {
@@ -1658,12 +1660,12 @@ class Profile extends Managed_DataObject
     {
         $feed = null;
 
-        if (\GNUsocial\Event::handle('StartProfileGetAtomFeed', array($this, &$feed))) {
+        if (Event::handle('StartProfileGetAtomFeed', array($this, &$feed))) {
             if ($this->isLocal()) {
                 $feed = common_local_url('ApiTimelineUser', array('id' => $this->getID(),
                                                                   'format' => 'atom'));
             }
-            \GNUsocial\Event::handle('EndProfileGetAtomFeed', array($this, $feed));
+            Event::handle('EndProfileGetAtomFeed', array($this, $feed));
         }
 
         return $feed;
@@ -1685,7 +1687,7 @@ class Profile extends Managed_DataObject
     {
         $profile = null;
 
-        if (\GNUsocial\Event::handle('StartGetProfileFromURI', array($uri, &$profile))) {
+        if (Event::handle('StartGetProfileFromURI', array($uri, &$profile))) {
             // Get a local user when plugin lookup (like OStatus) fails
             $user = User::getKV('uri', $uri);
             if ($user instanceof User) {
@@ -1696,7 +1698,7 @@ class Profile extends Managed_DataObject
                     $profile = $group->getProfile();
                 }
             }
-            \GNUsocial\Event::handle('EndGetProfileFromURI', array($uri, $profile));
+            Event::handle('EndGetProfileFromURI', array($uri, $profile));
         }
 
         if (!$profile instanceof Profile) {

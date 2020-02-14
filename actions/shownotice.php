@@ -27,6 +27,8 @@
  * @link      http://status.net/
  */
 
+use GNUsocial\Event;
+
 if (!defined('GNUSOCIAL')) {
     exit(1);
 }
@@ -126,7 +128,7 @@ class ShownoticeAction extends ManagedAction
         } catch (NoResultException $e) {
             // Hm, not found.
             $deleted = null;
-            \GNUsocial\Event::handle('IsNoticeDeleted', [$id, &$deleted]);
+            Event::handle('IsNoticeDeleted', [$id, &$deleted]);
             if ($deleted === true) {
                 // TRANS: Client error displayed trying to show a deleted notice.
                 throw new ClientException(_('Notice deleted.'), 410);

@@ -25,6 +25,8 @@
  * @license   https://www.gnu.org/licenses/agpl.html GNU AGPL v3 or later
  */
 
+use GNUsocial\Event;
+
 defined('GNUSOCIAL') || die();
 
 /**
@@ -76,7 +78,7 @@ class EmbedHelper
         // TODO: Make this class something like UrlMetadata, or use a dataobject?
         $metadata = new stdClass();
 
-        if (\GNUsocial\Event::handle('GetRemoteUrlMetadata', array($url, &$metadata))) {
+        if (Event::handle('GetRemoteUrlMetadata', array($url, &$metadata))) {
             // If that event didn't return anything, try downloading the body and parse it
 
             // don't use quickGet since we want to check Content-Type header for utf-8
@@ -132,7 +134,7 @@ class EmbedHelper
                 throw new EmbedHelper_BadHtmlException();
             }
 
-            \GNUsocial\Event::handle('GetRemoteUrlMetadataFromDom', array($url, $dom, &$metadata));
+            Event::handle('GetRemoteUrlMetadataFromDom', array($url, $dom, &$metadata));
         }
 
         return self::normalize($metadata);

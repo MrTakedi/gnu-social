@@ -28,6 +28,8 @@
  * @link      http://status.net/
  */
 
+use GNUsocial\Event;
+
 if (!defined('GNUSOCIAL')) { exit(1); }
 
 /**
@@ -117,7 +119,7 @@ class AvatarsettingsAction extends SettingsAction
         $this->element('legend', null, _('Avatar settings'));
         $this->hidden('token', common_session_token());
 
-        if (\GNUsocial\Event::handle('StartAvatarFormData', array($this))) {
+        if (Event::handle('StartAvatarFormData', array($this))) {
             $this->elementStart('ul', 'form_data');
             try {
                 $original = Avatar::getUploaded($this->scoped);
@@ -176,7 +178,7 @@ class AvatarsettingsAction extends SettingsAction
             $this->elementEnd('li');
             $this->elementEnd('ul');
         }
-        \GNUsocial\Event::handle('EndAvatarFormData', array($this));
+        Event::handle('EndAvatarFormData', array($this));
 
         $this->elementEnd('fieldset');
         $this->elementEnd('form');
@@ -239,7 +241,7 @@ class AvatarsettingsAction extends SettingsAction
 
     protected function doPost()
     {
-        if (\GNUsocial\Event::handle('StartAvatarSaveForm', array($this))) {
+        if (Event::handle('StartAvatarSaveForm', array($this))) {
             if ($this->trimmed('upload')) {
                 return $this->uploadAvatar();
             } else if ($this->trimmed('crop')) {
@@ -250,7 +252,7 @@ class AvatarsettingsAction extends SettingsAction
                 // TRANS: Unexpected validation error on avatar upload form.
                 throw new ClientException(_('Unexpected form submission.'));
             }
-            \GNUsocial\Event::handle('EndAvatarSaveForm', array($this));
+            Event::handle('EndAvatarSaveForm', array($this));
         }
     }
 

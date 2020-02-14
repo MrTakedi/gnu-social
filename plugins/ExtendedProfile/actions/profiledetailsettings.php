@@ -17,6 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+use GNUsocial\Event;
+
 if (!defined('GNUSOCIAL')) {
     exit(1);
 }
@@ -567,7 +569,7 @@ class ProfileDetailSettingsAction extends ProfileSettingsAction
             // Set the user tags
             $result = Profile_tag::setSelfTags($this->scoped, $tags);
 
-            \GNUsocial\Event::handle('EndProfileSaveForm', array($this));
+            Event::handle('EndProfileSaveForm', array($this));
         }
     }
 

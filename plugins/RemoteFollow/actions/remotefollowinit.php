@@ -23,6 +23,8 @@
  * @license   https://www.gnu.org/licenses/agpl.html GNU AGPL v3 or later
  */
 
+use GNUsocial\Event;
+
 defined('GNUSOCIAL') || die();
 
 /**
@@ -77,7 +79,7 @@ class RemoteFollowInitAction extends Action
             }
 
             $url = null;
-            if (\GNUsocial\Event::handle('RemoteFollowConnectProfile', [$this->target, $this->profile, &$url])) {
+            if (Event::handle('RemoteFollowConnectProfile', [$this->target, $this->profile, &$url])) {
                 // use ported ostatus connect functions to find remote url
                 $url = self::ostatusConnect($this->target, $this->profile);
             }

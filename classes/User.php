@@ -14,6 +14,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with GNU social.  If not, see <http://www.gnu.org/licenses/>.
 
+use GNUsocial\Event;
+
 defined('GNUSOCIAL') || die();
 
 /**
@@ -274,7 +276,7 @@ class User extends Managed_DataObject
 
         $user->created = common_sql_now();
 
-        if (\GNUsocial\Event::handle('StartUserRegister', array($profile))) {
+        if (Event::handle('StartUserRegister', array($profile))) {
             $profile->query('BEGIN');
 
             $id = $profile->insert();
@@ -413,7 +415,7 @@ class User extends Managed_DataObject
                 }
             }
 
-            \GNUsocial\Event::handle('EndUserRegister', array($profile));
+            Event::handle('EndUserRegister', array($profile));
         }
 
         if (!$user instanceof User || empty($user->id)) {
@@ -636,7 +638,7 @@ class User extends Managed_DataObject
                          'Invitation',
                          );
 
-        \GNUsocial\Event::handle('UserDeleteRelated', array($this, &$related));
+        Event::handle('UserDeleteRelated', array($this, &$related));
 
         foreach ($related as $cls) {
             $inst = new $cls();

@@ -28,6 +28,8 @@
  *
  */
 
+use GNUsocial\Event;
+
 if (!defined('STATUSNET')) {
     exit(1);
 }
@@ -140,7 +142,7 @@ class RsdAction extends Action
         $this->element('engineName', null, _('StatusNet'));
         $this->element('engineLink', null, 'http://status.net/');
         $this->elementStart('apis');
-        if (\GNUsocial\Event::handle('StartRsdListApis', array($this, $this->user))) {
+        if (Event::handle('StartRsdListApis', array($this, $this->user))) {
 
             $blogID   = (empty($this->user)) ? '' : $this->user->nickname;
             $apiAttrs = array('name' => 'Twitter',
@@ -170,7 +172,7 @@ class RsdAction extends Action
                                         'apiLink' => $service,
                                         'blogID' => $blogID));
 
-            \GNUsocial\Event::handle('EndRsdListApis', array($this, $this->user));
+            Event::handle('EndRsdListApis', array($this, $this->user));
         }
         $this->elementEnd('apis');
         $this->elementEnd('service');

@@ -28,6 +28,8 @@
  * @link      http://status.net/
  */
 
+use GNUsocial\Event;
+
 if (!defined('STATUSNET')) {
     // This check helps protect against security problems;
     // your code file can't be executed directly from the web.
@@ -51,7 +53,7 @@ class PrimaryNav extends Menu
     {
         $user = common_current_user();
         $this->action->elementStart('ul', array('class' => 'nav'));
-        if (\GNUsocial\Event::handle('StartPrimaryNav', array($this->action))) {
+        if (Event::handle('StartPrimaryNav', array($this->action))) {
             if (!empty($user)) {
                 $this->action->menuItem(common_local_url('profilesettings'),
                                 // TRANS: Menu item in primary navigation panel.
@@ -86,7 +88,7 @@ class PrimaryNav extends Menu
                                 'nav_login');
             }
 
-            \GNUsocial\Event::handle('EndPrimaryNav', array($this->action));
+            Event::handle('EndPrimaryNav', array($this->action));
         }
 
         $this->action->elementEnd('ul');

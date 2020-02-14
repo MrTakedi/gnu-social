@@ -17,6 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+use GNUsocial\Event;
+
 if (!defined('STATUSNET') && !defined('LACONICA')) { exit(1); }
 
 require_once INSTALLDIR . '/lib/util/command.php';
@@ -38,7 +40,7 @@ class CommandInterpreter
         $cmd = strtolower($cmd);
         $result = false;
 
-        if (\GNUsocial\Event::handle('StartInterpretCommand', array($cmd, $arg, $user, &$result))) {
+        if (Event::handle('StartInterpretCommand', array($cmd, $arg, $user, &$result))) {
             switch($cmd) {
             case 'help':
                 if ($arg) {
@@ -300,7 +302,7 @@ class CommandInterpreter
                 break;
             }
 
-            \GNUsocial\Event::handle('EndInterpretCommand', array($cmd, $arg, $user, &$result));
+            Event::handle('EndInterpretCommand', array($cmd, $arg, $user, &$result));
         }
 
         return $result;

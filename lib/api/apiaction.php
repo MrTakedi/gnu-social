@@ -91,6 +91,8 @@
 
 */
 
+use GNUsocial\Event;
+
 defined('GNUSOCIAL') || die();
 
 class ApiValidationException extends Exception
@@ -254,7 +256,7 @@ class ApiAction extends Action
             ]
         );
         $this->elementStart('channel');
-        \GNUsocial\Event::handle('StartApiRss', [$this]);
+        Event::handle('StartApiRss', [$this]);
     }
 
     public function initTwitterAtom()
@@ -378,7 +380,7 @@ class ApiAction extends Action
         $twitter_status['statusnet_conversation_id'] = intval($notice->conversation);
 
         // The event call to handle NoticeSimpleStatusArray lets plugins add data to the output array
-        \GNUsocial\Event::handle('NoticeSimpleStatusArray', [$notice, &$twitter_status, $this->scoped,
+        Event::handle('NoticeSimpleStatusArray', [$notice, &$twitter_status, $this->scoped,
             ['include_user' => $include_user]]);
 
         return $twitter_status;
@@ -482,7 +484,7 @@ class ApiAction extends Action
         $twitter_user['statusnet_profile_url'] = $profile->profileurl;
 
         // The event call to handle NoticeSimpleStatusArray lets plugins add data to the output array
-        \GNUsocial\Event::handle('TwitterUserArray', [$profile, &$twitter_user, $this->scoped, []]);
+        Event::handle('TwitterUserArray', [$profile, &$twitter_user, $this->scoped, []]);
 
         return $twitter_user;
     }
@@ -724,7 +726,7 @@ class ApiAction extends Action
     {
         $entry = [];
 
-        if (\GNUsocial\Event::handle('StartRssEntryArray', [$notice, &$entry])) {
+        if (Event::handle('StartRssEntryArray', [$notice, &$entry])) {
             $profile = $notice->getProfile();
 
             // We trim() to avoid extraneous whitespace in the output
@@ -788,7 +790,7 @@ class ApiAction extends Action
                 $entry['geo'] = null;
             }
 
-            \GNUsocial\Event::handle('EndRssEntryArray', [$notice, &$entry]);
+            Event::handle('EndRssEntryArray', [$notice, &$entry]);
         }
 
         return $entry;

@@ -27,6 +27,8 @@
  * @link      http://status.net/
  */
 
+use GNUsocial\Event;
+
 if (!defined('GNUSOCIAL')) { exit(1); }
 
 define('PAGE_TYPE_PREFS_MOBILEPROFILE',
@@ -234,7 +236,7 @@ class MobileProfilePlugin extends WAP20Plugin
         }
 
         // Allow other plugins to load their styles.
-        \GNUsocial\Event::handle('EndShowStylesheets', array($action));
+        Event::handle('EndShowStylesheets', array($action));
 
         return false;
     }

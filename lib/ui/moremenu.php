@@ -28,6 +28,8 @@
  * @link      http://status.net/
  */
 
+use GNUsocial\Event;
+
 if (!defined('STATUSNET')) {
     // This check helps protect against security problems;
     // your code file can't be executed directly from the web.
@@ -69,7 +71,7 @@ class MoreMenu extends Menu
             $attrs['id'] = $menuID;
         }
 
-        if (\GNUsocial\Event::handle('StartNav', array($this, &$tag, &$items))) {
+        if (Event::handle('StartNav', array($this, &$tag, &$items))) {
             $this->out->elementStart('ul', $attrs);
 
             $total = count($items);
@@ -127,7 +129,7 @@ class MoreMenu extends Menu
 
             $this->out->elementEnd('ul');
 
-            \GNUsocial\Event::handle('EndNav', array($this, $tag, $items));
+            Event::handle('EndNav', array($this, $tag, $items));
         }
     }
 

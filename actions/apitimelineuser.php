@@ -34,6 +34,8 @@
  * @link      http://status.net/
  */
 
+use GNUsocial\Event;
+
 if (!defined('GNUSOCIAL')) {
     exit(1);
 }
@@ -241,14 +243,14 @@ class ApiTimelineUserAction extends ApiBareAuthAction
         $activity->objects[0]->id = null;
 
         $stored = null;
-        if (\GNUsocial\Event::handle('StartAtomPubNewActivity', array($activity, $this->target, &$stored))) {
+        if (Event::handle('StartAtomPubNewActivity', array($activity, $this->target, &$stored))) {
             // TRANS: Client error displayed when not using the POST verb. Do not translate POST.
             throw new ClientException(_('Could not handle this Atom Activity.'));
         }
         if (!$stored instanceof Notice) {
             throw new ServerException('Server did not create a Notice object from handled AtomPub activity.');
         }
-        \GNUsocial\Event::handle('EndAtomPubNewActivity', array($activity, $this->target, $stored));
+        Event::handle('EndAtomPubNewActivity', array($activity, $this->target, $stored));
 
         header('HTTP/1.1 201 Created');
         header("Location: " . common_local_url('ApiStatusesShow', array('id' => $stored->getID(),

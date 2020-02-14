@@ -28,6 +28,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+use GNUsocial\Event;
+
 if (!defined('GNUSOCIAL')) { exit(1); }
 
 /**
@@ -93,7 +95,7 @@ class DocAction extends ManagedAction
 
     function loadDoc()
     {
-        if (\GNUsocial\Event::handle('StartLoadDoc', array(&$this->title, &$this->output))) {
+        if (Event::handle('StartLoadDoc', array(&$this->title, &$this->output))) {
 
             $paths = DocFile::defaultPaths();
 
@@ -107,7 +109,7 @@ class DocAction extends ManagedAction
 
             $this->output = $docfile->toHTML();
 
-            \GNUsocial\Event::handle('EndLoadDoc', array($this->title, &$this->output));
+            Event::handle('EndLoadDoc', array($this->title, &$this->output));
         }
     }
 
@@ -122,14 +124,14 @@ class DocNav extends Menu
 {
     function show()
     {
-        if (\GNUsocial\Event::handle('StartDocNav', array($this))) {
+        if (Event::handle('StartDocNav', array($this))) {
             $stub = new HomeStubNav($this->action);
             $this->submenu(_m('MENU','Home'), $stub);
 
             $docs = new DocListNav($this->action);
             $this->submenu(_m('MENU','Docs'), $docs);
             
-            \GNUsocial\Event::handle('EndDocNav', array($this));
+            Event::handle('EndDocNav', array($this));
         }
     }
 }
@@ -140,7 +142,7 @@ class DocListNav extends Menu
     {
         $items = array();
 
-        if (\GNUsocial\Event::handle('StartDocsMenu', array(&$items))) {
+        if (Event::handle('StartDocsMenu', array(&$items))) {
 
             $items = array(array('doc',
                                  array('title' => 'help'),
@@ -178,7 +180,7 @@ class DocListNav extends Menu
                                  _('RESTful API'),
                                  'nav_doc_api'));
 
-            \GNUsocial\Event::handle('EndDocsMenu', array(&$items));
+            Event::handle('EndDocsMenu', array(&$items));
         }
         return $items;
     }

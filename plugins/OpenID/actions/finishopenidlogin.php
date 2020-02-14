@@ -17,6 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+use GNUsocial\Event;
+
 if (!defined('STATUSNET')) {
     exit(1);
 }
@@ -126,7 +128,7 @@ class FinishopenidloginAction extends Action
         $this->elementStart('ul', 'form_data');
 
         // Hook point for captcha etc
-        \GNUsocial\Event::handle('StartRegistrationFormData', [$this]);
+        Event::handle('StartRegistrationFormData', [$this]);
 
         $this->elementStart('li');
         // TRANS: Field label.
@@ -146,7 +148,7 @@ class FinishopenidloginAction extends Action
         $this->elementEnd('li');
 
         // Hook point for captcha etc
-        \GNUsocial\Event::handle('EndRegistrationFormData', [$this]);
+        Event::handle('EndRegistrationFormData', [$this]);
 
         $this->elementStart('li');
         $this->element('input', ['type' => 'checkbox',
@@ -326,7 +328,7 @@ class FinishopenidloginAction extends Action
     {
         // FIXME: save invite code before redirect, and check here
 
-        if (!\GNUsocial\Event::handle('StartRegistrationTry', [$this])) {
+        if (!Event::handle('StartRegistrationTry', [$this])) {
             return;
         }
 
@@ -375,7 +377,7 @@ class FinishopenidloginAction extends Action
             $this->serverError(_m('Creating new account for OpenID that already has a user.'));
         }
 
-        \GNUsocial\Event::handle('StartOpenIDCreateNewUser', [$canonical, &$sreg]);
+        Event::handle('StartOpenIDCreateNewUser', [$canonical, &$sreg]);
 
         $location = '';
         if (!empty($sreg['country'])) {
@@ -412,7 +414,7 @@ class FinishopenidloginAction extends Action
 
         $result = oid_link_user($user->id, $canonical, $display);
 
-        \GNUsocial\Event::handle('EndOpenIDCreateNewUser', [$user, $canonical, $sreg]);
+        Event::handle('EndOpenIDCreateNewUser', [$user, $canonical, $sreg]);
 
         oid_set_last($display);
         common_set_user($user);
@@ -422,7 +424,7 @@ class FinishopenidloginAction extends Action
         }
         unset($_SESSION['openid_rememberme']);
 
-        \GNUsocial\Event::handle('EndRegistrationTry', [$this]);
+        Event::handle('EndRegistrationTry', [$this]);
 
         common_redirect(common_local_url('showstream', ['nickname' => $user->nickname]), 303);
     }
@@ -458,10 +460,10 @@ class FinishopenidloginAction extends Action
         }
 
         if ($synch) {
-            if (\GNUsocial\Event::handle('StartOpenIDUpdateUser', [$user, $canonical, &$sreg])) {
+            if (Event::handle('StartOpenIDUpdateUser', [$user, $canonical, &$sreg])) {
                 oid_update_user($user, $sreg);
             }
-            \GNUsocial\Event::handle('EndOpenIDUpdateUser', [$user, $canonical, $sreg]);
+            Event::handle('EndOpenIDUpdateUser', [$user, $canonical, $sreg]);
         }
 
         oid_set_last($display);

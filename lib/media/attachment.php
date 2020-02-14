@@ -28,6 +28,8 @@
  * @link      http://status.net/
  */
 
+use GNUsocial\Event;
+
 if (!defined('GNUSOCIAL')) {
     exit(1);
 }
@@ -39,7 +41,7 @@ class Attachment extends AttachmentListItem
 {
     public function showNoticeAttachment()
     {
-        if (\GNUsocial\Event::handle('StartShowAttachmentLink', [$this->out, $this->attachment])) {
+        if (Event::handle('StartShowAttachmentLink', [$this->out, $this->attachment])) {
             $this->out->elementStart('div', ['id' => 'attachment_view',
                                                   'class' => 'h-entry']);
             $this->out->elementStart('div', 'entry-title');
@@ -49,7 +51,7 @@ class Attachment extends AttachmentListItem
             $this->out->elementStart('article', 'e-content');
             $this->showRepresentation();
             $this->out->elementEnd('article');
-            \GNUsocial\Event::handle('EndShowAttachmentLink', [$this->out, $this->attachment]);
+            Event::handle('EndShowAttachmentLink', [$this->out, $this->attachment]);
             $this->out->elementEnd('div');
         }
     }

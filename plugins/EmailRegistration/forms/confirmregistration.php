@@ -28,6 +28,8 @@
  * @link      http://status.net/
  */
 
+use GNUsocial\Event;
+
 if (!defined('STATUSNET')) {
     // This check helps protect against security problems;
     // your code file can't be executed directly from the web.
@@ -72,7 +74,7 @@ class ConfirmRegistrationForm extends Form
         $this->out->elementStart('ul', 'form_data');
 
         // Hook point for captcha etc
-        \GNUsocial\Event::handle('StartRegistrationFormData', array($this->action));
+        Event::handle('StartRegistrationFormData', array($this->action));
 
         $this->elementStart('li');
 
@@ -115,7 +117,7 @@ class ConfirmRegistrationForm extends Form
         $this->elementEnd('li');
 
         // Hook point for captcha etc
-        \GNUsocial\Event::handle('EndRegistrationFormData', array($this->action));
+        Event::handle('EndRegistrationFormData', array($this->action));
 
         $this->elementStart('li');
 

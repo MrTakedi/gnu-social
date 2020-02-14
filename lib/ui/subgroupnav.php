@@ -27,6 +27,8 @@
  * @link      http://status.net/
  */
 
+use GNUsocial\Event;
+
 if (!defined('STATUSNET') && !defined('LACONICA')) {
     exit(1);
 }
@@ -70,7 +72,7 @@ class SubGroupNav extends Menu
 
         $this->out->elementStart('ul', array('class' => 'nav'));
 
-        if (\GNUsocial\Event::handle('StartSubGroupNav', array($this))) {
+        if (Event::handle('StartSubGroupNav', array($this))) {
 
             $this->out->menuItem(common_local_url('showstream', array('nickname' =>
                                                                       $this->user->nickname)),
@@ -153,7 +155,7 @@ class SubGroupNav extends Menu
                                      'nav_invite');
             }
 
-            \GNUsocial\Event::handle('EndSubGroupNav', array($this));
+            Event::handle('EndSubGroupNav', array($this));
         }
 
         $this->out->elementEnd('ul');

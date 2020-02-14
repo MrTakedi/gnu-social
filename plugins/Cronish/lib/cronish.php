@@ -27,6 +27,8 @@
  * @license   https://www.gnu.org/licenses/agpl.html GNU AGPL v3 or later
  */
 
+use GNUsocial\Event;
+
 defined('GNUSOCIAL') || die();
 
 class Cronish
@@ -69,7 +71,7 @@ class Cronish
 
             if ($run === true) {
                 // such as CronHourly, CronDaily, CronWeekly
-                \GNUsocial\Event::handle('Cron' . ucfirst($name));
+                Event::handle('Cron' . ucfirst($name));
             }
         }
     }

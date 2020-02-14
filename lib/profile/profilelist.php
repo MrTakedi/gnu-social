@@ -27,6 +27,8 @@
  * @link      http://status.net/
  */
 
+use GNUsocial\Event;
+
 if (!defined('GNUSOCIAL')) { exit(1); }
 
 /**
@@ -58,11 +60,11 @@ class ProfileList extends Widget
     {
         $cnt = 0;
 
-        if (\GNUsocial\Event::handle('StartProfileList', array($this))) {
+        if (Event::handle('StartProfileList', array($this))) {
             $this->startList();
             $cnt = $this->showProfiles();
             $this->endList();
-            \GNUsocial\Event::handle('EndProfileList', array($this));
+            Event::handle('EndProfileList', array($this));
         }
 
         return $cnt;

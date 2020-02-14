@@ -17,6 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+use GNUsocial\Event;
+
 if (!defined('GNUSOCIAL') && !defined('STATUSNET')) { exit(1); }
 
 /**
@@ -84,13 +86,13 @@ class DistribQueueHandler
         }
 
         try {
-            \GNUsocial\Event::handle('EndNoticeDistribute', array($notice));
+            Event::handle('EndNoticeDistribute', array($notice));
         } catch (Exception $e) {
             $this->logit($notice, $e);
         }
 
         try {
-            \GNUsocial\Event::handle('EndNoticeSave', array($notice));
+            Event::handle('EndNoticeSave', array($notice));
         } catch (Exception $e) {
             $this->logit($notice, $e);
         }

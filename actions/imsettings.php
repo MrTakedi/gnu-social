@@ -27,6 +27,8 @@
  * @link      http://status.net/
  */
 
+use GNUsocial\Event;
+
 if (!defined('GNUSOCIAL')) { exit(1); }
 
 /**
@@ -81,7 +83,7 @@ class ImsettingsAction extends SettingsAction
     function showContent()
     {
         $transports = array();
-        \GNUsocial\Event::handle('GetImTransports', array(&$transports));
+        Event::handle('GetImTransports', array(&$transports));
         if (! $transports) {
             $this->element('div', array('class' => 'error'),
                            // TRANS: Message given in the IM settings if IM is not enabled on the site.
@@ -297,14 +299,14 @@ class ImsettingsAction extends SettingsAction
             throw new ClientException(_('No transport.'));
         }
 
-        \GNUsocial\Event::handle('NormalizeImScreenname', array($transport, &$screenname));
+        Event::handle('NormalizeImScreenname', array($transport, &$screenname));
 
         if (empty($screenname)) {
             // TRANS: Message given saving IM address that cannot be normalised.
             throw new ClientException(_('Cannot normalize that screenname.'));
         }
         $valid = false;
-        \GNUsocial\Event::handle('ValidateImScreenname', array($transport, $screenname, &$valid));
+        Event::handle('ValidateImScreenname', array($transport, $screenname, &$valid));
         if (!$valid) {
             // TRANS: Message given saving IM address that not valid.
             throw new ClientException(_('Not a valid screenname.'));
@@ -330,7 +332,7 @@ class ImsettingsAction extends SettingsAction
             $this->serverError(_('Could not insert confirmation code.'));
         }
 
-        \GNUsocial\Event::handle('SendImConfirmationCode', array($transport, $screenname, $confirm->code, $this->scoped));
+        Event::handle('SendImConfirmationCode', array($transport, $screenname, $confirm->code, $this->scoped));
 
         // TRANS: Message given saving valid IM address that is to be confirmed.
         return _('A confirmation code was sent to the IM address you added.');

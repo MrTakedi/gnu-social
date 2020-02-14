@@ -28,6 +28,8 @@
  * @link      http://status.net/
  */
 
+use GNUsocial\Event;
+
 if (!defined('GNUSOCIAL')) { exit(1); }
 
 /**
@@ -81,7 +83,7 @@ class SubscriptionsAction extends GalleryAction
 
     function showContent()
     {
-        if (\GNUsocial\Event::handle('StartShowSubscriptionsContent', array($this))) {
+        if (Event::handle('StartShowSubscriptionsContent', array($this))) {
             parent::showContent();
 
             $offset = ($this->page-1) * PROFILES_PER_PAGE;
@@ -108,7 +110,7 @@ class SubscriptionsAction extends GalleryAction
                               array('nickname' => $this->target->getNickname()));
 
 
-            \GNUsocial\Event::handle('EndShowSubscriptionsContent', array($this));
+            Event::handle('EndShowSubscriptionsContent', array($this));
         }
     }
 

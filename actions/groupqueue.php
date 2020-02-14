@@ -27,6 +27,8 @@
  * @link      http://status.net/
  */
 
+use GNUsocial\Event;
+
 if (!defined('STATUSNET') && !defined('LACONICA')) {
     exit(1);
 }
@@ -165,9 +167,9 @@ class GroupQueueListItem extends GroupMemberListItem
     function showActions()
     {
         $this->startActions();
-        if (\GNUsocial\Event::handle('StartProfileListItemActionElements', array($this))) {
+        if (Event::handle('StartProfileListItemActionElements', array($this))) {
             $this->showApproveButtons();
-            \GNUsocial\Event::handle('EndProfileListItemActionElements', array($this));
+            Event::handle('EndProfileListItemActionElements', array($this));
         }
         $this->endActions();
     }

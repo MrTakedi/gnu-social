@@ -20,6 +20,8 @@
  * @license   https://www.gnu.org/licenses/agpl.html GNU AGPL v3 or later
  */
 
+use GNUsocial\Event;
+
 define('INSTALLDIR', dirname(__DIR__, 3));
 define('PUBLICDIR', INSTALLDIR . DIRECTORY_SEPARATOR . 'public');
 
@@ -107,7 +109,7 @@ try {
     $filter = null;
     $minimum = 5;
     $percent = 80;
-    \GNUsocial\Event::handle('GetSpamFilter', array(&$filter));
+    Event::handle('GetSpamFilter', array(&$filter));
     if (empty($filter)) {
         throw new Exception(_("No spam filter."));
     }

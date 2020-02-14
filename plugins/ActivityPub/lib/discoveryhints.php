@@ -29,6 +29,8 @@
  * @link      http://www.gnu.org/software/social/
  */
 
+use GNUsocial\Event;
+
 defined('GNUSOCIAL') || die();
 
 class DiscoveryHints
@@ -37,7 +39,7 @@ class DiscoveryHints
     {
         $hints = [];
 
-        if (\GNUsocial\Event::handle('StartDiscoveryHintsFromXRD', [$xrd, &$hints])) {
+        if (Event::handle('StartDiscoveryHintsFromXRD', [$xrd, &$hints])) {
             foreach ($xrd->links as $link) {
                 switch ($link->rel) {
                 case WebFingerResource_Profile::PROFILEPAGE:
@@ -56,7 +58,7 @@ class DiscoveryHints
                     break;
                 }
             }
-            \GNUsocial\Event::handle('EndDiscoveryHintsFromXRD', [$xrd, &$hints]);
+            Event::handle('EndDiscoveryHintsFromXRD', [$xrd, &$hints]);
         }
 
         return $hints;

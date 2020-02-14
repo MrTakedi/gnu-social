@@ -14,6 +14,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with GNU social.  If not, see <http://www.gnu.org/licenses/>.
 
+use GNUsocial\Event;
+
 defined('GNUSOCIAL') || die();
 
 /**
@@ -113,7 +115,7 @@ class Avatar extends Managed_DataObject
         }
 
         $avatar = null;
-        if (\GNUsocial\Event::handle('StartProfileGetAvatar', array($target, $width, &$avatar))) {
+        if (Event::handle('StartProfileGetAvatar', array($target, $width, &$avatar))) {
             $avatar = self::pkeyGet(
                 array(
                     'profile_id' => $target->id,
@@ -121,7 +123,7 @@ class Avatar extends Managed_DataObject
                     'height'     => $height,
                 )
             );
-            \GNUsocial\Event::handle('EndProfileGetAvatar', array($target, $width, &$avatar));
+            Event::handle('EndProfileGetAvatar', array($target, $width, &$avatar));
         }
 
         if (is_null($avatar)) {

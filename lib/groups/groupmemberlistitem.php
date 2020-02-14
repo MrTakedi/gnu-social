@@ -1,6 +1,8 @@
 <?php
 // @todo FIXME: add documentation.
 
+use GNUsocial\Event;
+
 class GroupMemberListItem extends ProfileListItem
 {
     var $group = null;
@@ -25,11 +27,11 @@ class GroupMemberListItem extends ProfileListItem
     function showActions()
     {
         $this->startActions();
-        if (\GNUsocial\Event::handle('StartProfileListItemActionElements', array($this))) {
+        if (Event::handle('StartProfileListItemActionElements', array($this))) {
             $this->showSubscribeButton();
             $this->showMakeAdminForm();
             $this->showGroupBlockForm();
-            \GNUsocial\Event::handle('EndProfileListItemActionElements', array($this));
+            Event::handle('EndProfileListItemActionElements', array($this));
         }
         $this->endActions();
     }

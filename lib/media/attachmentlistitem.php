@@ -28,6 +28,8 @@
  * @link      http://status.net/
  */
 
+use GNUsocial\Event;
+
 if (!defined('GNUSOCIAL')) { exit(1); }
 
 /**
@@ -105,7 +107,7 @@ class AttachmentListItem extends Widget
     function showRepresentation() {
         $enclosure = $this->attachment->getEnclosure();
 
-        if (\GNUsocial\Event::handle('StartShowAttachmentRepresentation', array($this->out, $this->attachment))) {
+        if (Event::handle('StartShowAttachmentRepresentation', array($this->out, $this->attachment))) {
 
             $this->out->elementStart('label');
             $this->out->element('a', $this->linkAttr(), $this->title());
@@ -193,14 +195,14 @@ class AttachmentListItem extends Widget
                         }
                         // Fall through to default if it wasn't a _local_ text/html File object
                     default:
-                        \GNUsocial\Event::handle('ShowUnsupportedAttachmentRepresentation', array($this->out, $this->attachment));
+                        Event::handle('ShowUnsupportedAttachmentRepresentation', array($this->out, $this->attachment));
                     }
                 }
             } else {
-                \GNUsocial\Event::handle('ShowUnsupportedAttachmentRepresentation', array($this->out, $this->attachment));
+                Event::handle('ShowUnsupportedAttachmentRepresentation', array($this->out, $this->attachment));
             }
         }
-        \GNUsocial\Event::handle('EndShowAttachmentRepresentation', array($this->out, $this->attachment));
+        Event::handle('EndShowAttachmentRepresentation', array($this->out, $this->attachment));
     }
 
     protected function showHtmlFile(File $attachment)

@@ -27,6 +27,8 @@
  * @link      http://status.net/
  */
 
+use GNUsocial\Event;
+
 if (!defined('STATUSNET')) {
     exit(1);
 }
@@ -139,14 +141,14 @@ class FinishaddopenidAction extends Action
             }
 
             if (isset($_SESSION['openid_synch']) && $_SESSION['openid_synch']) {
-                if (\GNUsocial\Event::handle('StartOpenIDUpdateUser', [$cur, $canonical, &$sreg])) {
+                if (Event::handle('StartOpenIDUpdateUser', [$cur, $canonical, &$sreg])) {
                     if (!oid_update_user($cur, $sreg)) {
                         // TRANS: Message in case the user or the user profile cannot be saved in StatusNet.
                         $this->message(_m('Error updating profile.'));
                         return;
                     }
                 }
-                \GNUsocial\Event::handle('EndOpenIDUpdateUser', [$cur, $canonical, $sreg]);
+                Event::handle('EndOpenIDUpdateUser', [$cur, $canonical, $sreg]);
             }
 
             unset($_SESSION['openid_synch']);

@@ -27,6 +27,8 @@
  * @link      http://status.net/
  */
 
+use GNUsocial\Event;
+
 if (!defined('STATUSNET')) {
     exit(1);
 }
@@ -91,7 +93,7 @@ class TwitteradminpanelAction extends AdminPanelAction
         static $booleans = array(
             'twitter'       => array('signin')
         );
-        if (\GNUsocial\Event::handle('TwitterBridgeAdminImportControl')) {
+        if (Event::handle('TwitterBridgeAdminImportControl')) {
             $booleans['twitterimport'] = array('enabled');
         }
 
@@ -283,7 +285,7 @@ class TwitterAdminPanelForm extends AdminForm
         );
         $this->unli();
 
-        if (\GNUsocial\Event::handle('TwitterBridgeAdminImportControl')) {
+        if (Event::handle('TwitterBridgeAdminImportControl')) {
             $this->li();
             $this->out->checkbox(
                 // TRANS: Checkbox label for global setting.

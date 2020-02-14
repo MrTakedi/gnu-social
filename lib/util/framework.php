@@ -28,6 +28,8 @@
  * @license   https://www.gnu.org/licenses/agpl.html GNU AGPL v3 or later
  */
 
+use GNUsocial\Event;
+
 defined('GNUSOCIAL') || die();
 
 define('GNUSOCIAL_ENGINE', 'GNU social');
@@ -148,7 +150,7 @@ function GNUsocial_class_autoload($cls)
     }
 
     if (!$found) {
-        \GNUsocial\Event::handle('Autoload', [&$cls]);
+        Event::handle('Autoload', [&$cls]);
     }
 }
 

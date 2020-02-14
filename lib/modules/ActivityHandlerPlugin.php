@@ -14,6 +14,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with GNU social.  If not, see <http://www.gnu.org/licenses/>.
 
+use GNUsocial\Event;
+
 defined('GNUSOCIAL') || die();
 
 /**
@@ -546,7 +548,7 @@ abstract class ActivityHandlerPlugin extends Plugin
 
         $this->openNoticeListItemElement($nli);
 
-        \GNUsocial\Event::handle('EndOpenNoticeListItemElement', [$nli]);
+        Event::handle('EndOpenNoticeListItemElement', [$nli]);
         return false;
     }
 
@@ -558,7 +560,7 @@ abstract class ActivityHandlerPlugin extends Plugin
 
         $this->closeNoticeListItemElement($nli);
 
-        \GNUsocial\Event::handle('EndCloseNoticeListItemElement', [$nli]);
+        Event::handle('EndCloseNoticeListItemElement', [$nli]);
         return false;
     }
 
@@ -612,7 +614,7 @@ abstract class ActivityHandlerPlugin extends Plugin
             $nli->out->element('p', 'error', sprintf(_('Error showing notice: %s'), $e->getMessage()));
         }
 
-        \GNUsocial\Event::handle('EndShowNoticeItem', array($nli));
+        Event::handle('EndShowNoticeItem', array($nli));
         return false;
     }
 
@@ -631,7 +633,7 @@ abstract class ActivityHandlerPlugin extends Plugin
 
         $this->showNoticeItemNotice($nli);
 
-        \GNUsocial\Event::handle('EndShowNoticeItemNotice', array($nli));
+        Event::handle('EndShowNoticeItemNotice', array($nli));
         return false;
     }
 

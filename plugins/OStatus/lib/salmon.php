@@ -26,6 +26,8 @@
  * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html AGPL 3.0
  * @link      http://status.net/
  */
+use GNUsocial\Event;
+
 class Salmon
 {
     const REL_SALMON = 'salmon';
@@ -61,7 +63,7 @@ class Salmon
         }
 
         // $target is so far only used in Diaspora, so it can be null
-        if (\GNUsocial\Event::handle('SalmonSlap', array($endpoint_uri, $magic_env, $target))) {
+        if (Event::handle('SalmonSlap', array($endpoint_uri, $magic_env, $target))) {
             return false;
             //throw new ServerException('Could not distribute salmon slap as no plugin completed the event.');
         }

@@ -14,6 +14,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with GNU social.  If not, see <http://www.gnu.org/licenses/>.
 
+use GNUsocial\Event;
+
 defined('GNUSOCIAL') || die();
 
 /**
@@ -41,12 +43,12 @@ class Plugin extends Module
 {
     public function __construct()
     {
-        \GNUsocial\Event::addHandler('InitializePlugin', [$this, 'initialize']);
-        \GNUsocial\Event::addHandler('CleanupPlugin', [$this, 'cleanup']);
+        Event::addHandler('InitializePlugin', [$this, 'initialize']);
+        Event::addHandler('CleanupPlugin', [$this, 'cleanup']);
 
         foreach (get_class_methods($this) as $method) {
             if (mb_substr($method, 0, 2) == 'on') {
-                \GNUsocial\Event::addHandler(mb_substr($method, 2), [$this, $method]);
+                Event::addHandler(mb_substr($method, 2), [$this, $method]);
             }
         }
 

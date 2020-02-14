@@ -17,6 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+use GNUsocial\Event;
+
 if (!defined('GNUSOCIAL')) { exit(1); }
 
 /**
@@ -311,7 +313,7 @@ class Ostatus_profile extends Managed_DataObject
 
         // Other plugins may be piggybacking on OStatus without having
         // an active group or user-to-user subscription we know about.
-        \GNUsocial\Event::handle('Ostatus_profileSubscriberCount', array($this, &$count));
+        Event::handle('Ostatus_profileSubscriberCount', array($this, &$count));
         common_log(LOG_INFO, __METHOD__ . " SUB COUNT AFTER: $count");
 
         return $count;
@@ -530,13 +532,13 @@ class Ostatus_profile extends Managed_DataObject
 
         // The "WithProfile" events were added later.
 
-        if (\GNUsocial\Event::handle('StartHandleFeedEntryWithProfile', array($activity, $this->localProfile(), &$notice)) &&
-            \GNUsocial\Event::handle('StartHandleFeedEntry', array($activity))) {
+        if (Event::handle('StartHandleFeedEntryWithProfile', array($activity, $this->localProfile(), &$notice)) &&
+            Event::handle('StartHandleFeedEntry', array($activity))) {
 
             common_log(LOG_INFO, "Ignoring activity with unrecognized verb $activity->verb");
 
-            \GNUsocial\Event::handle('EndHandleFeedEntry', array($activity));
-            \GNUsocial\Event::handle('EndHandleFeedEntryWithProfile', array($activity, $this, $notice));
+            Event::handle('EndHandleFeedEntry', array($activity));
+            Event::handle('EndHandleFeedEntryWithProfile', array($activity, $this, $notice));
         }
 
         return $notice;

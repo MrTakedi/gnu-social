@@ -27,6 +27,8 @@
  * @link      http://status.net/
  */
 
+use GNUsocial\Event;
+
 if (!defined('STATUSNET') && !defined('LACONICA')) {
     exit(1);
 }
@@ -92,7 +94,7 @@ class Location
 
         // Let a third-party handle it
 
-        \GNUsocial\Event::handle('LocationFromName', array($name, $language, &$location));
+        Event::handle('LocationFromName', array($name, $language, &$location));
 
         return $location;
     }
@@ -117,7 +119,7 @@ class Location
 
         // Let a third-party handle it
 
-        \GNUsocial\Event::handle('LocationFromId', array($id, $ns, $language, &$location));
+        Event::handle('LocationFromId', array($id, $ns, $language, &$location));
 
         return $location;
     }
@@ -142,7 +144,7 @@ class Location
 
         // Let a third-party handle it
 
-        if (\GNUsocial\Event::handle('LocationFromLatLon',
+        if (Event::handle('LocationFromLatLon',
                           array($lat, $lon, $language, &$location))) {
             // Default is just the lat/lon pair
 
@@ -173,7 +175,7 @@ class Location
             return $this->names[$language];
         } else {
             $name = null;
-            \GNUsocial\Event::handle('LocationNameLanguage', array($this, $language, &$name));
+            Event::handle('LocationNameLanguage', array($this, $language, &$name));
             if (!empty($name)) {
                 $this->names[$language] = $name;
                 return $name;
@@ -197,7 +199,7 @@ class Location
 
         $url = null;
 
-        \GNUsocial\Event::handle('LocationUrl', array($this, &$url));
+        Event::handle('LocationUrl', array($this, &$url));
 
         $this->_url = $url;
 
@@ -220,7 +222,7 @@ class Location
 
         $url = null;
 
-        \GNUsocial\Event::handle('LocationRdfUrl', array($this, &$url));
+        Event::handle('LocationRdfUrl', array($this, &$url));
 
         $this->_rdfurl = $url;
 

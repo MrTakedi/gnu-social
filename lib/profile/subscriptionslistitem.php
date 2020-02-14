@@ -1,5 +1,7 @@
 <?php
 
+use GNUsocial\Event;
+
 if (!defined('GNUSOCIAL')) { exit(1); }
 
 class SubscriptionsListItem extends SubscriptionListItem
@@ -13,7 +15,7 @@ class SubscriptionsListItem extends SubscriptionListItem
         }
 
         $transports = array();
-        \GNUsocial\Event::handle('GetImTransports', array(&$transports));
+        Event::handle('GetImTransports', array(&$transports));
         if (!$transports && !common_config('sms', 'enabled')) {
             return;
         }

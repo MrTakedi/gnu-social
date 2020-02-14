@@ -25,6 +25,8 @@
  * @license   https://www.gnu.org/licenses/agpl.html GNU AGPL v3 or later
  */
 
+use GNUsocial\Event;
+
 define('INSTALLDIR', dirname(__DIR__, 3));
 define('PUBLICDIR', INSTALLDIR . DIRECTORY_SEPARATOR . 'public');
 
@@ -168,7 +170,7 @@ while ($fn->fetch()) {
     if (isset($fetch) && $fetch === true && !$dry) {
         $fetch = false;
         echo "Attempting to fetch Embed data\n";
-        \GNUsocial\Event::handle('EndFileSaveNew', array($f));
+        Event::handle('EndFileSaveNew', array($f));
     }
 }
 

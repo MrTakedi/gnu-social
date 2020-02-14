@@ -19,12 +19,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+use GNUsocial\Event;
+
 class DiscoveryHints {
     static function fromXRD(XML_XRD $xrd)
     {
         $hints = array();
 
-        if (\GNUsocial\Event::handle('StartDiscoveryHintsFromXRD', array($xrd, &$hints))) {
+        if (Event::handle('StartDiscoveryHintsFromXRD', array($xrd, &$hints))) {
             foreach ($xrd->links as $link) {
                 switch ($link->rel) {
                 case WebFingerResource_Profile::PROFILEPAGE:
@@ -48,7 +50,7 @@ class DiscoveryHints {
                     break;
                 }
             }
-            \GNUsocial\Event::handle('EndDiscoveryHintsFromXRD', array($xrd, &$hints));
+            Event::handle('EndDiscoveryHintsFromXRD', array($xrd, &$hints));
         }
 
         return $hints;

@@ -26,6 +26,8 @@
  * @link      http://www.gnu.org/software/social/
  */
 
+use GNUsocial\Event;
+
 if (!defined('GNUSOCIAL')) { exit(1); }
 
 class ApiAccountRegisterAction extends ApiAction
@@ -149,7 +151,7 @@ class ApiAccountRegisterAction extends ApiAction
             // annoy spammers
             sleep(7);
             
-			if (\GNUsocial\Event::handle('APIStartRegistrationTry', array($this))) { 
+			if (Event::handle('APIStartRegistrationTry', array($this))) { 
 				try {
 					$user = User::register(array('nickname' => $nickname,
 														'password' => $password,
@@ -159,7 +161,7 @@ class ApiAccountRegisterAction extends ApiAction
 														'bio' => $bio,
 														'location' => $location,
 														'code' => $this->code));
-					\GNUsocial\Event::handle('EndRegistrationTry', array($this));
+					Event::handle('EndRegistrationTry', array($this));
 
 					$this->initDocument('json');
 					$this->showJsonObjects($this->twitterUserArray($user->getProfile()));

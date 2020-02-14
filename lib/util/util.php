@@ -16,6 +16,8 @@
 
 /* XXX: break up into separate modules (HTTP, user, files) */
 
+use GNUsocial\Event;
+
 defined('GNUSOCIAL') || die();
 
 /**
@@ -217,8 +219,8 @@ function common_munge_password($password, Profile $profile=null)
 {
     $hashed = null;
 
-    if (\GNUsocial\Event::handle('StartHashPassword', [&$hashed, $password, $profile])) {
-        \GNUsocial\Event::handle('EndHashPassword', [&$hashed, $password, $profile]);
+    if (Event::handle('StartHashPassword', [&$hashed, $password, $profile])) {
+        Event::handle('EndHashPassword', [&$hashed, $password, $profile]);
     }
     if (empty($hashed)) {
         throw new PasswordHashException();
@@ -239,7 +241,7 @@ function common_check_user($nickname, $password)
 
     $authenticatedUser = false;
 
-    if (\GNUsocial\Event::handle('StartCheckPassword', [$nickname, $password, &$authenticatedUser])) {
+    if (Event::handle('StartCheckPassword', [$nickname, $password, &$authenticatedUser])) {
         if (common_is_email($nickname)) {
             $user = User::getKV('email', common_canonical_email($nickname));
         } else {
@@ -253,7 +255,7 @@ function common_check_user($nickname, $password)
             }
         }
     }
-    \GNUsocial\Event::handle('EndCheckPassword', [$nickname, $password, $authenticatedUser]);
+    Event::handle('EndCheckPassword', [$nickname, $password, $authenticatedUser]);
 
     return $authenticatedUser;
 }
@@ -330,7 +332,7 @@ function common_set_user($user)
     }
 
     if ($user) {
-        if (\GNUsocial\Event::handle('StartSetUser', [&$user])) {
+        if (Event::handle('StartSetUser', [&$user])) {
             if (!empty($user)) {
                 if (!$user->hasRight(Right::WEBLOGIN)) {
                     // TRANS: Authorisation exception thrown when a user a not allowed to login.
@@ -339,7 +341,7 @@ function common_set_user($user)
                 common_ensure_session();
                 $_SESSION['userid'] = $user->id;
                 $_cur = $user;
-                \GNUsocial\Event::handle('EndSetUser', [$user]);
+                Event::handle('EndSetUser', [$user]);
                 return $_cur;
             }
         }
@@ -633,7 +635,7 @@ function common_purify($html, array $args=[])
 
     $purifier = new HTMLPurifier($cfg);
     $purified = $purifier->purify($html);
-    \GNUsocial\Event::handle('EndCommonPurify', [&$purified, $html]);
+    Event::handle('EndCommonPurify', [&$purified, $html]);
 
     return $purified;
 }
@@ -700,7 +702,7 @@ function common_linkify_mention(array $mention)
 {
     $output = null;
 
-    if (\GNUsocial\Event::handle('StartLinkifyMention', [$mention, &$output])) {
+    if (Event::handle('StartLinkifyMention', [$mention, &$output])) {
         $xs = new XMLStringer(false);
 
         $attrs = ['href' => $mention['url'],
@@ -714,7 +716,7 @@ function common_linkify_mention(array $mention)
 
         $output = $xs->getString();
 
-        \GNUsocial\Event::handle('EndLinkifyMention', [$mention, &$output]);
+        Event::handle('EndLinkifyMention', [$mention, &$output]);
     }
 
     return $output;
@@ -757,7 +759,7 @@ function common_find_mentions($text, Profile $sender, Notice $parent=null)
 {
     $mentions = [];
 
-    if (\GNUsocial\Event::handle('StartFindMentions', [$sender, $text, &$mentions])) {
+    if (Event::handle('StartFindMentions', [$sender, $text, &$mentions])) {
         // Get the context of the original notice, if any
         $origMentions = [];
         // Does it have a parent notice for context?
@@ -874,7 +876,7 @@ function common_find_mentions($text, Profile $sender, Notice $parent=null)
                            'title'     => $group->getFancyName()];
         }
 
-        \GNUsocial\Event::handle('EndFindMentions', [$sender, $text, &$mentions]);
+        Event::handle('EndFindMentions', [$sender, $text, &$mentions]);
     }
 
     return $mentions;
@@ -1385,7 +1387,7 @@ function common_relative_profile($sender, $nickname, $dt=null)
 
 function common_local_url($action, $args=null, $params=null, $fragment=null, $addSession=true, $defancy = false)
 {
-    if (\GNUsocial\Event::handle('StartLocalURL', [&$action, &$params, &$fragment, &$addSession, &$url])) {
+    if (Event::handle('StartLocalURL', [&$action, &$params, &$fragment, &$addSession, &$url])) {
         $r = Router::get();
         $path = $r->build($action, $args, $params, $fragment);
 
@@ -1400,7 +1402,7 @@ function common_local_url($action, $args=null, $params=null, $fragment=null, $ad
                 $url = common_path('index.php/'.$path, $ssl, $addSession);
             }
         }
-        \GNUsocial\Event::handle('EndLocalURL', [&$action, &$params, &$fragment, &$addSession, &$url]);
+        Event::handle('EndLocalURL', [&$action, &$params, &$fragment, &$addSession, &$url]);
     }
     return $url;
 }
@@ -1689,7 +1691,7 @@ function common_enqueue_notice($notice)
     if (common_config('sms', 'enabled')) {
         $transports[] = 'sms';
     }
-    if (\GNUsocial\Event::hasHandler('HandleQueuedNotice')) {
+    if (Event::hasHandler('HandleQueuedNotice')) {
         $transports[] = 'Module';
     }
 
@@ -1698,14 +1700,14 @@ function common_enqueue_notice($notice)
         $transports = array_merge($transports, $localTransports);
     }
 
-    if (\GNUsocial\Event::handle('StartEnqueueNotice', [$notice, &$transports])) {
+    if (Event::handle('StartEnqueueNotice', [$notice, &$transports])) {
         $qm = QueueManager::get();
 
         foreach ($transports as $transport) {
             $qm->enqueue($notice, $transport);
         }
 
-        \GNUsocial\Event::handle('EndEnqueueNotice', [$notice, $transports]);
+        Event::handle('EndEnqueueNotice', [$notice, $transports]);
     }
 
     return true;
@@ -1868,7 +1870,7 @@ function common_log($priority, $msg, $filename=null)
         return;
     }
 
-    if (\GNUsocial\Event::handle('StartLog', [&$priority, &$msg, &$filename])) {
+    if (Event::handle('StartLog', [&$priority, &$msg, &$filename])) {
         $msg = (empty($filename)) ? $msg : basename($filename) . ' - ' . $msg;
         $msg = '[' . common_request_id() . '] ' . $msg;
         $logfile = common_config('site', 'logfile');
@@ -1883,7 +1885,7 @@ function common_log($priority, $msg, $filename=null)
             common_ensure_syslog();
             syslog($priority, $msg);
         }
-        \GNUsocial\Event::handle('EndLog', [$priority, $msg, $filename]);
+        Event::handle('EndLog', [$priority, $msg, $filename]);
     }
 }
 
@@ -2326,13 +2328,13 @@ function common_profile_uri($profile)
     $uri = null;
 
     if (!empty($profile)) {
-        if (\GNUsocial\Event::handle('StartCommonProfileURI', [$profile, &$uri])) {
+        if (Event::handle('StartCommonProfileURI', [$profile, &$uri])) {
             $user = User::getKV('id', $profile->id);
             if ($user instanceof User) {
                 $uri = $user->getUri();
             } // FIXME: might be a remote profile, by this function name, I would guess it would be fine to call this
             // On the other hand, there's Profile->getUri
-            \GNUsocial\Event::handle('EndCommonProfileURI', [$profile, &$uri]);
+            Event::handle('EndCommonProfileURI', [$profile, &$uri]);
         }
     }
 
@@ -2462,7 +2464,7 @@ function common_shorten_url($long_url, User $user=null, $force = false)
 
     $shortenerName = User_urlshortener_prefs::urlShorteningService($user);
 
-    if (\GNUsocial\Event::handle(
+    if (Event::handle(
         'StartShortenUrl',
         [$long_url, $shortenerName, &$shortenedUrl]
     )) {

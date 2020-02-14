@@ -125,6 +125,8 @@
     @endverbatim
 */
 
+use GNUsocial\Event;
+
 if (!defined('STATUSNET')) {
     exit(1);
 }
@@ -359,7 +361,7 @@ class ApiStatusesUpdateAction extends ApiAuthAction
 
         $supported = null;
 
-        if (\GNUsocial\Event::handle('CommandSupportedAPI', array($cmd, &$supported))) {
+        if (Event::handle('CommandSupportedAPI', array($cmd, &$supported))) {
             $supported = $supported || in_array(get_class($cmd), $cmdlist);
         }
 

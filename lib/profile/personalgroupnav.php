@@ -28,6 +28,8 @@
  * @link      http://status.net/
  */
 
+use GNUsocial\Event;
+
 if (!defined('STATUSNET') && !defined('LACONICA')) {
     exit(1);
 }
@@ -70,7 +72,7 @@ class PersonalGroupNav extends Menu
 
         $this->out->elementStart('ul', array('class' => 'nav'));
 
-        if (\GNUsocial\Event::handle('StartPersonalGroupNav', array($this, $target, $scoped))) {
+        if (Event::handle('StartPersonalGroupNav', array($this, $target, $scoped))) {
             $this->out->menuItem(common_local_url('all', array('nickname' =>
                                                                $nickname)),
                                  // TRANS: Menu item in personal group navigation menu.
@@ -96,7 +98,7 @@ class PersonalGroupNav extends Menu
                                  sprintf(_('Replies to %s'), $name),
                                  $mine && $action =='replies', 'nav_timeline_replies');
 
-            \GNUsocial\Event::handle('EndPersonalGroupNav', array($this, $target, $scoped));
+            Event::handle('EndPersonalGroupNav', array($this, $target, $scoped));
         }
         $this->out->elementEnd('ul');
     }

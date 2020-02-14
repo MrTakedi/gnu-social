@@ -27,6 +27,8 @@
  * @link      http://status.net/
  */
 
+use GNUsocial\Event;
+
 if (!defined('GNUSOCIAL')) { exit(1); }
 
 /**
@@ -173,11 +175,11 @@ class SortableSubscriptionListItem extends SubscriptionListItem
 
     function show()
     {
-        if (\GNUsocial\Event::handle('StartProfileListItem', array($this))) {
+        if (Event::handle('StartProfileListItem', array($this))) {
             $this->startItem();
-            if (\GNUsocial\Event::handle('StartProfileListItemProfile', array($this))) {
+            if (Event::handle('StartProfileListItemProfile', array($this))) {
                 $this->showProfile();
-                \GNUsocial\Event::handle('EndProfileListItemProfile', array($this));
+                Event::handle('EndProfileListItemProfile', array($this));
             }
 
             // XXX Add events?
@@ -185,12 +187,12 @@ class SortableSubscriptionListItem extends SubscriptionListItem
             $this->showSubscriberCount();
             $this->showNoticeCount();
 
-            if (\GNUsocial\Event::handle('StartProfileListItemActions', array($this))) {
+            if (Event::handle('StartProfileListItemActions', array($this))) {
                 $this->showActions();
-                \GNUsocial\Event::handle('EndProfileListItemActions', array($this));
+                Event::handle('EndProfileListItemActions', array($this));
             }
             $this->endItem();
-            \GNUsocial\Event::handle('EndProfileListItem', array($this));
+            Event::handle('EndProfileListItem', array($this));
         }
     }
 

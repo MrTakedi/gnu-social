@@ -28,6 +28,8 @@
  * @link      http://status.net/
  */
 
+use GNUsocial\Event;
+
 if (!defined('STATUSNET') && !defined('LACONICA')) {
     exit(1);
 }
@@ -140,7 +142,7 @@ class GroupEditForm extends Form
         }
 
         $this->out->elementStart('ul', 'form_data');
-        if (\GNUsocial\Event::handle('StartGroupEditFormData', array($this))) {
+        if (Event::handle('StartGroupEditFormData', array($this))) {
             $this->out->elementStart('li');
             $this->out->hidden('groupid', $id);
             // TRANS: Field label on group edit form.
@@ -213,7 +215,7 @@ class GroupEditForm extends Form
                                  // TRANS: Checkbox field title on group edit form to mark a group private.
                                  _('New members must be approved by admin and all posts are forced to be private.'));
             $this->out->elementEnd('li');
-            \GNUsocial\Event::handle('EndGroupEditFormData', array($this));
+            Event::handle('EndGroupEditFormData', array($this));
         }
         $this->out->elementEnd('ul');
     }

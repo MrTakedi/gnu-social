@@ -27,6 +27,8 @@
  * @link      http://status.net/
  */
 
+use GNUsocial\Event;
+
 if (!defined('GNUSOCIAL')) { exit(1); }
 
 /**
@@ -44,8 +46,8 @@ class ProfileMiniListItem extends ProfileListItem
     function show()
     {
         $this->out->elementStart('li', 'h-card');
-        if (\GNUsocial\Event::handle('StartProfileListItemProfileElements', array($this))) {
-            if (\GNUsocial\Event::handle('StartProfileListItemAvatar', array($this))) {
+        if (Event::handle('StartProfileListItemProfileElements', array($this))) {
+            if (Event::handle('StartProfileListItemAvatar', array($this))) {
                 $aAttrs = $this->linkAttributes();
                 $this->out->elementStart('a', $aAttrs);
                 $avatarUrl = $this->profile->avatarUrl(AVATAR_MINI_SIZE);
@@ -55,7 +57,7 @@ class ProfileMiniListItem extends ProfileListItem
                                                  'class' => 'avatar u-photo',
                                                  'alt' =>  $this->profile->getBestName()));
                 $this->out->elementEnd('a');
-                \GNUsocial\Event::handle('EndProfileListItemAvatar', array($this));
+                Event::handle('EndProfileListItemAvatar', array($this));
             }
             $this->out->elementEnd('li');
         }

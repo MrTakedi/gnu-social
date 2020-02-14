@@ -28,6 +28,8 @@
  * @link      http://status.net/
  */
 
+use GNUsocial\Event;
+
 if (!defined('GNUSOCIAL') && !defined('STATUSNET')) { exit(1); }
 
 /**
@@ -196,7 +198,7 @@ class AtompubmembershipfeedAction extends AtompubAction
 
         $membership = null;
 
-        if (\GNUsocial\Event::handle('StartAtomPubNewActivity', array(&$activity))) {
+        if (Event::handle('StartAtomPubNewActivity', array(&$activity))) {
             if ($activity->verb != ActivityVerb::JOIN) {
                 // TRANS: Client error displayed when not using the join verb.
                 throw new ClientException(_('Can only handle join activities.'));
@@ -235,7 +237,7 @@ class AtompubmembershipfeedAction extends AtompubAction
 
             $this->auth_user->joinGroup($group);
 
-            \GNUsocial\Event::handle('EndAtomPubNewActivity', array($activity, $membership));
+            Event::handle('EndAtomPubNewActivity', array($activity, $membership));
         }
 
         if (!empty($membership)) {

@@ -28,6 +28,8 @@
  * @link      http://status.net/
  */
 
+use GNUsocial\Event;
+
 if (!defined('STATUSNET')) {
     // This check helps protect against security problems;
     // your code file can't be executed directly from the web.
@@ -253,7 +255,7 @@ class GroupPrivateMessagePlugin extends Plugin
 
             if (!empty($addr) && $addr[0] == '!') {
                 $result = new GroupMessageCommand($user, substr($addr, 1), $msg);
-                \GNUsocial\Event::handle('EndInterpretCommand', array($cmd, $arg, $user, $result));
+                Event::handle('EndInterpretCommand', array($cmd, $arg, $user, $result));
                 return false;
             }
         }

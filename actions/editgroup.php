@@ -29,6 +29,8 @@
  * @link      http://status.net/
  */
 
+use GNUsocial\Event;
+
 if (!defined('STATUSNET') && !defined('LACONICA') && !defined('GNUSOCIAL')) {
     exit(1);
 }
@@ -158,7 +160,7 @@ class EditgroupAction extends GroupAction
             $this->clientError(_('You must be an admin to edit the group.'), 403);
         }
 
-        if (\GNUsocial\Event::handle('StartGroupSaveForm', [$this])) {
+        if (Event::handle('StartGroupSaveForm', [$this])) {
 
             // $nickname will only be set if this changenick value is true.
             $nickname = null;
@@ -276,7 +278,7 @@ class EditgroupAction extends GroupAction
 
             $this->group->query('COMMIT');
 
-            \GNUsocial\Event::handle('EndGroupSaveForm', [$this]);
+            Event::handle('EndGroupSaveForm', [$this]);
 
             if ($this->group->nickname != $orig->nickname) {
                 common_redirect(common_local_url('editgroup', ['nickname' => $this->group->nickname]), 303);

@@ -28,6 +28,8 @@
  * @link      http://status.net/
  */
 
+use GNUsocial\Event;
+
 if (!defined('STATUSNET')) {
     // This check helps protect against security problems;
     // your code file can't be executed directly from the web.
@@ -68,7 +70,7 @@ class SettingsNav extends Menu
         $this->action->element('h3', null, _m('HEADER','Settings'));
         $this->action->elementStart('ul', array('class' => 'nav'));
 
-        if (\GNUsocial\Event::handle('StartAccountSettingsNav', array(&$this->action))) {
+        if (Event::handle('StartAccountSettingsNav', array(&$this->action))) {
             $this->action->menuItem(common_local_url('profilesettings'),
                                     // TRANS: Menu item in settings navigation panel.
                                     _m('MENU','Profile'),
@@ -104,11 +106,11 @@ class SettingsNav extends Menu
                                     _('URL shorteners'),
                                     $actionName == 'urlsettings');
 
-            \GNUsocial\Event::handle('EndAccountSettingsNav', array(&$this->action));
+            Event::handle('EndAccountSettingsNav', array(&$this->action));
 
             $haveImPlugin = false;
 
-            \GNUsocial\Event::handle('HaveImPlugin', array(&$haveImPlugin));
+            Event::handle('HaveImPlugin', array(&$haveImPlugin));
 
             if ($haveImPlugin) {
                 $this->action->menuItem(common_local_url('imsettings'),
@@ -144,7 +146,7 @@ class SettingsNav extends Menu
                                         $actionName == 'oldschoolsettings');
             }
 
-            \GNUsocial\Event::handle('EndConnectSettingsNav', array(&$this->action));
+            Event::handle('EndConnectSettingsNav', array(&$this->action));
         }
 
         $this->action->elementEnd('ul');

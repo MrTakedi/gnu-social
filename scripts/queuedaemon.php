@@ -18,6 +18,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+use GNUsocial\Event;
+
 define('INSTALLDIR', dirname(__DIR__));
 define('PUBLICDIR', INSTALLDIR . DIRECTORY_SEPARATOR . 'public');
 
@@ -140,13 +142,13 @@ class QueueMaster extends IoMaster
     function initManagers()
     {
         $managers = array();
-        if (\GNUsocial\Event::handle('StartQueueDaemonIoManagers', array(&$managers))) {
+        if (Event::handle('StartQueueDaemonIoManagers', array(&$managers))) {
             $qm = QueueManager::get();
             $qm->setActiveGroup('main');
             $managers[] = $qm;
             $managers[] = $this->processManager;
         }
-        \GNUsocial\Event::handle('EndQueueDaemonIoManagers', array(&$managers));
+        Event::handle('EndQueueDaemonIoManagers', array(&$managers));
 
         foreach ($managers as $manager) {
             $this->instantiate($manager);

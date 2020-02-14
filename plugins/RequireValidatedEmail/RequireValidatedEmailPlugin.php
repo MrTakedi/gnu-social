@@ -29,6 +29,8 @@
  * @license   https://www.gnu.org/licenses/agpl.html GNU AGPL v3 or later
  */
 
+use GNUsocial\Event;
+
 defined('GNUSOCIAL') || die();
 
 /**
@@ -143,7 +145,7 @@ class RequireValidatedEmailPlugin extends Plugin
         // that somebody's ok despite a non-validated email.
 
         // @todo FIXME: This isn't how to do it! Use Start*/End* instead
-        \GNUsocial\Event::handle(
+        Event::handle(
             'RequireValidatedEmailPlugin_Override',
             [$user, &$knownGood]
         );

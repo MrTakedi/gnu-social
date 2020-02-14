@@ -26,6 +26,8 @@
  * @author  Mikael Nordfeldth <mmn@hethane.se>
  */
 
+use GNUsocial\Event;
+
 if (!defined('GNUSOCIAL')) { exit(1); }
 
 class FetchRemotePlugin extends Plugin
@@ -52,7 +54,7 @@ class FetchRemotePlugin extends Plugin
 
     public function onFetchRemoteNoticeWithSource($uri, Profile $source, &$stored)
     {
-        if (common_valid_http_url($uri) && !\GNUsocial\Event::handle('FetchRemoteNoticeFromUrl', array($url, &$stored))) {
+        if (common_valid_http_url($uri) && !Event::handle('FetchRemoteNoticeFromUrl', array($url, &$stored))) {
             // Woopi, we got it straight from a URL-formatted URI!
             return false;
         }

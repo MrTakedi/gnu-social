@@ -24,6 +24,8 @@
  * @license   https://www.gnu.org/licenses/agpl.html GNU AGPL v3 or later
  */
 
+use GNUsocial\Event;
+
 defined('GNUSOCIAL') || die();
 
 require_once dirname(__DIR__) . '/twitter.php';
@@ -180,7 +182,7 @@ class TwitterImport
         $notice->content  = html_entity_decode($this->linkify($status, false), ENT_QUOTES, 'UTF-8');
         $notice->rendered = $this->linkify($status, true);
 
-        if (\GNUsocial\Event::handle('StartNoticeSave', array(&$notice))) {
+        if (Event::handle('StartNoticeSave', array(&$notice))) {
             if (empty($notice->conversation)) {
                 $conv = Conversation::create();
                 common_log(LOG_INFO, "No known conversation for status {$statusId} so a new one ({$conv->getID()}) was created.");
@@ -194,7 +196,7 @@ class TwitterImport
                 common_log(LOG_ERR, __METHOD__ . ' - Problem saving notice.');
             }
 
-            \GNUsocial\Event::handle('EndNoticeSave', array($notice));
+            Event::handle('EndNoticeSave', array($notice));
         }
 
         Notice_to_status::saveNew($notice->id, $statusId);

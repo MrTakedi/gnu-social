@@ -30,6 +30,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+use GNUsocial\Event;
+
 if (!defined('GNUSOCIAL')) { exit(1); }
 
 require_once __DIR__.'/../openid.php';
@@ -70,8 +72,8 @@ class PublicxrdsAction extends Action
         parent::handle();
         $xrdsOutputter = new XRDSOutputter();
         $xrdsOutputter->startXRDS();
-        \GNUsocial\Event::handle('StartPublicXRDS', array($this,&$xrdsOutputter));
-        \GNUsocial\Event::handle('EndPublicXRDS', array($this,&$xrdsOutputter));
+        Event::handle('StartPublicXRDS', array($this,&$xrdsOutputter));
+        Event::handle('EndPublicXRDS', array($this,&$xrdsOutputter));
         $xrdsOutputter->endXRDS();
     }
 }

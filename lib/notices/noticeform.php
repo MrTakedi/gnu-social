@@ -28,6 +28,8 @@
  * @link      http://status.net/
  */
 
+use GNUsocial\Event;
+
 if (!defined('GNUSOCIAL')) { exit(1); }
 
 /**
@@ -201,7 +203,7 @@ class NoticeForm extends Form
      */
     function formData()
     {
-        if (\GNUsocial\Event::handle('StartShowNoticeFormData', array($this))) {
+        if (Event::handle('StartShowNoticeFormData', array($this))) {
             $this->out->element('label', array('for' => 'notice_data-text',
                                                'id' => 'notice_data-text-label'),
                                 // TRANS: Title for notice label. %s is the user's nickname.
@@ -284,7 +286,7 @@ class NoticeForm extends Form
                     '}');
             }
 
-            \GNUsocial\Event::handle('EndShowNoticeFormData', array($this));
+            Event::handle('EndShowNoticeFormData', array($this));
         }
     }
 

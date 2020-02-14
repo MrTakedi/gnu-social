@@ -27,6 +27,8 @@
  * @link      https://gnu.io/social
  */
 
+use GNUsocial\Event;
+
 if (!defined('GNUSOCIAL')) { exit(1); }
 
 class ActivityverbAction extends ManagedAction
@@ -39,7 +41,7 @@ class ActivityverbAction extends ManagedAction
     public function title()
     {
         $title = null;
-        \GNUsocial\Event::handle('ActivityVerbTitle', array($this, $this->verb, $this->notice, $this->scoped, &$title));
+        Event::handle('ActivityVerbTitle', array($this, $this->verb, $this->notice, $this->scoped, &$title));
         return $title;
     }
 
@@ -58,12 +60,12 @@ class ActivityverbAction extends ManagedAction
                                         $this->scoped->getNickname(), $this->notice->getID()), 403);
         }
 
-        \GNUsocial\Event::handle('ActivityVerbDoPreparation', array($this, $this->verb, $this->notice, $this->scoped));
+        Event::handle('ActivityVerbDoPreparation', array($this, $this->verb, $this->notice, $this->scoped));
     }
 
     protected function doPost()
     {
-        if (\GNUsocial\Event::handle('ActivityVerbDoPost', array($this, $this->verb, $this->notice, $this->scoped))) {
+        if (Event::handle('ActivityVerbDoPost', array($this, $this->verb, $this->notice, $this->scoped))) {
             // TRANS: Error when a POST method for an activity verb has not been handled by a plugin.
             throw new ClientException(sprintf(_('Could not handle POST for verb "%1$s".'), $this->verb));
         }
@@ -71,7 +73,7 @@ class ActivityverbAction extends ManagedAction
 
     protected function showContent()
     {
-        if (\GNUsocial\Event::handle('ActivityVerbShowContent', array($this, $this->verb, $this->notice, $this->scoped))) {
+        if (Event::handle('ActivityVerbShowContent', array($this, $this->verb, $this->notice, $this->scoped))) {
             // TRANS: Error when a page for an activity verb has not been handled by a plugin.
             $this->element('div', 'error', sprintf(_('Could not show content for verb "%1$s".'), $this->verb));
         }

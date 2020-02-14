@@ -24,6 +24,8 @@
  * @license   https://www.gnu.org/licenses/agpl.html GNU AGPL v3 or later
  */
 
+use GNUsocial\Event;
+
 defined('GNUSOCIAL') || die();
 
 /**
@@ -123,7 +125,7 @@ class NewmessageAction extends FormAction
         }
 
         $message = MessageModel::saveNew($this->scoped, $this->content);
-        \GNUsocial\Event::handle('SendDirectMessage', [$message]);
+        Event::handle('SendDirectMessage', [$message]);
         mail_notify_message($message);
 
         if (GNUsocial::isAjax()) {

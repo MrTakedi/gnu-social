@@ -27,6 +27,8 @@
  * @link      http://status.net/
  */
 
+use GNUsocial\Event;
+
 if (!defined('GNUSOCIAL')) { exit(1); }
 
 /**
@@ -104,7 +106,7 @@ class Router
     {
         $m = new URLMapper();
 
-        if (\GNUsocial\Event::handle('StartInitializeRouter', [&$m])) {
+        if (Event::handle('StartInitializeRouter', [&$m])) {
 
             // top of the menu hierarchy, sometimes "Home"
             $m->connect('', ['action' => 'top']);
@@ -1106,7 +1108,7 @@ class Router
 
             // user stuff
 
-            \GNUsocial\Event::handle('RouterInitialized', [$m]);
+            Event::handle('RouterInitialized', [$m]);
         }
 
         return $m;

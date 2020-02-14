@@ -14,6 +14,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with GNU social.  If not, see <http://www.gnu.org/licenses/>.
 
+use GNUsocial\Event;
+
 defined('GNUSOCIAL') || die();
 
 /**
@@ -70,7 +72,7 @@ class SearchSubsAction extends GalleryAction
 
     public function showContent()
     {
-        if (\GNUsocial\Event::handle('StartShowTagSubscriptionsContent', array($this))) {
+        if (Event::handle('StartShowTagSubscriptionsContent', array($this))) {
             parent::showContent();
 
             $offset = ($this->page - 1) * PROFILES_PER_PAGE;
@@ -102,7 +104,7 @@ class SearchSubsAction extends GalleryAction
             );
 
 
-            \GNUsocial\Event::handle('EndShowTagSubscriptionsContent', array($this));
+            Event::handle('EndShowTagSubscriptionsContent', array($this));
         }
     }
 

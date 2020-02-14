@@ -25,6 +25,8 @@
  * @license   https://www.gnu.org/licenses/agpl.html GNU AGPL v3 or later
  */
 
+use GNUsocial\Event;
+
 defined('GNUSOCIAL') || die();
 
 /**
@@ -205,7 +207,7 @@ class EmailsettingsAction extends SettingsAction
 
         $this->elementStart('ul', 'form_data');
 
-        if (\GNUsocial\Event::handle('StartEmailFormData', array($this, $this->scoped))) {
+        if (Event::handle('StartEmailFormData', array($this, $this->scoped))) {
             $this->elementStart('li');
             $this->checkbox(
                 'emailnotifysub',
@@ -238,7 +240,7 @@ class EmailsettingsAction extends SettingsAction
                 $user->emailnotifynudge
             );
             $this->elementEnd('li');
-            \GNUsocial\Event::handle('EndEmailFormData', array($this, $this->scoped));
+            Event::handle('EndEmailFormData', array($this, $this->scoped));
         }
         $this->elementEnd('ul');
         // TRANS: Button label to save e-mail preferences.
@@ -294,7 +296,7 @@ class EmailsettingsAction extends SettingsAction
      */
     public function savePreferences()
     {
-        if (\GNUsocial\Event::handle('StartEmailSaveForm', array($this, $this->scoped))) {
+        if (Event::handle('StartEmailSaveForm', array($this, $this->scoped))) {
             $emailnotifysub   = $this->boolean('emailnotifysub');
             $emailnotifymsg   = $this->boolean('emailnotifymsg');
             $emailnotifynudge = $this->boolean('emailnotifynudge');
@@ -322,7 +324,7 @@ class EmailsettingsAction extends SettingsAction
 
             $user->query('COMMIT');
 
-            \GNUsocial\Event::handle('EndEmailSaveForm', array($this, $this->scoped));
+            Event::handle('EndEmailSaveForm', array($this, $this->scoped));
         }
         // TRANS: Confirmation message for successful e-mail preferences save.
         return _('Email preferences saved.');
@@ -363,7 +365,7 @@ class EmailsettingsAction extends SettingsAction
             throw new ClientException(_('That email address already belongs to another user.'));
         }
 
-        if (\GNUsocial\Event::handle('StartAddEmailAddress', array($user, $email))) {
+        if (Event::handle('StartAddEmailAddress', array($user, $email))) {
             $confirm = new Confirm_address();
 
             $confirm->address      = $email;
@@ -381,7 +383,7 @@ class EmailsettingsAction extends SettingsAction
 
             $confirm->sendConfirmation();
 
-            \GNUsocial\Event::handle('EndAddEmailAddress', array($user, $email));
+            Event::handle('EndAddEmailAddress', array($user, $email));
         }
 
         // TRANS: Message given saving valid e-mail address that is to be confirmed.

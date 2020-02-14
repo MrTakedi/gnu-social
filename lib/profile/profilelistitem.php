@@ -27,6 +27,8 @@
  * @link      http://status.net/
  */
 
+use GNUsocial\Event;
+
 if (!defined('GNUSOCIAL')) { exit(1); }
 
 class ProfileListItem extends Widget
@@ -58,18 +60,18 @@ class ProfileListItem extends Widget
 
     function show()
     {
-        if (\GNUsocial\Event::handle('StartProfileListItem', array($this))) {
+        if (Event::handle('StartProfileListItem', array($this))) {
             $this->startItem();
-            if (\GNUsocial\Event::handle('StartProfileListItemProfile', array($this))) {
+            if (Event::handle('StartProfileListItemProfile', array($this))) {
                 $this->showProfile();
-                \GNUsocial\Event::handle('EndProfileListItemProfile', array($this));
+                Event::handle('EndProfileListItemProfile', array($this));
             }
-            if (\GNUsocial\Event::handle('StartProfileListItemActions', array($this))) {
+            if (Event::handle('StartProfileListItemActions', array($this))) {
                 $this->showActions();
-                \GNUsocial\Event::handle('EndProfileListItemActions', array($this));
+                Event::handle('EndProfileListItemActions', array($this));
             }
             $this->endItem();
-            \GNUsocial\Event::handle('EndProfileListItem', array($this));
+            Event::handle('EndProfileListItem', array($this));
         }
     }
 
@@ -82,39 +84,39 @@ class ProfileListItem extends Widget
     function showProfile()
     {
         $this->startProfile();
-        if (\GNUsocial\Event::handle('StartProfileListItemProfileElements', array($this))) {
-            if (\GNUsocial\Event::handle('StartProfileListItemAvatar', array($this))) {
+        if (Event::handle('StartProfileListItemProfileElements', array($this))) {
+            if (Event::handle('StartProfileListItemAvatar', array($this))) {
                 $aAttrs = $this->linkAttributes();
                 $this->out->elementStart('a', $aAttrs);
                 $this->showAvatar($this->profile);
                 $this->out->elementEnd('a');
-                \GNUsocial\Event::handle('EndProfileListItemAvatar', array($this));
+                Event::handle('EndProfileListItemAvatar', array($this));
             }
-            if (\GNUsocial\Event::handle('StartProfileListItemNickname', array($this))) {
+            if (Event::handle('StartProfileListItemNickname', array($this))) {
                 $this->showNickname();
-                \GNUsocial\Event::handle('EndProfileListItemNickname', array($this));
+                Event::handle('EndProfileListItemNickname', array($this));
             }
-            if (\GNUsocial\Event::handle('StartProfileListItemFullName', array($this))) {
+            if (Event::handle('StartProfileListItemFullName', array($this))) {
                 $this->showFullName();
-                \GNUsocial\Event::handle('EndProfileListItemFullName', array($this));
+                Event::handle('EndProfileListItemFullName', array($this));
             }
-            if (\GNUsocial\Event::handle('StartProfileListItemLocation', array($this))) {
+            if (Event::handle('StartProfileListItemLocation', array($this))) {
                 $this->showLocation();
-                \GNUsocial\Event::handle('EndProfileListItemLocation', array($this));
+                Event::handle('EndProfileListItemLocation', array($this));
             }
-            if (\GNUsocial\Event::handle('StartProfileListItemHomepage', array($this))) {
+            if (Event::handle('StartProfileListItemHomepage', array($this))) {
                 $this->showHomepage();
-                \GNUsocial\Event::handle('EndProfileListItemHomepage', array($this));
+                Event::handle('EndProfileListItemHomepage', array($this));
             }
-            if (\GNUsocial\Event::handle('StartProfileListItemBio', array($this))) {
+            if (Event::handle('StartProfileListItemBio', array($this))) {
                 $this->showBio();
-                \GNUsocial\Event::handle('EndProfileListItemBio', array($this));
+                Event::handle('EndProfileListItemBio', array($this));
             }
-            if (\GNUsocial\Event::handle('StartProfileListItemTags', array($this))) {
+            if (Event::handle('StartProfileListItemTags', array($this))) {
                 $this->showTags();
-                \GNUsocial\Event::handle('EndProfileListItemTags', array($this));
+                Event::handle('EndProfileListItemTags', array($this));
             }
-            \GNUsocial\Event::handle('EndProfileListItemProfileElements', array($this));
+            Event::handle('EndProfileListItemProfileElements', array($this));
         }
         $this->endProfile();
     }
@@ -187,9 +189,9 @@ class ProfileListItem extends Widget
     function showActions()
     {
         $this->startActions();
-        if (\GNUsocial\Event::handle('StartProfileListItemActionElements', array($this))) {
+        if (Event::handle('StartProfileListItemActionElements', array($this))) {
             $this->showSubscribeButton();
-            \GNUsocial\Event::handle('EndProfileListItemActionElements', array($this));
+            Event::handle('EndProfileListItemActionElements', array($this));
         }
         $this->endActions();
     }
@@ -213,10 +215,10 @@ class ProfileListItem extends Widget
                 $usf = new UnsubscribeForm($this->out, $this->profile);
                 $usf->show();
             } else {
-                if (\GNUsocial\Event::handle('StartShowProfileListSubscribeButton', array($this))) {
+                if (Event::handle('StartShowProfileListSubscribeButton', array($this))) {
                     $sf = new SubscribeForm($this->out, $this->profile);
                     $sf->show();
-                    \GNUsocial\Event::handle('EndShowProfileListSubscribeButton', array($this));
+                    Event::handle('EndShowProfileListSubscribeButton', array($this));
                 }
             }
             $this->out->elementEnd('li');

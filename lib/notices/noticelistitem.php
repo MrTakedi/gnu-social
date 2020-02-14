@@ -24,6 +24,8 @@
  * @license   https://www.gnu.org/licenses/agpl.html GNU AGPL v3 or later
  */
 
+use GNUsocial\Event;
+
 defined('GNUSOCIAL') || die();
 
 /**
@@ -126,20 +128,20 @@ class NoticeListItem extends Widget
         }
 
         $this->showStart();
-        if (\GNUsocial\Event::handle('StartShowNoticeItem', array($this))) {
+        if (Event::handle('StartShowNoticeItem', array($this))) {
             $this->showNotice();
-            \GNUsocial\Event::handle('EndShowNoticeItem', array($this));
+            Event::handle('EndShowNoticeItem', array($this));
         }
         $this->showEnd();
     }
 
     public function showNotice()
     {
-        if (\GNUsocial\Event::handle('StartShowNoticeItemNotice', array($this))) {
+        if (Event::handle('StartShowNoticeItemNotice', array($this))) {
             $this->showNoticeHeaders();
             $this->showContent();
             $this->showNoticeFooter();
-            \GNUsocial\Event::handle('EndShowNoticeItemNotice', array($this));
+            Event::handle('EndShowNoticeItemNotice', array($this));
         }
     }
 
@@ -181,7 +183,7 @@ class NoticeListItem extends Widget
 
     public function showNoticeTitle()
     {
-        if (\GNUsocial\Event::handle('StartShowNoticeTitle', array($this))) {
+        if (Event::handle('StartShowNoticeTitle', array($this))) {
             $nameClass = $this->notice->getTitle(false) ? 'p-name ' : '';
             $this->element(
                 'a',
@@ -191,36 +193,36 @@ class NoticeListItem extends Widget
                 ],
                 $this->notice->getTitle()
             );
-            \GNUsocial\Event::handle('EndShowNoticeTitle', array($this));
+            Event::handle('EndShowNoticeTitle', array($this));
         }
     }
 
     public function showNoticeInfo()
     {
-        if (\GNUsocial\Event::handle('StartShowNoticeInfo', array($this))) {
+        if (Event::handle('StartShowNoticeInfo', array($this))) {
             $this->showContextLink();
             $this->showNoticeLink();
             $this->showNoticeSource();
             $this->showNoticeLocation();
             $this->showPermalink();
-            \GNUsocial\Event::handle('EndShowNoticeInfo', array($this));
+            Event::handle('EndShowNoticeInfo', array($this));
         }
     }
 
     public function showNoticeOptions()
     {
-        if (\GNUsocial\Event::handle('StartShowNoticeOptions', array($this))) {
+        if (Event::handle('StartShowNoticeOptions', array($this))) {
             $user = common_current_user();
             if ($user) {
                 $this->out->elementStart('div', 'notice-options');
-                if (\GNUsocial\Event::handle('StartShowNoticeOptionItems', array($this))) {
+                if (Event::handle('StartShowNoticeOptionItems', array($this))) {
                     $this->showReplyLink();
                     $this->showDeleteLink();
-                    \GNUsocial\Event::handle('EndShowNoticeOptionItems', array($this));
+                    Event::handle('EndShowNoticeOptionItems', array($this));
                 }
                 $this->out->elementEnd('div');
             }
-            \GNUsocial\Event::handle('EndShowNoticeOptions', array($this));
+            Event::handle('EndShowNoticeOptions', array($this));
         }
     }
 
@@ -231,7 +233,7 @@ class NoticeListItem extends Widget
      */
     public function showStart()
     {
-        if (\GNUsocial\Event::handle('StartOpenNoticeListItemElement', [$this])) {
+        if (Event::handle('StartOpenNoticeListItemElement', [$this])) {
             // Build up the attributes
             $attrs = [];
 
@@ -259,7 +261,7 @@ class NoticeListItem extends Widget
             }
 
             $this->out->elementStart($this->item_tag, $attrs);
-            \GNUsocial\Event::handle('EndOpenNoticeListItemElement', [$this]);
+            Event::handle('EndOpenNoticeListItemElement', [$this]);
         }
     }
 
@@ -282,12 +284,12 @@ class NoticeListItem extends Widget
             $attrs['class'] .= ' p-author';
         }
 
-        if (\GNUsocial\Event::handle('StartShowNoticeItemAuthor', array($this->profile, $this->out, &$attrs))) {
+        if (Event::handle('StartShowNoticeItemAuthor', array($this->profile, $this->out, &$attrs))) {
             $this->out->elementStart('a', $attrs);
             $this->showAvatar($this->profile);
             $this->out->text($this->profile->getStreamName());
             $this->out->elementEnd('a');
-            \GNUsocial\Event::handle('EndShowNoticeItemAuthor', array($this->profile, $this->out));
+            Event::handle('EndShowNoticeItemAuthor', array($this->profile, $this->out));
         }
     }
 
@@ -385,13 +387,13 @@ class NoticeListItem extends Widget
         // FIXME: URL, image, video, audio
         $nameClass = $this->notice->getTitle(false) ? '' : 'p-name ';
         $this->out->elementStart('article', array('class' => $nameClass . 'e-content'));
-        if (\GNUsocial\Event::handle('StartShowNoticeContent', array($this->notice, $this->out, $this->out->getScoped()))) {
+        if (Event::handle('StartShowNoticeContent', array($this->notice, $this->out, $this->out->getScoped()))) {
             if ($this->maxchars > 0 && mb_strlen($this->notice->content) > $this->maxchars) {
                 $this->out->text(mb_substr($this->notice->content, 0, $this->maxchars) . '[…]');
             } else {
                 $this->out->raw($this->notice->getRendered());
             }
-            \GNUsocial\Event::handle('EndShowNoticeContent', array($this->notice, $this->out, $this->out->getScoped()));
+            Event::handle('EndShowNoticeContent', array($this->notice, $this->out, $this->out->getScoped()));
         }
         $this->out->elementEnd('article');
     }
@@ -557,11 +559,11 @@ class NoticeListItem extends Widget
         $url = $ns->url;
         $title = null;
 
-        if (\GNUsocial\Event::handle('StartNoticeSourceLink', array($this->notice, &$name, &$url, &$title))) {
+        if (Event::handle('StartNoticeSourceLink', array($this->notice, &$name, &$url, &$title))) {
             $name = $source_name;
             $url = $ns->url;
         }
-        \GNUsocial\Event::handle('EndNoticeSourceLink', array($this->notice, &$name, &$url, &$title));
+        Event::handle('EndNoticeSourceLink', array($this->notice, &$name, &$url, &$title));
 
         // if $ns->name and $ns->url are populated we have
         // configured a source attr somewhere
@@ -727,9 +729,9 @@ class NoticeListItem extends Widget
      */
     public function showEnd()
     {
-        if (\GNUsocial\Event::handle('StartCloseNoticeListItemElement', [$this])) {
+        if (Event::handle('StartCloseNoticeListItemElement', [$this])) {
             $this->out->elementEnd('li');
-            \GNUsocial\Event::handle('EndCloseNoticeListItemElement', [$this]);
+            Event::handle('EndCloseNoticeListItemElement', [$this]);
         }
     }
 

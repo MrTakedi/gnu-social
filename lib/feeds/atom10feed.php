@@ -27,6 +27,8 @@
  * @link      http://status.net/
  */
 
+use GNUsocial\Event;
+
 if (!defined('STATUSNET'))
 {
     exit(1);
@@ -235,7 +237,7 @@ class Atom10Feed extends XMLStringer
 
     function getString()
     {
-        if (\GNUsocial\Event::handle('StartApiAtom', array($this))) {
+        if (Event::handle('StartApiAtom', array($this))) {
 
             $this->validate();
             $this->initFeed();
@@ -247,7 +249,7 @@ class Atom10Feed extends XMLStringer
             $this->renderEntries();
             $this->endFeed();
 
-            \GNUsocial\Event::handle('EndApiAtom', array($this));
+            Event::handle('EndApiAtom', array($this));
         }
 
         return $this->xw->outputMemory();

@@ -14,6 +14,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with GNU social.  If not, see <http://www.gnu.org/licenses/>.
 
+use GNUsocial\Event;
+
 defined('GNUSOCIAL') || die();
 
 global $config, $_server, $_path;
@@ -297,12 +299,12 @@ class GNUsocial
 
         // XXX: if modules should check the schema at runtime, do that here.
         if (common_config('db', 'schemacheck') == 'runtime') {
-            \GNUsocial\Event::handle('CheckSchema');
+            Event::handle('CheckSchema');
         }
 
         // Give modules and plugins a chance to initialize in a fully-prepared environment
-        \GNUsocial\Event::handle('InitializeModule');
-        \GNUsocial\Event::handle('InitializePlugin');
+        Event::handle('InitializeModule');
+        Event::handle('InitializePlugin');
     }
 
     /**
@@ -365,7 +367,7 @@ class GNUsocial
     {
         global $_server, $_path, $config, $_PEAR;
 
-        \GNUsocial\Event::clearHandlers();
+        Event::clearHandlers();
         self::$modules = [];
 
         // try to figure out where we are. $server and $path

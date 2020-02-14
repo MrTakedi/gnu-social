@@ -1,5 +1,7 @@
 <?php
 
+use GNUsocial\Event;
+
 if (!defined('GNUSOCIAL')) { exit(1); }
 
 class SubscribersListItem extends SubscriptionListItem
@@ -7,11 +9,11 @@ class SubscribersListItem extends SubscriptionListItem
     function showActions()
     {
         $this->startActions();
-        if (\GNUsocial\Event::handle('StartProfileListItemActionElements', array($this))) {
+        if (Event::handle('StartProfileListItemActionElements', array($this))) {
             $this->showSubscribeButton();
             // Relevant code!
             $this->showBlockForm();
-            \GNUsocial\Event::handle('EndProfileListItemActionElements', array($this));
+            Event::handle('EndProfileListItemActionElements', array($this));
         }
         $this->endActions();
     }

@@ -1,5 +1,7 @@
 <?php
 
+use GNUsocial\Event;
+
 if (!defined('GNUSOCIAL')) { exit(1); }
 
 class SubQueueListItem extends ProfileListItem
@@ -7,9 +9,9 @@ class SubQueueListItem extends ProfileListItem
     public function showActions()
     {
         $this->startActions();
-        if (\GNUsocial\Event::handle('StartProfileListItemActionElements', array($this))) {
+        if (Event::handle('StartProfileListItemActionElements', array($this))) {
             $this->showApproveButtons();
-            \GNUsocial\Event::handle('EndProfileListItemActionElements', array($this));
+            Event::handle('EndProfileListItemActionElements', array($this));
         }
         $this->endActions();
     }

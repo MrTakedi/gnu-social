@@ -29,6 +29,8 @@
  * @link      http://www.gnu.org/software/social/
  */
 
+use GNUsocial\Event;
+
 if (!defined('GNUSOCIAL')) { exit(1); }
 
 /**
@@ -105,11 +107,11 @@ class DisfavorForm extends Form
 
     function formData()
     {
-        if (\GNUsocial\Event::handle('StartDisFavorNoticeForm', array($this, $this->notice))) {
+        if (Event::handle('StartDisFavorNoticeForm', array($this, $this->notice))) {
             $this->out->hidden('notice-n'.$this->notice->id,
                                $this->notice->id,
                                'notice');
-            \GNUsocial\Event::handle('EndDisFavorNoticeForm', array($this, $this->notice));
+            Event::handle('EndDisFavorNoticeForm', array($this, $this->notice));
         }
     }
 

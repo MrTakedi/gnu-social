@@ -28,6 +28,8 @@
  * @link      http://status.net/
  */
 
+use GNUsocial\Event;
+
 if (!defined('GNUSOCIAL') && !defined('STATUSNET')) { exit(1); }
 
 /**
@@ -151,14 +153,14 @@ class NoticeList extends Widget
         $scoped = Profile::current();
         $notice_ids = Notice::_idsOf($notices);
 
-        if (\GNUsocial\Event::handle('StartNoticeListPrefill', array(&$notices, $notice_ids, $scoped))) {
+        if (Event::handle('StartNoticeListPrefill', array(&$notices, $notice_ids, $scoped))) {
 
             // Prefill attachments
             Notice::fillAttachments($notices);
             // Prefill the profiles
             $profiles = Notice::fillProfiles($notices);
 
-            \GNUsocial\Event::handle('EndNoticeListPrefill', array(&$notices, &$profiles, $notice_ids, $scoped));
+            Event::handle('EndNoticeListPrefill', array(&$notices, &$profiles, $notice_ids, $scoped));
         }
     }
 }

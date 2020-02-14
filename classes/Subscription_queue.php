@@ -1,5 +1,7 @@
 <?php
 
+use GNUsocial\Event;
+
 if (!defined('GNUSOCIAL')) { exit(1); }
 
 /**
@@ -91,9 +93,9 @@ class Subscription_queue extends Managed_DataObject
     {
         $subscriber = Profile::getKV('id', $this->subscriber);
         $subscribed = Profile::getKV('id', $this->subscribed);
-        if (\GNUsocial\Event::handle('StartCancelSubscription', array($subscriber, $subscribed))) {
+        if (Event::handle('StartCancelSubscription', array($subscriber, $subscribed))) {
             $this->delete();
-            \GNUsocial\Event::handle('EndCancelSubscription', array($subscriber, $subscribed));
+            Event::handle('EndCancelSubscription', array($subscriber, $subscribed));
         }
     }
 

@@ -28,6 +28,8 @@
  * @link      http://status.net/
  */
 
+use GNUsocial\Event;
+
 if (!defined('STATUSNET') && !defined('LACONICA')) {
     exit(1);
 }
@@ -105,7 +107,7 @@ class PeopletagGroupNav extends Widget
 
         $this->out->elementStart('ul', array('class' => 'nav'));
 
-        if (\GNUsocial\Event::handle('StartPeopletagGroupNav', array($this))
+        if (Event::handle('StartPeopletagGroupNav', array($this))
                 && $tag instanceof Profile_list && $user_profile instanceof Profile) {
             // People tag timeline
             $this->out->menuItem(common_local_url('showprofiletag', array('nickname' => $user_profile->nickname,
@@ -154,7 +156,7 @@ class PeopletagGroupNav extends Widget
                                  $action == 'editpeopletag', 'nav_peopletag_edit');
             }
 
-            \GNUsocial\Event::handle('EndPeopletagGroupNav', array($this));
+            Event::handle('EndPeopletagGroupNav', array($this));
         }
         $this->out->elementEnd('ul');
     }

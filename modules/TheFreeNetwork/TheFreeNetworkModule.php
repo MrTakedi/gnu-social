@@ -24,6 +24,8 @@
  * @license   https://www.gnu.org/licenses/agpl.html GNU AGPL v3 or later
  */
 
+use GNUsocial\Event;
+
 defined('GNUSOCIAL') || die();
 
 /**
@@ -51,7 +53,7 @@ class TheFreeNetworkModule extends Module
      */
     public function onInitializePlugin()
     {
-        \GNUsocial\Event::handle('StartTFNCensus', [&$this->free_network]);
+        Event::handle('StartTFNCensus', [&$this->free_network]);
         return true;
     }
 

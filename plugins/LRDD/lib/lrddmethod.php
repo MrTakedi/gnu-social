@@ -13,6 +13,8 @@
  * @license   http://www.fsf.org/licensing/licenses/agpl-3.0.html AGPL 3.0
  * @link      http://status.net/
  */
+use GNUsocial\Event;
+
 abstract class LRDDMethod
 {
     protected $xrd = null;
@@ -33,7 +35,7 @@ abstract class LRDDMethod
     protected function fetchUrl($url, $method=HTTPClient::METHOD_GET)
     {
         // If we have a blacklist enabled, let's check against it
-        \GNUsocial\Event::handle('UrlBlacklistTest', array($url));
+        Event::handle('UrlBlacklistTest', array($url));
 
         $client  = new HTTPClient();
 

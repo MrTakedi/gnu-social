@@ -27,6 +27,8 @@
  * @link      http://status.net/
  */
 
+use GNUsocial\Event;
+
 if (!defined('STATUSNET') && !defined('LACONICA')) {
     exit(1);
 }
@@ -53,7 +55,7 @@ class LdapCommon
 
     public function __construct($config)
     {
-        \GNUsocial\Event::addHandler('Autoload',array($this,'onAutoload'));
+        Event::addHandler('Autoload',array($this,'onAutoload'));
         foreach($config as $key=>$value) {
             $this->$key = $value;
         }

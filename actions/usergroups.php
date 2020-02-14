@@ -28,6 +28,8 @@
  * @link      http://status.net/
  */
 
+use GNUsocial\Event;
+
 if (!defined('STATUSNET') && !defined('LACONICA')) {
     exit(1);
 }
@@ -101,7 +103,7 @@ class UsergroupsAction extends GalleryAction
 	  $this->elementEnd('div');
 	}
 
-        if (\GNUsocial\Event::handle('StartShowUserGroupsContent', array($this))) {
+        if (Event::handle('StartShowUserGroupsContent', array($this))) {
             $offset = ($this->page-1) * GROUPS_PER_PAGE;
             $limit =  GROUPS_PER_PAGE + 1;
 
@@ -119,7 +121,7 @@ class UsergroupsAction extends GalleryAction
 		}
             }
 
-            \GNUsocial\Event::handle('EndShowUserGroupsContent', array($this));
+            Event::handle('EndShowUserGroupsContent', array($this));
         }
     }
 

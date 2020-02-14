@@ -28,6 +28,8 @@
  * @link      https://www.gnu.org/software/social/
  */
 
+use GNUsocial\Event;
+
 defined('GNUSOCIAL') || die();
 
 use Intervention\Image\ImageManagerStatic as Image;
@@ -118,7 +120,7 @@ class ImageFile extends MediaFile
             $this->animated = $this->isAnimatedGif();
         }
 
-        \GNUsocial\Event::handle('FillImageFileMetadata', array($this));
+        Event::handle('FillImageFileMetadata', array($this));
 
         $img->destroy();
         ini_set('memory_limit', $old_limit); // Restore the old memory limit
@@ -133,7 +135,7 @@ class ImageFile extends MediaFile
     {
         $imgPath = null;
         $media = common_get_mime_media($file->mimetype);
-        if (\GNUsocial\Event::handle('CreateFileImageThumbnailSource', array($file, &$imgPath, $media))) {
+        if (Event::handle('CreateFileImageThumbnailSource', array($file, &$imgPath, $media))) {
             if (empty($file->filename) && !file_exists($imgPath)) {
                 throw new FileNotFoundException($imgPath);
             }
@@ -298,7 +300,7 @@ class ImageFile extends MediaFile
             }
         }
 
-        if (\GNUsocial\Event::handle('StartResizeImageFile', array($this, $outpath, $box))) {
+        if (Event::handle('StartResizeImageFile', array($this, $outpath, $box))) {
             $outpath = $this->resizeToFile($outpath, $box);
         }
 

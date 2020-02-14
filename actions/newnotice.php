@@ -30,6 +30,8 @@
  * @link      http://status.net/
  */
 
+use GNUsocial\Event;
+
 if (!defined('GNUSOCIAL')) { exit(1); }
 
 /**
@@ -104,16 +106,16 @@ class NewnoticeAction extends FormAction
         $user = $this->scoped->getUser();
         $content = $this->formOpts['content'];
         $options = array('source' => 'web');
-        \GNUsocial\Event::handle('StartSaveNewNoticeWeb', array($this, $user, &$content, &$options));
+        Event::handle('StartSaveNewNoticeWeb', array($this, $user, &$content, &$options));
 
         $upload = null;
         try {
             // throws exception on failure
             $upload = MediaFile::fromUpload('attach', $this->scoped);
-            if (\GNUsocial\Event::handle('StartSaveNewNoticeAppendAttachment', array($this, $upload, &$content, &$options))) {
+            if (Event::handle('StartSaveNewNoticeAppendAttachment', array($this, $upload, &$content, &$options))) {
                 $content .= ($content==='' ? '' : ' ') . $upload->shortUrl();
             }
-            \GNUsocial\Event::handle('EndSaveNewNoticeAppendAttachment', array($this, $upload, &$content, &$options));
+            Event::handle('EndSaveNewNoticeAppendAttachment', array($this, $upload, &$content, &$options));
 
             // We could check content length here if the URL was added, but I'll just let it slide for now...
 
@@ -184,7 +186,7 @@ class NewnoticeAction extends FormAction
         $content = $this->scoped->shortenLinks($content);
 
         // FIXME: Make sure NoticeTitle plugin gets a change to add the title to our activityobject!
-        if (\GNUsocial\Event::handle('StartNoticeSaveWeb', array($this, $this->scoped, &$content, &$options))) {
+        if (Event::handle('StartNoticeSaveWeb', array($this, $this->scoped, &$content, &$options))) {
 
             // FIXME: We should be able to get the attentions from common_render_content!
             // and maybe even directly save whether they're local or not!
@@ -206,10 +208,10 @@ class NewnoticeAction extends FormAction
                 $upload->attachToNotice($this->stored);
             }
 
-            \GNUsocial\Event::handle('EndNoticeSaveWeb', array($this, $this->stored));
+            Event::handle('EndNoticeSaveWeb', array($this, $this->stored));
         }
 
-        \GNUsocial\Event::handle('EndSaveNewNoticeWeb', array($this, $user, &$content, &$options));
+        Event::handle('EndSaveNewNoticeWeb', array($this, $user, &$content, &$options));
 
         if (!GNUsocial::isAjax()) {
             $url = common_local_url('shownotice', array('notice' => $this->stored->id));

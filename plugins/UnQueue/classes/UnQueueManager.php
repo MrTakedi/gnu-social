@@ -29,6 +29,8 @@
  * @link      http://status.net/
  */
 
+use GNUsocial\Event;
+
 class UnQueueManager extends QueueManager
 {
 
@@ -47,7 +49,7 @@ class UnQueueManager extends QueueManager
             $handler = $this->getHandler($transport);
             $handler->handle($object);
         } catch (NoQueueHandlerException $e) {
-            if (\GNUsocial\Event::handle('UnqueueHandleNotice', array(&$object, $transport))) {
+            if (Event::handle('UnqueueHandleNotice', array(&$object, $transport))) {
                 throw new ServerException("UnQueueManager: Unknown queue transport: $transport");
             }
         }

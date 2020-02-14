@@ -47,6 +47,8 @@
  * @license   https://www.gnu.org/licenses/agpl.html GNU AGPL v3 or later
  */
 
+use GNUsocial\Event;
+
 $_startTime = microtime(true);
 $_startCpuTime = hrtime(true);
 $_perfCounters = [];
@@ -220,7 +222,7 @@ function setupRW()
 
     $rwdb = $config['db']['database'];
 
-    if (\GNUsocial\Event::handle('StartReadWriteTables', array(&$alwaysRW, &$rwdb))) {
+    if (Event::handle('StartReadWriteTables', array(&$alwaysRW, &$rwdb))) {
 
         // We ensure that these tables always are used
         // on the master DB
@@ -232,7 +234,7 @@ function setupRW()
             $config['db']['table_'.$table] = 'rw';
         }
 
-        \GNUsocial\Event::handle('EndReadWriteTables', array($alwaysRW, $rwdb));
+        Event::handle('EndReadWriteTables', array($alwaysRW, $rwdb));
     }
 
     return;
@@ -244,7 +246,7 @@ function isLoginAction($action)
 
     $login = null;
 
-    if (\GNUsocial\Event::handle('LoginAction', array($action, &$login))) {
+    if (Event::handle('LoginAction', array($action, &$login))) {
         $login = in_array($action, $loginActions);
     }
 
@@ -294,7 +296,7 @@ function main()
 
     $args = array_merge($args, $_REQUEST ?: []);
 
-    \GNUsocial\Event::handle('ArgsInitialize', array(&$args));
+    Event::handle('ArgsInitialize', array(&$args));
 
     $action = basename($args['action']);
 
@@ -343,5 +345,5 @@ main();
 // XXX: cleanup exit() calls or add an exit handler so
 // this always gets called
 
-\GNUsocial\Event::handle('CleanupModule');
-\GNUsocial\Event::handle('CleanupPlugin');
+Event::handle('CleanupModule');
+Event::handle('CleanupPlugin');

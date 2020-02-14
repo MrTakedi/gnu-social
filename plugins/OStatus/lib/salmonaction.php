@@ -22,6 +22,8 @@
  * @author James Walker <james@status.net>
  */
 
+use GNUsocial\Event;
+
 if (!defined('GNUSOCIAL')) { exit(1); }
 
 class SalmonAction extends Action
@@ -120,8 +122,8 @@ class SalmonAction extends Action
         }
 
         try {
-            if (\GNUsocial\Event::handle('StartHandleSalmonTarget', array($this->activity, $this->target)) &&
-                    \GNUsocial\Event::handle('StartHandleSalmon', array($this->activity))) {
+            if (Event::handle('StartHandleSalmonTarget', array($this->activity, $this->target)) &&
+                    Event::handle('StartHandleSalmon', array($this->activity))) {
                 switch ($this->activity->verb) {
                 case ActivityVerb::POST:
                     $this->handlePost();
@@ -155,8 +157,8 @@ class SalmonAction extends Action
                     // TRANS: Client exception.
                     throw new ClientException(_m('Unrecognized activity type.'));
                 }
-                \GNUsocial\Event::handle('EndHandleSalmon', array($this->activity));
-                \GNUsocial\Event::handle('EndHandleSalmonTarget', array($this->activity, $this->target));
+                Event::handle('EndHandleSalmon', array($this->activity));
+                Event::handle('EndHandleSalmonTarget', array($this->activity, $this->target));
             }
         } catch (AlreadyFulfilledException $e) {
             // The action's results are already fulfilled. Maybe it was a

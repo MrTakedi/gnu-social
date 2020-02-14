@@ -28,6 +28,8 @@
  * @link      http://status.net/
  */
 
+use GNUsocial\Event;
+
 if (!defined('GNUSOCIAL')) { exit(1); }
 
 /**
@@ -94,7 +96,7 @@ class UrlsettingsAction extends SettingsAction
 
         $shorteners = array();
 
-        \GNUsocial\Event::handle('GetUrlShorteners', array(&$shorteners));
+        Event::handle('GetUrlShorteners', array(&$shorteners));
 
         $services = array();
 
