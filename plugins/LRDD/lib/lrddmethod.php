@@ -33,7 +33,7 @@ abstract class LRDDMethod
     protected function fetchUrl($url, $method=HTTPClient::METHOD_GET)
     {
         // If we have a blacklist enabled, let's check against it
-        Event::handle('UrlBlacklistTest', array($url));
+        \GNUsocial\Event::handle('UrlBlacklistTest', array($url));
 
         $client  = new HTTPClient();
 

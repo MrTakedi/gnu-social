@@ -69,7 +69,7 @@ class MoreMenu extends Menu
             $attrs['id'] = $menuID;
         }
 
-        if (Event::handle('StartNav', array($this, &$tag, &$items))) {
+        if (\GNUsocial\Event::handle('StartNav', array($this, &$tag, &$items))) {
             $this->out->elementStart('ul', $attrs);
 
             $total = count($items);
@@ -127,7 +127,7 @@ class MoreMenu extends Menu
 
             $this->out->elementEnd('ul');
 
-            Event::handle('EndNav', array($this, $tag, $items));
+            \GNUsocial\Event::handle('EndNav', array($this, $tag, $items));
         }
     }
 

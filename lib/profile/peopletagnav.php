@@ -71,7 +71,7 @@ class PeopletagNav extends Menu
         $nickname = $this->profile->nickname;
 
         $this->out->elementStart('ul', array('class' => 'nav'));
-        if (Event::handle('StartPeopletagGroupNav', array($this))) {
+        if (\GNUsocial\Event::handle('StartPeopletagGroupNav', array($this))) {
             $this->out->menuItem(common_local_url('peopletagsubscriptions', array('nickname' =>
                                                                      $nickname)),
                                  // TRANS: Menu item in the group navigation page.
@@ -101,7 +101,7 @@ class PeopletagNav extends Menu
                                  sprintf(_m('TOOLTIP','Lists by %s.'), $nickname),
                                  $action_name == 'peopletagsbyuser',
                                  'nav_lists_by');
-            Event::handle('EndPeopletagGroupNav', array($this));
+            \GNUsocial\Event::handle('EndPeopletagGroupNav', array($this));
         }
         $this->out->elementEnd('ul');
     }

@@ -63,7 +63,7 @@ class DocFile
 
         $filename = null;
 
-        if (Event::handle('StartDocFileForTitle', array($title, &$paths, &$filename))) {
+        if (\GNUsocial\Event::handle('StartDocFileForTitle', array($title, &$paths, &$filename))) {
 
             foreach ($paths as $path) {
 
@@ -85,7 +85,7 @@ class DocFile
                 }
             }
 
-            Event::handle('EndDocFileForTitle', array($title, $paths, &$filename));
+            \GNUsocial\Event::handle('EndDocFileForTitle', array($title, $paths, &$filename));
         }
 
         if (empty($filename)) {

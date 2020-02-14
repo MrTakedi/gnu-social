@@ -76,7 +76,7 @@ class EmbedHelper
         // TODO: Make this class something like UrlMetadata, or use a dataobject?
         $metadata = new stdClass();
 
-        if (Event::handle('GetRemoteUrlMetadata', array($url, &$metadata))) {
+        if (\GNUsocial\Event::handle('GetRemoteUrlMetadata', array($url, &$metadata))) {
             // If that event didn't return anything, try downloading the body and parse it
 
             // don't use quickGet since we want to check Content-Type header for utf-8
@@ -132,7 +132,7 @@ class EmbedHelper
                 throw new EmbedHelper_BadHtmlException();
             }
 
-            Event::handle('GetRemoteUrlMetadataFromDom', array($url, $dom, &$metadata));
+            \GNUsocial\Event::handle('GetRemoteUrlMetadataFromDom', array($url, $dom, &$metadata));
         }
 
         return self::normalize($metadata);

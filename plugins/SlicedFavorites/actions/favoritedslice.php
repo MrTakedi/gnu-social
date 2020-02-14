@@ -47,7 +47,7 @@ class FavoritedSliceAction extends FavoritedAction
 
         $this->slice = $this->arg('slice', 'default');
         $data = array();
-        if (Event::handle('SlicedFavoritesGetSettings', array($this->slice, &$data))) {
+        if (\GNUsocial\Event::handle('SlicedFavoritesGetSettings', array($this->slice, &$data))) {
             // TRANS: Client exception.
             throw new ClientException(_m('Unknown favorites slice.'));
         }

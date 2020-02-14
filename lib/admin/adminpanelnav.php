@@ -68,7 +68,7 @@ class AdminPanelNav extends Menu
         $this->action->element('h3', null, _m('HEADER','Admin'));
         $this->action->elementStart('ul', array('class' => 'nav'));
 
-        if (Event::handle('StartAdminPanelNav', array($this))) {
+        if (\GNUsocial\Event::handle('StartAdminPanelNav', array($this))) {
 
             if (AdminPanelAction::canAdmin('site')) {
                 // TRANS: Menu item title in administrator navigation panel.
@@ -134,7 +134,7 @@ class AdminPanelNav extends Menu
                                      $menu_title, $action_name == 'pluginsadminpanel', 'nav_plugin_admin_panel');
             }
 
-            Event::handle('EndAdminPanelNav', array($this));
+            \GNUsocial\Event::handle('EndAdminPanelNav', array($this));
         }
         $this->action->elementEnd('ul');
         $this->action->elementEnd('li');

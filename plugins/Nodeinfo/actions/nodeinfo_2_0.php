@@ -56,7 +56,7 @@ class Nodeinfo_2_0Action extends Action
         $plugin_version = [];
         $plugins = [];
 
-        Event::handle('PluginVersion', [&$plugin_version]);
+        \GNUsocial\Event::handle('PluginVersion', [&$plugin_version]);
 
         foreach ($plugin_version as $plugin) {
             $plugins[str_replace(' ', '', strtolower($plugin['name']))] = true;
@@ -170,7 +170,7 @@ class Nodeinfo_2_0Action extends Action
     {
         $protocols = [];
 
-        Event::handle('NodeInfoProtocols', [&$protocols]);
+        \GNUsocial\Event::handle('NodeInfoProtocols', [&$protocols]);
 
         return $protocols;
     }

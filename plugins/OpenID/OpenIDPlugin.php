@@ -211,7 +211,7 @@ class OpenIDPlugin extends Plugin
                                   // TRANS: Main menu option when logged in or when the StatusNet instance is not private
                                   _m('MENU', 'Search'), $tooltip, false, 'nav_search');
             }
-            Event::handle('EndPrimaryNav', array($action));
+            \GNUsocial\Event::handle('EndPrimaryNav', array($action));
             return false;
         }
         return true;

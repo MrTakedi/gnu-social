@@ -64,7 +64,7 @@ class ThreadedNoticeListItem extends NoticeListItem
             $cnt = 0;
             $moreCutoff = null;
             while ($notice->fetch()) {
-                if (Event::handle('StartAddNoticeReply', [$this, $this->notice, $notice])) {
+                if (\GNUsocial\Event::handle('StartAddNoticeReply', [$this, $this->notice, $notice])) {
                     // Don't list repeats as separate notices in a conversation
                     if (!empty($notice->repeat_of)) {
                         continue;
@@ -86,18 +86,18 @@ class ThreadedNoticeListItem extends NoticeListItem
                         break;
                     }
                     $notices[] = clone $notice; // *grumble* inefficient as hell
-                    Event::handle('EndAddNoticeReply', [$this, $this->notice, $notice]);
+                    \GNUsocial\Event::handle('EndAddNoticeReply', [$this, $this->notice, $notice]);
                 }
             }
 
-            if (Event::handle('StartShowThreadedNoticeTail', array($this, $this->notice, &$notices))) {
+            if (\GNUsocial\Event::handle('StartShowThreadedNoticeTail', array($this, $this->notice, &$notices))) {
                 $threadActive = count($notices) > 0; // has this thread had any activity?
 
                 $this->out->elementStart('ul', 'notices threaded-replies xoxo');
 
-                if (Event::handle('StartShowThreadedNoticeTailItems', array($this, $this->notice, &$threadActive))) {
+                if (\GNUsocial\Event::handle('StartShowThreadedNoticeTailItems', array($this, $this->notice, &$threadActive))) {
                     // Repeats and Faves/Likes are handled in plugins.
-                    Event::handle('EndShowThreadedNoticeTailItems', array($this, $this->notice, &$threadActive));
+                    \GNUsocial\Event::handle('EndShowThreadedNoticeTailItems', array($this, $this->notice, &$threadActive));
                 }
 
                 if (count($notices) > 0) {
@@ -106,15 +106,15 @@ class ThreadedNoticeListItem extends NoticeListItem
                         $item->show();
                     }
                     foreach (array_reverse($notices) as $notice) {
-                        if (Event::handle('StartShowThreadedNoticeSub', array($this, $this->notice, $notice))) {
+                        if (\GNUsocial\Event::handle('StartShowThreadedNoticeSub', array($this, $this->notice, $notice))) {
                             $item = new ThreadedNoticeListSubItem($notice, $this->notice, $this->out);
                             $item->show();
-                            Event::handle('EndShowThreadedNoticeSub', array($this, $this->notice, $notice));
+                            \GNUsocial\Event::handle('EndShowThreadedNoticeSub', array($this, $this->notice, $notice));
                         }
                     }
                 }
 
-                Event::handle('EndShowThreadedNoticeTail', array($this, $this->notice, $notices));
+                \GNUsocial\Event::handle('EndShowThreadedNoticeTail', array($this, $this->notice, $notices));
                 $this->out->elementEnd('ul');
             }
         }

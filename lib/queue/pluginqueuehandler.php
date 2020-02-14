@@ -45,7 +45,7 @@ class PluginQueueHandler extends QueueHandler
         }
 
         try {
-            Event::handle('HandleQueuedNotice', array(&$notice));
+            \GNUsocial\Event::handle('HandleQueuedNotice', array(&$notice));
         } catch (NoProfileException $unp) {
             // We can't do anything about this, so just skip
             return true;

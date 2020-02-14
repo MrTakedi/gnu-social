@@ -96,4 +96,4 @@ if ($skip || $count) {
 }
 
 echo "Calling event StartFeedSubReceive\n";
-Event::handle('StartFeedSubReceive', array($sub, $feed));
+\GNUsocial\Event::handle('StartFeedSubReceive', array($sub, $feed));

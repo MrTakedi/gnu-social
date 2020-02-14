@@ -229,7 +229,7 @@ class DomainStatusNetworkInstaller extends Installer
 
         $schemaUpdater->checkSchema();
 
-        Event::handle('CheckSchema');
+        \GNUsocial\Event::handle('CheckSchema');
     }
 
     function getStatusNetwork()

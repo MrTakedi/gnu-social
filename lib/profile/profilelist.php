@@ -58,11 +58,11 @@ class ProfileList extends Widget
     {
         $cnt = 0;
 
-        if (Event::handle('StartProfileList', array($this))) {
+        if (\GNUsocial\Event::handle('StartProfileList', array($this))) {
             $this->startList();
             $cnt = $this->showProfiles();
             $this->endList();
-            Event::handle('EndProfileList', array($this));
+            \GNUsocial\Event::handle('EndProfileList', array($this));
         }
 
         return $cnt;

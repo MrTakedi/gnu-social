@@ -137,7 +137,7 @@ class Message extends Managed_DataObject
     {
         $act = new Activity();
 
-        if (Event::handle('StartMessageAsActivity', array($this, &$act))) {
+        if (\GNUsocial\Event::handle('StartMessageAsActivity', array($this, &$act))) {
             $act->verb = ActivityVerb::POST;
             $act->time = strtotime($this->created);
 
@@ -166,7 +166,7 @@ class Message extends Managed_DataObject
                 $act->generator = ActivityObject::fromNoticeSource($source);
             }
 
-            Event::handle('EndMessageAsActivity', array($this, &$act));
+            \GNUsocial\Event::handle('EndMessageAsActivity', array($this, &$act));
         }
 
         return $act;

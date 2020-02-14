@@ -388,7 +388,7 @@ class ActivityUtils
     static function findLocalObject(array $uris, $type=ActivityObject::NOTE) {
         $obj_class = null;
         // TODO: Extend this in plugins etc. and describe in EVENTS.txt
-        if (Event::handle('StartFindLocalActivityObject', array($uris, $type, &$obj_class))) {
+        if (\GNUsocial\Event::handle('StartFindLocalActivityObject', array($uris, $type, &$obj_class))) {
             switch (self::resolveUri($type)) {
             case ActivityObject::PERSON:
                 // GROUP will also be here in due time...
@@ -412,7 +412,7 @@ class ActivityUtils
         if (!$object instanceof Managed_DataObject) {
             throw new ServerException('Could not find any activityobject stored locally with given URIs: '.var_export($uris,true));
         }
-        Event::handle('EndFindLocalActivityObject', array($object->getUri(), $object->getObjectType(), $object));
+        \GNUsocial\Event::handle('EndFindLocalActivityObject', array($object->getUri(), $object->getObjectType(), $object));
         return $object;
     }
 
@@ -424,7 +424,7 @@ class ActivityUtils
     // the "feed author" may be a group, but the "activity author" is a person!
     static function checkAuthorship(Activity $activity, Profile $profile)
     {
-        if (Event::handle('CheckActivityAuthorship', array($activity, &$profile))) {
+        if (\GNUsocial\Event::handle('CheckActivityAuthorship', array($activity, &$profile))) {
             // if (empty($activity->actor)), then we generated this Activity ourselves and can trust $profile
 
             $actor_uri = $profile->getUri();

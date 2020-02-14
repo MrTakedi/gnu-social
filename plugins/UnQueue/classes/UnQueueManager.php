@@ -47,7 +47,7 @@ class UnQueueManager extends QueueManager
             $handler = $this->getHandler($transport);
             $handler->handle($object);
         } catch (NoQueueHandlerException $e) {
-            if (Event::handle('UnqueueHandleNotice', array(&$object, $transport))) {
+            if (\GNUsocial\Event::handle('UnqueueHandleNotice', array(&$object, $transport))) {
                 throw new ServerException("UnQueueManager: Unknown queue transport: $transport");
             }
         }

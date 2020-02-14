@@ -45,7 +45,7 @@ if (common_config('queue', 'daemon')) {
     $daemons[] = INSTALLDIR.'/scripts/queuedaemon.php';
 }
 
-if (Event::handle('GetValidDaemons', array(&$daemons))) {
+if (\GNUsocial\Event::handle('GetValidDaemons', array(&$daemons))) {
     foreach ($daemons as $daemon) {
         print $daemon . ' ';
     }

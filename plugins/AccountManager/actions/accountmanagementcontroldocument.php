@@ -57,7 +57,7 @@ class AccountManagementControlDocumentAction extends Action
 
         $amcd = array();
 
-        if(Event::handle('StartAccountManagementControlDocument', array(&$amcd))) {
+        if(\GNUsocial\Event::handle('StartAccountManagementControlDocument', array(&$amcd))) {
 
             $amcd['version'] = 1;
             $amcd['sessionstatus'] = array(
@@ -81,7 +81,7 @@ class AccountManagementControlDocumentAction extends Action
                 )
             );
 
-            Event::handle('EndAccountManagementControlDocument', array(&$amcd));
+            \GNUsocial\Event::handle('EndAccountManagementControlDocument', array(&$amcd));
         }
         
         print json_encode($amcd);

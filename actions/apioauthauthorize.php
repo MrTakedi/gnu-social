@@ -155,10 +155,10 @@ class ApiOAuthAuthorizeAction extends ApiOAuthAction
 
             // @fixme this should probably use a unified login form handler
             $user = null;
-            if (Event::handle('StartOAuthLoginCheck', array($this, &$user))) {
+            if (\GNUsocial\Event::handle('StartOAuthLoginCheck', array($this, &$user))) {
                 $user = common_check_user($this->nickname, $this->password);
             }
-            Event::handle('EndOAuthLoginCheck', array($this, &$user));
+            \GNUsocial\Event::handle('EndOAuthLoginCheck', array($this, &$user));
 
             if (empty($user)) {
                 // TRANS: Form validation error given when an invalid username and/or password was passed to the OAuth API.
@@ -315,14 +315,14 @@ class ApiOAuthAuthorizeAction extends ApiOAuthAction
         $this->elementStart('body', $attrs);
 
         $this->elementStart('div', array('id' => 'wrap'));
-        if (Event::handle('StartShowHeader', array($this))) {
+        if (\GNUsocial\Event::handle('StartShowHeader', array($this))) {
             $this->showHeader();
-            Event::handle('EndShowHeader', array($this));
+            \GNUsocial\Event::handle('EndShowHeader', array($this));
         }
         $this->showCore();
-        if (Event::handle('StartShowFooter', array($this))) {
+        if (\GNUsocial\Event::handle('StartShowFooter', array($this))) {
             $this->showFooter();
-            Event::handle('EndShowFooter', array($this));
+            \GNUsocial\Event::handle('EndShowFooter', array($this));
         }
         $this->elementEnd('div');
         $this->showScripts();
@@ -416,7 +416,7 @@ class ApiOAuthAuthorizeAction extends ApiOAuthAction
         // quickie hack
         $button = false;
         if (!common_logged_in()) {
-            if (Event::handle('StartOAuthLoginForm', array($this, &$button))) {
+            if (\GNUsocial\Event::handle('StartOAuthLoginForm', array($this, &$button))) {
                 $this->elementStart('fieldset');
                 // TRANS: Fieldset legend.
                 $this->element('legend', null, _m('LEGEND','Account'));
@@ -433,7 +433,7 @@ class ApiOAuthAuthorizeAction extends ApiOAuthAction
 
                 $this->elementEnd('fieldset');
             }
-            Event::handle('EndOAuthLoginForm', array($this, &$button));
+            \GNUsocial\Event::handle('EndOAuthLoginForm', array($this, &$button));
         }
 
         $this->element('input', array('id' => 'cancel_submit',

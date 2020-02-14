@@ -104,7 +104,7 @@ class Router
     {
         $m = new URLMapper();
 
-        if (Event::handle('StartInitializeRouter', [&$m])) {
+        if (\GNUsocial\Event::handle('StartInitializeRouter', [&$m])) {
 
             // top of the menu hierarchy, sometimes "Home"
             $m->connect('', ['action' => 'top']);
@@ -1106,7 +1106,7 @@ class Router
 
             // user stuff
 
-            Event::handle('RouterInitialized', [$m]);
+            \GNUsocial\Event::handle('RouterInitialized', [$m]);
         }
 
         return $m;

@@ -82,13 +82,13 @@ class ImMaster extends IoMaster
     function initManagers()
     {
         $classes = array();
-        if (Event::handle('StartImDaemonIoManagers', array(&$classes))) {
+        if (\GNUsocial\Event::handle('StartImDaemonIoManagers', array(&$classes))) {
             $qm = QueueManager::get();
             $qm->setActiveGroup('im');
             $classes[] = $qm;
             $classes[] = $this->processManager;
         }
-        Event::handle('EndImDaemonIoManagers', array(&$classes));
+        \GNUsocial\Event::handle('EndImDaemonIoManagers', array(&$classes));
         foreach ($classes as $class) {
             $this->instantiate($class);
         }

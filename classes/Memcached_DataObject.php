@@ -598,7 +598,7 @@ class Memcached_DataObject extends Safe_DataObject
     {
         require_once INSTALLDIR . '/lib/search/search_engines.php';
 
-        if (Event::handle('GetSearchEngine', [$this, $table, &$search_engine])) {
+        if (\GNUsocial\Event::handle('GetSearchEngine', [$this, $table, &$search_engine])) {
             $type = common_config('search', 'type');
             if ($type === 'like') {
                 $search_engine = new SQLLikeSearch($this, $table);
@@ -668,14 +668,14 @@ class Memcached_DataObject extends Safe_DataObject
         $start = hrtime(true);
         $fail = false;
         $result = null;
-        if (Event::handle('StartDBQuery', array($this, $string, &$result))) {
+        if (\GNUsocial\Event::handle('StartDBQuery', array($this, $string, &$result))) {
             common_perf_counter('query', $string);
             try {
                 $result = parent::_query($string);
             } catch (Exception $e) {
                 $fail = $e;
             }
-            Event::handle('EndDBQuery', array($this, $string, &$result));
+            \GNUsocial\Event::handle('EndDBQuery', array($this, $string, &$result));
         }
         $delta = (hrtime(true) - $start) / 1000000000;
 

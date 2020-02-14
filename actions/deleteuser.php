@@ -127,7 +127,7 @@ class DeleteuserAction extends ProfileFormAction
         $this->hidden('token', common_session_token());
         // TRANS: Fieldset legend on delete user page.
         $this->element('legend', _('Delete user'));
-        if (Event::handle('StartDeleteUserForm', array($this, $this->user))) {
+        if (\GNUsocial\Event::handle('StartDeleteUserForm', array($this, $this->user))) {
             $this->element('p', null,
                            // TRANS: Information text to request if a user is certain that the described action has to be performed.
                            _('Are you sure you want to delete this user? '.
@@ -142,7 +142,7 @@ class DeleteuserAction extends ProfileFormAction
                     $this->hidden($k, $v);
                 }
             }
-            Event::handle('EndDeleteUserForm', array($this, $this->user));
+            \GNUsocial\Event::handle('EndDeleteUserForm', array($this, $this->user));
         }
         $this->submit('form_action-no',
                       // TRANS: Button label on the delete user form.
@@ -169,7 +169,7 @@ class DeleteuserAction extends ProfileFormAction
      */
     function handlePost()
     {
-        if (Event::handle('StartDeleteUser', array($this, $this->user))) {
+        if (\GNUsocial\Event::handle('StartDeleteUser', array($this, $this->user))) {
             // Mark the account as deleted and shove low-level deletion tasks
             // to background queues. Removing a lot of posts can take a while...
             if (!$this->user->hasRole(Profile_role::DELETED)) {
@@ -179,7 +179,7 @@ class DeleteuserAction extends ProfileFormAction
             $qm = QueueManager::get();
             $qm->enqueue($this->user, 'deluser');
 
-            Event::handle('EndDeleteUser', array($this, $this->user));
+            \GNUsocial\Event::handle('EndDeleteUser', array($this, $this->user));
         }
     }
 }

@@ -96,7 +96,7 @@ class ApiAuthAction extends ApiAction
                 throw new AuthorizationException(_('Not allowed to use API.'));
             }
             // Let's run this in the same way as if we've just authenticated the user (basic/oauth auth)
-            Event::handle('EndSetApiUser', array($this->auth_user));
+            \GNUsocial\Event::handle('EndSetApiUser', array($this->auth_user));
             $this->access = self::READ_WRITE;
         } else {
             $oauthReq = $this->getOAuthRequest();
@@ -212,7 +212,7 @@ class ApiAuthAction extends ApiAction
                       ? self::READ_WRITE : self::READ_ONLY;
 
                     // Set the auth user
-                    if (Event::handle('StartSetApiUser', array(&$user))) {
+                    if (\GNUsocial\Event::handle('StartSetApiUser', array(&$user))) {
                         $user = User::getKV('id', $appUser->profile_id);
                     }
                     if ($user instanceof User) {
@@ -221,7 +221,7 @@ class ApiAuthAction extends ApiAction
                             throw new AuthorizationException(_('Not allowed to use API.'));
                         }
                         $this->auth_user = $user;
-                        Event::handle('EndSetApiUser', array($this->auth_user));
+                        \GNUsocial\Event::handle('EndSetApiUser', array($this->auth_user));
                     } else {
                         // If $user is not a real User, let's force it to null.
                         $this->auth_user = null;
@@ -303,7 +303,7 @@ class ApiAuthAction extends ApiAction
             $user = common_check_user($this->auth_user_nickname,
                                       $this->auth_user_password);
 
-            Event::handle('StartSetApiUser', array(&$user));
+            \GNUsocial\Event::handle('StartSetApiUser', array(&$user));
             if ($user instanceof User) {
                 if (!$user->hasRight(Right::API)) {
                     // TRANS: Authorization exception thrown when a user without API access tries to access the API.
@@ -311,7 +311,7 @@ class ApiAuthAction extends ApiAction
                 }
                 $this->auth_user = $user;
 
-                Event::handle('EndSetApiUser', array($this->auth_user));
+                \GNUsocial\Event::handle('EndSetApiUser', array($this->auth_user));
             } else {
                 $this->auth_user = null;
             }

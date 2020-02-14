@@ -87,7 +87,7 @@ class ProfilesettingsAction extends SettingsAction
 
         // too much common patterns here... abstractable?
         $this->elementStart('ul', 'form_data');
-        if (Event::handle('StartProfileFormData', array($this))) {
+        if (\GNUsocial\Event::handle('StartProfileFormData', array($this))) {
             $this->elementStart('li');
             // TRANS: Field label in form for profile settings.
             $this->input(
@@ -171,7 +171,7 @@ class ProfilesettingsAction extends SettingsAction
                 );
                 $this->elementEnd('li');
             }
-            Event::handle('EndProfileFormData', array($this));
+            \GNUsocial\Event::handle('EndProfileFormData', array($this));
             $this->elementStart('li');
             // TRANS: Field label in form for profile settings.
             $this->input(
@@ -269,7 +269,7 @@ class ProfilesettingsAction extends SettingsAction
      */
     protected function doPost()
     {
-        if (Event::handle('StartProfileSaveForm', array($this))) {
+        if (\GNUsocial\Event::handle('StartProfileSaveForm', array($this))) {
 
             // $nickname will only be set if this changenick value is true.
             if (common_config('profile', 'changenick') == true) {
@@ -458,7 +458,7 @@ class ProfilesettingsAction extends SettingsAction
             $result = Profile_tag::setSelfTags($this->scoped, $tags, $tag_priv);
 
             $user->query('COMMIT');
-            Event::handle('EndProfileSaveForm', array($this));
+            \GNUsocial\Event::handle('EndProfileSaveForm', array($this));
 
             // TRANS: Confirmation shown when user profile settings are saved.
             return _('Settings saved.');
@@ -473,7 +473,7 @@ class ProfilesettingsAction extends SettingsAction
         $this->elementStart('div', array('id' => 'account_actions',
                                          'class' => 'section'));
         $this->elementStart('ul');
-        if (Event::handle('StartProfileSettingsActions', array($this))) {
+        if (\GNUsocial\Event::handle('StartProfileSettingsActions', array($this))) {
             if ($this->scoped->hasRight(Right::BACKUPACCOUNT)) {
                 $this->elementStart('li');
                 $this->element(
@@ -504,7 +504,7 @@ class ProfilesettingsAction extends SettingsAction
                 );
                 $this->elementEnd('li');
             }
-            Event::handle('EndProfileSettingsActions', array($this));
+            \GNUsocial\Event::handle('EndProfileSettingsActions', array($this));
         }
         $this->elementEnd('ul');
         $this->elementEnd('div');

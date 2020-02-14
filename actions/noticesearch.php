@@ -65,7 +65,7 @@ class NoticesearchAction extends SearchAction
 
         if (!empty($this->q)) {
 
-            Event::handle('StartNoticeSearch', [$this->q]);
+            \GNUsocial\Event::handle('StartNoticeSearch', [$this->q]);
 
             $stream  = new SearchNoticeStream($this->q, $this->scoped);
             $page    = $this->trimmed('page');
@@ -133,7 +133,7 @@ class NoticesearchAction extends SearchAction
      */
     function showResults($q, $page)
     {
-        if (Event::handle('StartNoticeSearchShowResults', array($this, $q, $this->notice))) {
+        if (\GNUsocial\Event::handle('StartNoticeSearchShowResults', array($this, $q, $this->notice))) {
             if ($this->notice->N === 0) {
                 $this->showEmptyResults($q, $page);
             } else {
@@ -146,7 +146,7 @@ class NoticesearchAction extends SearchAction
                                   'noticesearch',
                                   array('q' => $q));
             }
-            Event::handle('EndNoticeSearchShowResults', array($this, $q, $this->notice));
+            \GNUsocial\Event::handle('EndNoticeSearchShowResults', array($this, $q, $this->notice));
         }
     }
 

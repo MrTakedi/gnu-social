@@ -279,7 +279,7 @@ class QnAPlugin extends MicroAppPlugin
                     'id'    => 'notice-' . $id
                 )
             );
-            Event::handle('EndOpenNoticeListItemElement', array($nli));
+            \GNUsocial\Event::handle('EndOpenNoticeListItemElement', array($nli));
             return false;
             break;
         case QnA_Answer::OBJECT_TYPE:
@@ -300,7 +300,7 @@ class QnAPlugin extends MicroAppPlugin
                     'id'    => 'notice-' . $id
                 )
             );
-            Event::handle('EndOpenNoticeListItemElement', array($nli));
+            \GNUsocial\Event::handle('EndOpenNoticeListItemElement', array($nli));
             return false;
             break;
         default:

@@ -37,8 +37,8 @@ class WebfingerAction extends XrdAction
         $this->resource = Discovery::normalize($this->trimmed('resource'));
 
         try {
-            if (Event::handle('StartGetWebFingerResource', array($this->resource, &$this->target, $this->args))) {
-                Event::handle('EndGetWebFingerResource', array($this->resource, &$this->target, $this->args));
+            if (\GNUsocial\Event::handle('StartGetWebFingerResource', array($this->resource, &$this->target, $this->args))) {
+                \GNUsocial\Event::handle('EndGetWebFingerResource', array($this->resource, &$this->target, $this->args));
             }
         } catch (NoSuchUserException $e) {
             throw new ServerException($e->getMessage(), 404);

@@ -185,7 +185,7 @@ class ShowprofiletagAction extends ShowstreamAction
 
     function showNotices()
     {
-        if (Event::handle('StartShowProfileTagContent', array($this))) {
+        if (\GNUsocial\Event::handle('StartShowProfileTagContent', array($this))) {
             $nl = new PrimaryNoticeList($this->notice, $this, array('show_n'=>NOTICES_PER_PAGE));
 
             $cnt = $nl->show();
@@ -202,7 +202,7 @@ class ShowprofiletagAction extends ShowstreamAction
                                     'nickname' => $this->target->getNickname())
             );
 
-            Event::handle('EndShowProfileTagContent', array($this));
+            \GNUsocial\Event::handle('EndShowProfileTagContent', array($this));
         }
     }
 
@@ -221,7 +221,7 @@ class ShowprofiletagAction extends ShowstreamAction
 
         $this->elementStart('div', array('id' => 'entity_tagged',
                                          'class' => 'section'));
-        if (Event::handle('StartShowTaggedProfilesMiniList', array($this))) {
+        if (\GNUsocial\Event::handle('StartShowTaggedProfilesMiniList', array($this))) {
             $title = '';
 
             // TRANS: Header on show list page.
@@ -250,7 +250,7 @@ class ShowprofiletagAction extends ShowstreamAction
                 $this->elementEnd('p');
             }
 
-            Event::handle('EndShowTaggedProfilesMiniList', array($this));
+            \GNUsocial\Event::handle('EndShowTaggedProfilesMiniList', array($this));
         }
         $this->elementEnd('div');
     }
@@ -261,7 +261,7 @@ class ShowprofiletagAction extends ShowstreamAction
 
         $this->elementStart('div', array('id' => 'entity_subscribers',
                                          'class' => 'section'));
-        if (Event::handle('StartShowProfileTagSubscribersMiniList', array($this))) {
+        if (\GNUsocial\Event::handle('StartShowProfileTagSubscribersMiniList', array($this))) {
             // TRANS: Header for tag subscribers.
             $this->element('h2', null, _('Subscribers'));
 
@@ -278,7 +278,7 @@ class ShowprofiletagAction extends ShowstreamAction
 
             // FIXME: link to full list
 
-            Event::handle('EndShowProfileTagSubscribersMiniList', array($this));
+            \GNUsocial\Event::handle('EndShowProfileTagSubscribersMiniList', array($this));
         }
         $this->elementEnd('div');
     }

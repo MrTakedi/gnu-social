@@ -69,7 +69,7 @@ class Cronish
 
             if ($run === true) {
                 // such as CronHourly, CronDaily, CronWeekly
-                Event::handle('Cron' . ucfirst($name));
+                \GNUsocial\Event::handle('Cron' . ucfirst($name));
             }
         }
     }

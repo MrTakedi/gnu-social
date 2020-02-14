@@ -111,9 +111,9 @@ class TagprofileAction extends FormAction
 
         $this->elementEnd('div');
 
-        if (Event::handle('StartShowTagProfileForm', array($this, $this->target))) {
+        if (\GNUsocial\Event::handle('StartShowTagProfileForm', array($this, $this->target))) {
             parent::showContent();
-            Event::handle('EndShowTagProfileForm', array($this, $this->target));
+            \GNUsocial\Event::handle('EndShowTagProfileForm', array($this, $this->target));
         }
     }
 
@@ -122,7 +122,7 @@ class TagprofileAction extends FormAction
         $tagstring = $this->trimmed('tags');
         $token = $this->trimmed('token');
 
-        if (Event::handle('StartSavePeopletags', array($this, $tagstring))) {
+        if (\GNUsocial\Event::handle('StartSavePeopletags', array($this, $tagstring))) {
             $tags = array();
             $tag_priv = array();
 
@@ -172,7 +172,7 @@ class TagprofileAction extends FormAction
                 $this->showForm();
             }
 
-            Event::handle('EndSavePeopletags', array($this, $tagstring));
+            \GNUsocial\Event::handle('EndSavePeopletags', array($this, $tagstring));
         }
     }
 }

@@ -182,8 +182,8 @@ abstract class AuthenticationModule extends Module
             }else{
                 $authenticated = $this->checkPassword($nickname, $password);
                 if($authenticated){
-                    if(! Event::handle('AutoRegister', array($nickname, $this->provider_name, &$authenticatedUser))){
-                        //unlike most Event::handle lines of code, this one has a ! (not)
+                    if(! \GNUsocial\Event::handle('AutoRegister', array($nickname, $this->provider_name, &$authenticatedUser))){
+                        //unlike most \GNUsocial\Event::handle lines of code, this one has a ! (not)
                         //we want to do this if the event *was* handled - this isn't a "default" implementation
                         //like most code of this form.
                         if($authenticatedUser){

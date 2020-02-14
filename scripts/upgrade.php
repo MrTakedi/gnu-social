@@ -52,7 +52,7 @@ function main()
     // that aren't really _required_ for the upgrade
     $iterate_files = (bool)have_option('f', 'files');
 
-    if (Event::handle('StartUpgrade')) {
+    if (\GNUsocial\Event::handle('StartUpgrade')) {
         fixupConversationURIs();
 
         updateSchemaCore();
@@ -87,7 +87,7 @@ function main()
 
         migrateProfilePrefs();
 
-        Event::handle('EndUpgrade');
+        \GNUsocial\Event::handle('EndUpgrade');
     }
 }
 
@@ -116,8 +116,8 @@ function updateSchemaPlugins()
 {
     printfnq("Upgrading plugin schema...");
 
-    Event::handle('BeforePluginCheckSchema');
-    Event::handle('CheckSchema');
+    \GNUsocial\Event::handle('BeforePluginCheckSchema');
+    \GNUsocial\Event::handle('CheckSchema');
 
     printfnq("DONE.\n");
 }
@@ -656,7 +656,7 @@ function migrateProfilePrefs()
     printfnq("Finding and possibly migrating Profile_prefs entries: ");
 
     $prefs = [];   // ['qvitter' => ['cover_photo'=>'profile_banner_url', ...], ...]
-    Event::handle('GetProfilePrefsMigrations', [&$prefs]);
+    \GNUsocial\Event::handle('GetProfilePrefsMigrations', [&$prefs]);
 
     foreach ($prefs as $namespace=>$mods) {
         echo "$namespace... ";

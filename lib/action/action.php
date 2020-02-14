@@ -180,7 +180,7 @@ class Action extends HTMLOutputter // lawsuit
             common_config_set('db', 'database', $mirror);
         }
 
-        if (Event::handle('StartActionExecute', array($this, &$args))) {
+        if (\GNUsocial\Event::handle('StartActionExecute', array($this, &$args))) {
             $prepared = $this->prepare($args);
             if ($prepared) {
                 $this->handle();
@@ -189,7 +189,7 @@ class Action extends HTMLOutputter // lawsuit
             }
 
             $this->flush();
-            Event::handle('EndActionExecute', array($this));
+            \GNUsocial\Event::handle('EndActionExecute', array($this));
         }
     }
 
@@ -531,23 +531,23 @@ class Action extends HTMLOutputter // lawsuit
             self::showAjax();
             return;
         }
-        if (Event::handle('StartShowHTML', array($this))) {
+        if (\GNUsocial\Event::handle('StartShowHTML', array($this))) {
             $this->startHTML();
             $this->flush();
-            Event::handle('EndShowHTML', array($this));
+            \GNUsocial\Event::handle('EndShowHTML', array($this));
         }
-        if (Event::handle('StartShowHead', array($this))) {
+        if (\GNUsocial\Event::handle('StartShowHead', array($this))) {
             $this->showHead();
             $this->flush();
-            Event::handle('EndShowHead', array($this));
+            \GNUsocial\Event::handle('EndShowHead', array($this));
         }
-        if (Event::handle('StartShowBody', array($this))) {
+        if (\GNUsocial\Event::handle('StartShowBody', array($this))) {
             $this->showBody();
-            Event::handle('EndShowBody', array($this));
+            \GNUsocial\Event::handle('EndShowBody', array($this));
         }
-        if (Event::handle('StartEndHTML', array($this))) {
+        if (\GNUsocial\Event::handle('StartEndHTML', array($this))) {
             $this->endHTML();
-            Event::handle('EndEndHTML', array($this));
+            \GNUsocial\Event::handle('EndEndHTML', array($this));
         }
     }
 
@@ -620,10 +620,10 @@ class Action extends HTMLOutputter // lawsuit
     {
         // XXX: attributes (profile?)
         $this->elementStart('head');
-        if (Event::handle('StartShowHeadElements', array($this))) {
-            if (Event::handle('StartShowHeadTitle', array($this))) {
+        if (\GNUsocial\Event::handle('StartShowHeadElements', array($this))) {
+            if (\GNUsocial\Event::handle('StartShowHeadTitle', array($this))) {
                 $this->showTitle();
-                Event::handle('EndShowHeadTitle', array($this));
+                \GNUsocial\Event::handle('EndShowHeadTitle', array($this));
             }
             $this->showShortcutIcon();
             $this->showStylesheets();
@@ -631,7 +631,7 @@ class Action extends HTMLOutputter // lawsuit
             $this->showFeeds();
             $this->showDescription();
             $this->extraHead();
-            Event::handle('EndShowHeadElements', array($this));
+            \GNUsocial\Event::handle('EndShowHeadElements', array($this));
         }
         $this->elementEnd('head');
     }
@@ -689,30 +689,30 @@ class Action extends HTMLOutputter // lawsuit
      */
     public function showStylesheets()
     {
-        if (Event::handle('StartShowStyles', array($this))) {
+        if (\GNUsocial\Event::handle('StartShowStyles', array($this))) {
 
             // Use old name for StatusNet for compatibility on events
 
-            if (Event::handle('StartShowStylesheets', array($this))) {
+            if (\GNUsocial\Event::handle('StartShowStylesheets', array($this))) {
                 $this->primaryCssLink(null, 'screen, projection, tv, print');
-                Event::handle('EndShowStylesheets', array($this));
+                \GNUsocial\Event::handle('EndShowStylesheets', array($this));
             }
 
             $this->cssLink('js/extlib/jquery-ui/css/smoothness/jquery-ui.css');
 
-            if (Event::handle('StartShowUAStyles', array($this))) {
-                Event::handle('EndShowUAStyles', array($this));
+            if (\GNUsocial\Event::handle('StartShowUAStyles', array($this))) {
+                \GNUsocial\Event::handle('EndShowUAStyles', array($this));
             }
 
-            Event::handle('EndShowStyles', array($this));
+            \GNUsocial\Event::handle('EndShowStyles', array($this));
 
             if (common_config('custom_css', 'enabled')) {
                 $css = common_config('custom_css', 'css');
-                if (Event::handle('StartShowCustomCss', array($this, &$css))) {
+                if (\GNUsocial\Event::handle('StartShowCustomCss', array($this, &$css))) {
                     if (trim($css) != '') {
                         $this->style($css);
                     }
-                    Event::handle('EndShowCustomCss', array($this));
+                    \GNUsocial\Event::handle('EndShowCustomCss', array($this));
                 }
             }
         }
@@ -829,17 +829,17 @@ class Action extends HTMLOutputter // lawsuit
         }
         $this->elementStart('body', $params);
         $this->elementStart('div', array('id' => 'wrap'));
-        if (Event::handle('StartShowHeader', array($this))) {
+        if (\GNUsocial\Event::handle('StartShowHeader', array($this))) {
             $this->showHeader();
             $this->flush();
-            Event::handle('EndShowHeader', array($this));
+            \GNUsocial\Event::handle('EndShowHeader', array($this));
         }
         $this->showCore();
         $this->flush();
-        if (Event::handle('StartShowFooter', array($this))) {
+        if (\GNUsocial\Event::handle('StartShowFooter', array($this))) {
             $this->showFooter();
             $this->flush();
-            Event::handle('EndShowFooter', array($this));
+            \GNUsocial\Event::handle('EndShowFooter', array($this));
         }
         $this->elementEnd('div');
         $this->showScripts();
@@ -864,10 +864,10 @@ class Action extends HTMLOutputter // lawsuit
         $this->elementStart('div', array('id' => 'header'));
         $this->showLogo();
         $this->showPrimaryNav();
-        if (Event::handle('StartShowSiteNotice', array($this))) {
+        if (\GNUsocial\Event::handle('StartShowSiteNotice', array($this))) {
             $this->showSiteNotice();
 
-            Event::handle('EndShowSiteNotice', array($this));
+            \GNUsocial\Event::handle('EndShowSiteNotice', array($this));
         }
 
         $this->elementEnd('div');
@@ -882,7 +882,7 @@ class Action extends HTMLOutputter // lawsuit
     public function showLogo()
     {
         $this->elementStart('address', array('id' => 'site_contact', 'class' => 'h-card'));
-        if (Event::handle('StartAddressData', array($this))) {
+        if (\GNUsocial\Event::handle('StartAddressData', array($this))) {
             if (common_config('singleuser', 'enabled')) {
                 $user = User::singleUser();
                 $url = common_local_url(
@@ -933,7 +933,7 @@ class Action extends HTMLOutputter // lawsuit
 
             $this->elementEnd('a');
 
-            Event::handle('EndAddressData', array($this));
+            \GNUsocial\Event::handle('EndAddressData', array($this));
         }
         $this->elementEnd('address');
     }
@@ -990,20 +990,20 @@ class Action extends HTMLOutputter // lawsuit
         $this->elementStart('div', array('id' => 'aside_primary_wrapper'));
         $this->elementStart('div', array('id' => 'content_wrapper'));
         $this->elementStart('div', array('id' => 'site_nav_local_views_wrapper'));
-        if (Event::handle('StartShowLocalNavBlock', array($this))) {
+        if (\GNUsocial\Event::handle('StartShowLocalNavBlock', array($this))) {
             $this->showLocalNavBlock();
             $this->flush();
-            Event::handle('EndShowLocalNavBlock', array($this));
+            \GNUsocial\Event::handle('EndShowLocalNavBlock', array($this));
         }
-        if (Event::handle('StartShowContentBlock', array($this))) {
+        if (\GNUsocial\Event::handle('StartShowContentBlock', array($this))) {
             $this->showContentBlock();
             $this->flush();
-            Event::handle('EndShowContentBlock', array($this));
+            \GNUsocial\Event::handle('EndShowContentBlock', array($this));
         }
-        if (Event::handle('StartShowAside', array($this))) {
+        if (\GNUsocial\Event::handle('StartShowAside', array($this))) {
             $this->showAside();
             $this->flush();
-            Event::handle('EndShowAside', array($this));
+            \GNUsocial\Event::handle('EndShowAside', array($this));
         }
         $this->elementEnd('div');
         $this->elementEnd('div');
@@ -1049,14 +1049,14 @@ class Action extends HTMLOutputter // lawsuit
     {
         $this->elementStart('div', array('id' => 'content'));
         if (common_logged_in()) {
-            if (Event::handle('StartShowNoticeForm', array($this))) {
+            if (\GNUsocial\Event::handle('StartShowNoticeForm', array($this))) {
                 $this->showNoticeForm();
-                Event::handle('EndShowNoticeForm', array($this));
+                \GNUsocial\Event::handle('EndShowNoticeForm', array($this));
             }
         }
-        if (Event::handle('StartShowPageTitle', array($this))) {
+        if (\GNUsocial\Event::handle('StartShowPageTitle', array($this))) {
             $this->showPageTitle();
-            Event::handle('EndShowPageTitle', array($this));
+            \GNUsocial\Event::handle('EndShowPageTitle', array($this));
         }
         $this->showPageNoticeBlock();
         $this->elementStart('div', array('id' => 'content_inner'));
@@ -1083,7 +1083,7 @@ class Action extends HTMLOutputter // lawsuit
 
         $this->element('label', array('for' => 'input_form_nav'), _m('TAB', 'Share your:'));
 
-        if (Event::handle('StartShowEntryForms', array(&$tabs))) {
+        if (\GNUsocial\Event::handle('StartShowEntryForms', array(&$tabs))) {
             $this->elementStart('ul', array('class' => 'nav',
                 'id' => 'input_form_nav'));
 
@@ -1119,12 +1119,12 @@ class Action extends HTMLOutputter // lawsuit
 
                 $form = null;
 
-                if (Event::handle('StartMakeEntryForm', array($tag, $this, &$form))) {
+                if (\GNUsocial\Event::handle('StartMakeEntryForm', array($tag, $this, &$form))) {
                     if ($tag == 'status') {
                         $options = $this->noticeFormOptions();
                         $form = new NoticeForm($this, $options);
                     }
-                    Event::handle('EndMakeEntryForm', array($tag, $this, $form));
+                    \GNUsocial\Event::handle('EndMakeEntryForm', array($tag, $this, $form));
                 }
 
                 if (!empty($form)) {
@@ -1170,12 +1170,12 @@ class Action extends HTMLOutputter // lawsuit
         $rmethod = new ReflectionMethod($this, 'showPageNotice');
         $dclass = $rmethod->getDeclaringClass()->getName();
 
-        if ($dclass != 'Action' || Event::hasHandler('StartShowPageNotice')) {
+        if ($dclass != 'Action' || \GNUsocial\Event::hasHandler('StartShowPageNotice')) {
             $this->elementStart('div', array('id' => 'page_notice',
                 'class' => 'system_notice'));
-            if (Event::handle('StartShowPageNotice', array($this))) {
+            if (\GNUsocial\Event::handle('StartShowPageNotice', array($this))) {
                 $this->showPageNotice();
-                Event::handle('EndShowPageNotice', array($this));
+                \GNUsocial\Event::handle('EndShowPageNotice', array($this));
             }
             $this->elementEnd('div');
         }
@@ -1203,17 +1203,17 @@ class Action extends HTMLOutputter // lawsuit
         $this->elementStart('div', array('id' => 'aside_primary',
             'class' => 'aside'));
         $this->showProfileBlock();
-        if (Event::handle('StartShowObjectNavBlock', array($this))) {
+        if (\GNUsocial\Event::handle('StartShowObjectNavBlock', array($this))) {
             $this->showObjectNavBlock();
-            Event::handle('EndShowObjectNavBlock', array($this));
+            \GNUsocial\Event::handle('EndShowObjectNavBlock', array($this));
         }
-        if (Event::handle('StartShowSections', array($this))) {
+        if (\GNUsocial\Event::handle('StartShowSections', array($this))) {
             $this->showSections();
-            Event::handle('EndShowSections', array($this));
+            \GNUsocial\Event::handle('EndShowSections', array($this));
         }
-        if (Event::handle('StartShowExportData', array($this))) {
+        if (\GNUsocial\Event::handle('StartShowExportData', array($this))) {
             $this->showExportData();
-            Event::handle('EndShowExportData', array($this));
+            \GNUsocial\Event::handle('EndShowExportData', array($this));
         }
         $this->elementEnd('div');
     }
@@ -1302,10 +1302,10 @@ class Action extends HTMLOutputter // lawsuit
     public function showFooter()
     {
         $this->elementStart('div', array('id' => 'footer'));
-        if (Event::handle('StartShowInsideFooter', array($this))) {
+        if (\GNUsocial\Event::handle('StartShowInsideFooter', array($this))) {
             $this->showSecondaryNav();
             $this->showLicenses();
-            Event::handle('EndShowInsideFooter', array($this));
+            \GNUsocial\Event::handle('EndShowInsideFooter', array($this));
         }
         $this->elementEnd('div');
     }
@@ -1367,7 +1367,7 @@ class Action extends HTMLOutputter // lawsuit
      */
     public function showContentLicense()
     {
-        if (Event::handle('StartShowContentLicense', array($this))) {
+        if (\GNUsocial\Event::handle('StartShowContentLicense', array($this))) {
             switch (common_config('license', 'type')) {
                 case 'private':
                     // TRANS: Content license displayed when license is set to 'private'.
@@ -1435,7 +1435,7 @@ class Action extends HTMLOutputter // lawsuit
                     break;
             }
 
-            Event::handle('EndShowContentLicense', array($this));
+            \GNUsocial\Event::handle('EndShowContentLicense', array($this));
         }
     }
 
@@ -1446,16 +1446,16 @@ class Action extends HTMLOutputter // lawsuit
      */
     public function showScripts()
     {
-        if (Event::handle('StartShowScripts', array($this))) {
-            if (Event::handle('StartShowJQueryScripts', array($this))) {
+        if (\GNUsocial\Event::handle('StartShowScripts', array($this))) {
+            if (\GNUsocial\Event::handle('StartShowJQueryScripts', array($this))) {
                 $this->script('extlib/jquery.js');
                 $this->script('extlib/jquery.form.js');
                 $this->script('extlib/jquery-ui/jquery-ui.js');
                 $this->script('extlib/jquery.cookie.js');
 
-                Event::handle('EndShowJQueryScripts', array($this));
+                \GNUsocial\Event::handle('EndShowJQueryScripts', array($this));
             }
-            if (Event::handle('StartShowStatusNetScripts', array($this))) {
+            if (\GNUsocial\Event::handle('StartShowStatusNetScripts', array($this))) {
                 $this->script('util.js');
                 $this->script('xbImportNode.js');
 
@@ -1472,9 +1472,9 @@ class Action extends HTMLOutputter // lawsuit
                 if (common_config('javascript', 'bustframes')) {
                     $this->inlineScript('if (window.top !== window.self) { document.write = ""; window.top.location = window.self.location; setTimeout(function () { document.body.innerHTML = ""; }, 1); window.self.onload = function () { document.body.innerHTML = ""; }; }');
                 }
-                Event::handle('EndShowStatusNetScripts', array($this));
+                \GNUsocial\Event::handle('EndShowStatusNetScripts', array($this));
             }
-            Event::handle('EndShowScripts', array($this));
+            \GNUsocial\Event::handle('EndShowScripts', array($this));
         }
     }
 
@@ -1489,7 +1489,7 @@ class Action extends HTMLOutputter // lawsuit
     {
         $messages = [];
 
-        if (Event::handle('StartScriptMessages', array($this, &$messages))) {
+        if (\GNUsocial\Event::handle('StartScriptMessages', array($this, &$messages))) {
             // Common messages needed for timeline views etc...
 
             // TRANS: Localized tooltip for '...' expansion button on overlong remote messages.
@@ -1498,7 +1498,7 @@ class Action extends HTMLOutputter // lawsuit
 
             $messages = array_merge($messages, $this->getScriptMessages());
 
-            Event::handle('EndScriptMessages', array($this, &$messages));
+            \GNUsocial\Event::handle('EndScriptMessages', array($this, &$messages));
         }
 
         if (!empty($messages)) {
@@ -1535,10 +1535,10 @@ class Action extends HTMLOutputter // lawsuit
     {
         $vars = [];
 
-        if (Event::handle('StartScriptVariables', array($this, &$vars))) {
+        if (\GNUsocial\Event::handle('StartScriptVariables', array($this, &$vars))) {
             $vars['urlNewNotice'] = common_local_url('newnotice');
             $vars['xhrTimeout'] = ini_get('max_execution_time') * 1000;   // milliseconds
-            Event::handle('EndScriptVariables', array($this, &$vars));
+            \GNUsocial\Event::handle('EndScriptVariables', array($this, &$vars));
         }
 
         $this->inlineScript('SN.V = ' . json_encode($vars) . ';');

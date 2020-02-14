@@ -118,7 +118,7 @@ class PluginList extends Widget
     {
         if (!is_array(self::$versions)) {
             $plugin_versions = [];
-            Event::handle('PluginVersion', [&$plugin_versions]);
+            \GNUsocial\Event::handle('PluginVersion', [&$plugin_versions]);
             self::$versions = $plugin_versions;
         }
         return self::$versions;

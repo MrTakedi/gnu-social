@@ -93,10 +93,10 @@ class ApiBlockCreateAction extends ApiAuthAction
         }
 
         if (!$this->user->hasBlocked($this->other)) {
-            if (Event::handle('StartBlockProfile', array($this->user, $this->other))) {
+            if (\GNUsocial\Event::handle('StartBlockProfile', array($this->user, $this->other))) {
                 $result = $this->user->block($this->other);
                 if ($result) {
-                    Event::handle('EndBlockProfile', array($this->user, $this->other));
+                    \GNUsocial\Event::handle('EndBlockProfile', array($this->user, $this->other));
                 }
             }
         }

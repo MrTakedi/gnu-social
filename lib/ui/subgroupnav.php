@@ -70,7 +70,7 @@ class SubGroupNav extends Menu
 
         $this->out->elementStart('ul', array('class' => 'nav'));
 
-        if (Event::handle('StartSubGroupNav', array($this))) {
+        if (\GNUsocial\Event::handle('StartSubGroupNav', array($this))) {
 
             $this->out->menuItem(common_local_url('showstream', array('nickname' =>
                                                                       $this->user->nickname)),
@@ -153,7 +153,7 @@ class SubGroupNav extends Menu
                                      'nav_invite');
             }
 
-            Event::handle('EndSubGroupNav', array($this));
+            \GNUsocial\Event::handle('EndSubGroupNav', array($this));
         }
 
         $this->out->elementEnd('ul');

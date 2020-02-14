@@ -100,9 +100,9 @@ abstract class UAPPlugin extends Plugin
             $action->elementStart('div', array('id' => 'aside_primary',
                                                'class' => 'aside'));
 
-            if (Event::handle('StartShowSections', array($action))) {
+            if (\GNUsocial\Event::handle('StartShowSections', array($action))) {
                 $action->showSections();
-                Event::handle('EndShowSections', array($action));
+                \GNUsocial\Event::handle('EndShowSections', array($action));
             }
 
             $action->elementEnd('div');

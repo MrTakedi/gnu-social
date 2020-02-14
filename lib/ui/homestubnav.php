@@ -50,7 +50,7 @@ class HomeStubNav extends Menu
     function getItems()
     {
         $items = array();
-        if (Event::handle('StartHomeStubNavItems', array($this->action, &$items))) {
+        if (\GNUsocial\Event::handle('StartHomeStubNavItems', array($this->action, &$items))) {
             $items[] = array('top',
                             array(),
                             // TRANS: Menu item in personal group navigation menu.
@@ -59,7 +59,7 @@ class HomeStubNav extends Menu
                             // TRANS: %s is a username.
                             _('Back to top'),
                             'nav_return_top');
-            Event::handle('EndHomeStubNavItems', array($this->action, &$items));
+            \GNUsocial\Event::handle('EndHomeStubNavItems', array($this->action, &$items));
         }
         return $items;
     }

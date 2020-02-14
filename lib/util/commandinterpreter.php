@@ -38,7 +38,7 @@ class CommandInterpreter
         $cmd = strtolower($cmd);
         $result = false;
 
-        if (Event::handle('StartInterpretCommand', array($cmd, $arg, $user, &$result))) {
+        if (\GNUsocial\Event::handle('StartInterpretCommand', array($cmd, $arg, $user, &$result))) {
             switch($cmd) {
             case 'help':
                 if ($arg) {
@@ -300,7 +300,7 @@ class CommandInterpreter
                 break;
             }
 
-            Event::handle('EndInterpretCommand', array($cmd, $arg, $user, &$result));
+            \GNUsocial\Event::handle('EndInterpretCommand', array($cmd, $arg, $user, &$result));
         }
 
         return $result;

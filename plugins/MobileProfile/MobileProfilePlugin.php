@@ -234,7 +234,7 @@ class MobileProfilePlugin extends WAP20Plugin
         }
 
         // Allow other plugins to load their styles.
-        Event::handle('EndShowStylesheets', array($action));
+        \GNUsocial\Event::handle('EndShowStylesheets', array($action));
 
         return false;
     }

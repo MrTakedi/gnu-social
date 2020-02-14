@@ -140,7 +140,7 @@ class GroupEditForm extends Form
         }
 
         $this->out->elementStart('ul', 'form_data');
-        if (Event::handle('StartGroupEditFormData', array($this))) {
+        if (\GNUsocial\Event::handle('StartGroupEditFormData', array($this))) {
             $this->out->elementStart('li');
             $this->out->hidden('groupid', $id);
             // TRANS: Field label on group edit form.
@@ -213,7 +213,7 @@ class GroupEditForm extends Form
                                  // TRANS: Checkbox field title on group edit form to mark a group private.
                                  _('New members must be approved by admin and all posts are forced to be private.'));
             $this->out->elementEnd('li');
-            Event::handle('EndGroupEditFormData', array($this));
+            \GNUsocial\Event::handle('EndGroupEditFormData', array($this));
         }
         $this->out->elementEnd('ul');
     }

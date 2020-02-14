@@ -41,12 +41,12 @@ class Module
 {
     public function __construct()
     {
-        Event::addHandler('InitializeModule', [$this, 'initialize']);
-        Event::addHandler('CleanupModule', [$this, 'cleanup']);
+        \GNUsocial\Event::addHandler('InitializeModule', [$this, 'initialize']);
+        \GNUsocial\Event::addHandler('CleanupModule', [$this, 'cleanup']);
 
         foreach (get_class_methods($this) as $method) {
             if (mb_substr($method, 0, 2) == 'on') {
-                Event::addHandler(mb_substr($method, 2), [$this, $method]);
+                \GNUsocial\Event::addHandler(mb_substr($method, 2), [$this, $method]);
             }
         }
 

@@ -89,7 +89,7 @@ class Menu extends Widget
             $attrs['id']  = 'nav_' . $tag;
         }
 
-        if (Event::handle('StartNav', array($this, &$tag, &$items))) {
+        if (\GNUsocial\Event::handle('StartNav', array($this, &$tag, &$items))) {
 
             $this->out->elementStart('ul', $attrs);
 
@@ -100,7 +100,7 @@ class Menu extends Widget
         
             $this->out->elementEnd('ul');
             
-            Event::handle('EndNav', array($this, $tag, $items));
+            \GNUsocial\Event::handle('EndNav', array($this, $tag, $items));
         }
     }
     
@@ -150,12 +150,12 @@ class Menu extends Widget
 
     function submenu($label, $menu)
     {
-        if (Event::handle('StartSubMenu', [$this->action, $menu, $label])) {
+        if (\GNUsocial\Event::handle('StartSubMenu', [$this->action, $menu, $label])) {
             $this->action->elementStart('li');
             $this->action->element('h3', null, $label);
             $menu->show();
             $this->action->elementEnd('li');
-            Event::handle('EndSubMenu', [$this->action, $menu, $label]);
+            \GNUsocial\Event::handle('EndSubMenu', [$this->action, $menu, $label]);
         }
     }
 }

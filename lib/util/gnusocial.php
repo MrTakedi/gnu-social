@@ -297,12 +297,12 @@ class GNUsocial
 
         // XXX: if modules should check the schema at runtime, do that here.
         if (common_config('db', 'schemacheck') == 'runtime') {
-            Event::handle('CheckSchema');
+            \GNUsocial\Event::handle('CheckSchema');
         }
 
         // Give modules and plugins a chance to initialize in a fully-prepared environment
-        Event::handle('InitializeModule');
-        Event::handle('InitializePlugin');
+        \GNUsocial\Event::handle('InitializeModule');
+        \GNUsocial\Event::handle('InitializePlugin');
     }
 
     /**
@@ -365,7 +365,7 @@ class GNUsocial
     {
         global $_server, $_path, $config, $_PEAR;
 
-        Event::clearHandlers();
+        \GNUsocial\Event::clearHandlers();
         self::$modules = [];
 
         // try to figure out where we are. $server and $path

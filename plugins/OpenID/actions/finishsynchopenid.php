@@ -106,14 +106,14 @@ class FinishsynchopenidAction extends Action
 
             $cur->query('BEGIN');
 
-            if (Event::handle('StartOpenIDUpdateUser', [$cur, $canonical, &$sreg])) {
+            if (\GNUsocial\Event::handle('StartOpenIDUpdateUser', [$cur, $canonical, &$sreg])) {
                 if (!oid_update_user($cur, $sreg)) {
                     // TRANS: Message in case the user or the user profile cannot be saved in StatusNet.
                     $this->message(_m('Error updating profile.'));
                     return;
                 }
             }
-            Event::handle('EndOpenIDUpdateUser', [$cur, $canonical, $sreg]);
+            \GNUsocial\Event::handle('EndOpenIDUpdateUser', [$cur, $canonical, $sreg]);
             
             // success!
 

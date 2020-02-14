@@ -95,7 +95,7 @@ function testUser($filter, $user)
 
 try {
     $filter = null;
-    Event::handle('GetSpamFilter', array(&$filter));
+    \GNUsocial\Event::handle('GetSpamFilter', array(&$filter));
     if (empty($filter)) {
         throw new Exception(_("No spam filter."));
     }

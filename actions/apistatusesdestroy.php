@@ -88,9 +88,9 @@ class ApiStatusesDestroyAction extends ApiAuthAction
             throw new AuthorizationException(_('You may not delete another user\'s status.'));
         }
 
-        if (Event::handle('StartDeleteOwnNotice', array($this->scoped->getUser(), $this->notice))) {
+        if (\GNUsocial\Event::handle('StartDeleteOwnNotice', array($this->scoped->getUser(), $this->notice))) {
             $this->notice->deleteAs($this->scoped);
-            Event::handle('EndDeleteOwnNotice', array($this->scoped->getUser(), $this->notice));
+            \GNUsocial\Event::handle('EndDeleteOwnNotice', array($this->scoped->getUser(), $this->notice));
         }
         $this->showNotice();
     }

@@ -133,9 +133,9 @@ class HTMLOutputter extends XMLOutputter
             'lang' => $language
         ];
 
-        if (Event::handle('StartHtmlElement', [$this, &$attrs])) {
+        if (\GNUsocial\Event::handle('StartHtmlElement', [$this, &$attrs])) {
             $this->elementStart('html', $attrs);
-            Event::handle('EndHtmlElement', [$this, &$attrs]);
+            \GNUsocial\Event::handle('EndHtmlElement', [$this, &$attrs]);
         }
     }
 
@@ -416,7 +416,7 @@ class HTMLOutputter extends XMLOutputter
      */
     public function script($src, $type = 'text/javascript')
     {
-        if (Event::handle('StartScriptElement', [$this, &$src, &$type])) {
+        if (\GNUsocial\Event::handle('StartScriptElement', [$this, &$src, &$type])) {
             $url = parse_url($src);
 
             if (empty($url['scheme']) && empty($url['host']) && empty($url['query']) && empty($url['fragment'])) {
@@ -480,7 +480,7 @@ class HTMLOutputter extends XMLOutputter
                 ' '
             );
 
-            Event::handle('EndScriptElement', [$this, $src, $type]);
+            \GNUsocial\Event::handle('EndScriptElement', [$this, $src, $type]);
         }
     }
 
@@ -495,7 +495,7 @@ class HTMLOutputter extends XMLOutputter
      */
     public function cssLink($src, $theme = null, $media = null)
     {
-        if (Event::handle('StartCssLinkElement', [$this, &$src, &$theme, &$media])) {
+        if (\GNUsocial\Event::handle('StartCssLinkElement', [$this, &$src, &$theme, &$media])) {
             $url = parse_url($src);
             if (empty($url['scheme']) && empty($url['host']) && empty($url['query']) && empty($url['fragment'])) {
                 if (file_exists(Theme::file($src, $theme))) {
@@ -509,7 +509,7 @@ class HTMLOutputter extends XMLOutputter
                 'type' => 'text/css',
                 'href' => $src,
                 'media' => $media]);
-            Event::handle('EndCssLinkElement', [$this, $src, $theme, $media]);
+            \GNUsocial\Event::handle('EndCssLinkElement', [$this, $src, $theme, $media]);
         }
     }
 
@@ -526,11 +526,11 @@ class HTMLOutputter extends XMLOutputter
 
     public function style($code, $type = 'text/css', $media = null)
     {
-        if (Event::handle('StartStyleElement', [$this, &$code, &$type, &$media])) {
+        if (\GNUsocial\Event::handle('StartStyleElement', [$this, &$code, &$type, &$media])) {
             $this->elementStart('style', ['type' => $type, 'media' => $media]);
             $this->raw($code);
             $this->elementEnd('style');
-            Event::handle('EndStyleElement', [$this, $code, $type, $media]);
+            \GNUsocial\Event::handle('EndStyleElement', [$this, $code, $type, $media]);
         }
     }
 
@@ -619,7 +619,7 @@ class HTMLOutputter extends XMLOutputter
 
     public function inlineScript($code, $type = 'text/javascript')
     {
-        if (Event::handle('StartInlineScriptElement', [$this, &$code, &$type])) {
+        if (\GNUsocial\Event::handle('StartInlineScriptElement', [$this, &$code, &$type])) {
             $this->elementStart('script', ['type' => $type]);
             if ($type == 'text/javascript') {
                 $this->raw('/*<![CDATA[*/ '); // XHTML compat
@@ -629,7 +629,7 @@ class HTMLOutputter extends XMLOutputter
                 $this->raw(' /*]]>*/'); // XHTML compat
             }
             $this->elementEnd('script');
-            Event::handle('EndInlineScriptElement', [$this, $code, $type]);
+            \GNUsocial\Event::handle('EndInlineScriptElement', [$this, $code, $type]);
         }
     }
 }

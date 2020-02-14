@@ -196,7 +196,7 @@ class AtompubmembershipfeedAction extends AtompubAction
 
         $membership = null;
 
-        if (Event::handle('StartAtomPubNewActivity', array(&$activity))) {
+        if (\GNUsocial\Event::handle('StartAtomPubNewActivity', array(&$activity))) {
             if ($activity->verb != ActivityVerb::JOIN) {
                 // TRANS: Client error displayed when not using the join verb.
                 throw new ClientException(_('Can only handle join activities.'));
@@ -235,7 +235,7 @@ class AtompubmembershipfeedAction extends AtompubAction
 
             $this->auth_user->joinGroup($group);
 
-            Event::handle('EndAtomPubNewActivity', array($activity, $membership));
+            \GNUsocial\Event::handle('EndAtomPubNewActivity', array($activity, $membership));
         }
 
         if (!empty($membership)) {

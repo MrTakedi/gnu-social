@@ -62,5 +62,5 @@ if (have_option('x', 'extensions')) {
     }
 }
 
-Event::handle('BeforePluginCheckSchema');
-Event::handle('CheckSchema');
+\GNUsocial\Event::handle('BeforePluginCheckSchema');
+\GNUsocial\Event::handle('CheckSchema');

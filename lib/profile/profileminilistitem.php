@@ -44,8 +44,8 @@ class ProfileMiniListItem extends ProfileListItem
     function show()
     {
         $this->out->elementStart('li', 'h-card');
-        if (Event::handle('StartProfileListItemProfileElements', array($this))) {
-            if (Event::handle('StartProfileListItemAvatar', array($this))) {
+        if (\GNUsocial\Event::handle('StartProfileListItemProfileElements', array($this))) {
+            if (\GNUsocial\Event::handle('StartProfileListItemAvatar', array($this))) {
                 $aAttrs = $this->linkAttributes();
                 $this->out->elementStart('a', $aAttrs);
                 $avatarUrl = $this->profile->avatarUrl(AVATAR_MINI_SIZE);
@@ -55,7 +55,7 @@ class ProfileMiniListItem extends ProfileListItem
                                                  'class' => 'avatar u-photo',
                                                  'alt' =>  $this->profile->getBestName()));
                 $this->out->elementEnd('a');
-                Event::handle('EndProfileListItemAvatar', array($this));
+                \GNUsocial\Event::handle('EndProfileListItemAvatar', array($this));
             }
             $this->out->elementEnd('li');
         }

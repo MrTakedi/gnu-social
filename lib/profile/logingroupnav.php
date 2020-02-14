@@ -57,7 +57,7 @@ class LoginGroupNav extends Menu
 
         $this->action->elementStart('ul', array('class' => 'nav'));
 
-        if (Event::handle('StartLoginGroupNav', array($this->action))) {
+        if (\GNUsocial\Event::handle('StartLoginGroupNav', array($this->action))) {
 
             $this->action->menuItem(common_local_url('login'),
                                     // TRANS: Menu item for logging in to the StatusNet site.
@@ -76,7 +76,7 @@ class LoginGroupNav extends Menu
                                         $action_name === 'register');
             }
 
-            Event::handle('EndLoginGroupNav', array($this->action));
+            \GNUsocial\Event::handle('EndLoginGroupNav', array($this->action));
         }
 
         $this->action->elementEnd('ul');

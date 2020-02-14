@@ -93,7 +93,7 @@ class Subscription extends Managed_DataObject
             throw new Exception(_('User has blocked you.'));
         }
 
-        if (Event::handle('StartSubscribe', array($subscriber, $other))) {
+        if (\GNUsocial\Event::handle('StartSubscribe', array($subscriber, $other))) {
             // unless subscription is forced, the user policy for subscription approvals is tested
             if (!$force && $other->requiresSubscriptionApproval($subscriber)) {
                 try {
@@ -131,7 +131,7 @@ class Subscription extends Managed_DataObject
             }
 
             if ($sub instanceof Subscription) { // i.e. not Subscription_queue
-                Event::handle('EndSubscribe', array($subscriber, $other));
+                \GNUsocial\Event::handle('EndSubscribe', array($subscriber, $other));
             }
         }
 
@@ -216,7 +216,7 @@ class Subscription extends Managed_DataObject
             throw new Exception(_('Could not delete self-subscription.'));
         }
 
-        if (Event::handle('StartUnsubscribe', array($subscriber, $other))) {
+        if (\GNUsocial\Event::handle('StartUnsubscribe', array($subscriber, $other))) {
             $sub = Subscription::pkeyGet(array('subscriber' => $subscriber->id,
                                                'subscribed' => $other->id));
 
@@ -240,7 +240,7 @@ class Subscription extends Managed_DataObject
             $subscriber->blowSubscriptionCount();
             $other->blowSubscriberCount();
 
-            Event::handle('EndUnsubscribe', array($subscriber, $other));
+            \GNUsocial\Event::handle('EndUnsubscribe', array($subscriber, $other));
         }
 
         return;

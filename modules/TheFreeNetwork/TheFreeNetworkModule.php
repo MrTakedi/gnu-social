@@ -51,7 +51,7 @@ class TheFreeNetworkModule extends Module
      */
     public function onInitializePlugin()
     {
-        Event::handle('StartTFNCensus', [&$this->free_network]);
+        \GNUsocial\Event::handle('StartTFNCensus', [&$this->free_network]);
         return true;
     }
 

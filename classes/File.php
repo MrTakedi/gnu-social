@@ -171,7 +171,7 @@ class File extends Managed_DataObject
     {
         $this->urlhash = self::hashurl($this->url);
 
-        if (!Event::handle('StartFileSaveNew', array(&$this))) {
+        if (!\GNUsocial\Event::handle('StartFileSaveNew', array(&$this))) {
             throw new ServerException('File not saved due to an aborted StartFileSaveNew event.');
         }
 
@@ -181,7 +181,7 @@ class File extends Managed_DataObject
             throw new ServerException('File/URL metadata could not be saved to the database.');
         }
 
-        Event::handle('EndFileSaveNew', array($this));
+        \GNUsocial\Event::handle('EndFileSaveNew', array($this));
     }
 
     /**
@@ -525,7 +525,7 @@ class File extends Managed_DataObject
         if (!isset($this->filename) && in_array(common_bare_mime($enclosure->mimetype), $needMoreMetadataMimetypes)) {
             // This fetches enclosure metadata for non-local links with unset/HTML mimetypes,
             // which may be enriched through oEmbed or similar (implemented as plugins)
-            Event::handle('FileEnclosureMetadata', array($this, &$enclosure));
+            \GNUsocial\Event::handle('FileEnclosureMetadata', array($this, &$enclosure));
         }
         if (empty($enclosure->mimetype)) {
             // This means we either don't know what it is, so it can't
@@ -835,7 +835,7 @@ class File extends Managed_DataObject
         }
 
         // Clear out related things in the database and filesystem, such as thumbnails
-        if (Event::handle('FileDeleteRelated', array($this))) {
+        if (\GNUsocial\Event::handle('FileDeleteRelated', array($this))) {
             $thumbs = new File_thumbnail();
             $thumbs->file_id = $this->id;
             if ($thumbs->find()) {

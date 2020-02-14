@@ -235,7 +235,7 @@ class Atom10Feed extends XMLStringer
 
     function getString()
     {
-        if (Event::handle('StartApiAtom', array($this))) {
+        if (\GNUsocial\Event::handle('StartApiAtom', array($this))) {
 
             $this->validate();
             $this->initFeed();
@@ -247,7 +247,7 @@ class Atom10Feed extends XMLStringer
             $this->renderEntries();
             $this->endFeed();
 
-            Event::handle('EndApiAtom', array($this));
+            \GNUsocial\Event::handle('EndApiAtom', array($this));
         }
 
         return $this->xw->outputMemory();

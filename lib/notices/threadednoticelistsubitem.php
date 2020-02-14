@@ -48,9 +48,9 @@ class ThreadedNoticeListSubItem extends NoticeListItem
     function showEnd()
     {
         $threadActive = null;   // unused here for now, but maybe in the future?
-        if (Event::handle('StartShowThreadedNoticeTailItems', array($this, $this->notice, &$threadActive))) {
+        if (\GNUsocial\Event::handle('StartShowThreadedNoticeTailItems', array($this, $this->notice, &$threadActive))) {
             // Repeats and Faves/Likes are handled in plugins.
-            Event::handle('EndShowThreadedNoticeTailItems', array($this, $this->notice, &$threadActive));
+            \GNUsocial\Event::handle('EndShowThreadedNoticeTailItems', array($this, $this->notice, &$threadActive));
         }
         parent::showEnd();
     }

@@ -75,7 +75,7 @@ class NewgroupAction extends FormAction
 
     protected function doPost()
     {
-        if (Event::handle('StartGroupSaveForm', array($this))) {
+        if (\GNUsocial\Event::handle('StartGroupSaveForm', array($this))) {
             $nickname = Nickname::normalize($this->trimmed('newnickname'), true);
 
             $fullname    = $this->trimmed('fullname');
@@ -143,7 +143,7 @@ class NewgroupAction extends FormAction
 
             $this->group = $group;
 
-            Event::handle('EndGroupSaveForm', array($this));
+            \GNUsocial\Event::handle('EndGroupSaveForm', array($this));
 
             common_redirect($group->homeUrl(), 303);
         }

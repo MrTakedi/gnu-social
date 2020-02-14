@@ -123,7 +123,7 @@ class NewmessageAction extends FormAction
         }
 
         $message = MessageModel::saveNew($this->scoped, $this->content);
-        Event::handle('SendDirectMessage', [$message]);
+        \GNUsocial\Event::handle('SendDirectMessage', [$message]);
         mail_notify_message($message);
 
         if (GNUsocial::isAjax()) {

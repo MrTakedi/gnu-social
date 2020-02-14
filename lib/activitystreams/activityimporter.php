@@ -60,7 +60,7 @@ class ActivityImporter extends QueueHandler
         $done = null;
 
         try {
-            if (Event::handle('StartImportActivity',
+            if (\GNUsocial\Event::handle('StartImportActivity',
                               array($user, $author, $activity, $trusted, &$done))) {
                 switch ($activity->verb) {
                 case ActivityVerb::FOLLOW:
@@ -76,7 +76,7 @@ class ActivityImporter extends QueueHandler
                     // TRANS: Client exception thrown when using an unknown verb for the activity importer.
                     throw new ClientException(sprintf(_("Unknown verb: \"%s\"."),$activity->verb));
                 }
-                Event::handle('EndImportActivity',
+                \GNUsocial\Event::handle('EndImportActivity',
                               array($user, $author, $activity, $trusted));
                 $done = true;
             }

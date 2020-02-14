@@ -220,7 +220,7 @@ function setupRW()
 
     $rwdb = $config['db']['database'];
 
-    if (Event::handle('StartReadWriteTables', array(&$alwaysRW, &$rwdb))) {
+    if (\GNUsocial\Event::handle('StartReadWriteTables', array(&$alwaysRW, &$rwdb))) {
 
         // We ensure that these tables always are used
         // on the master DB
@@ -232,7 +232,7 @@ function setupRW()
             $config['db']['table_'.$table] = 'rw';
         }
 
-        Event::handle('EndReadWriteTables', array($alwaysRW, $rwdb));
+        \GNUsocial\Event::handle('EndReadWriteTables', array($alwaysRW, $rwdb));
     }
 
     return;
@@ -244,7 +244,7 @@ function isLoginAction($action)
 
     $login = null;
 
-    if (Event::handle('LoginAction', array($action, &$login))) {
+    if (\GNUsocial\Event::handle('LoginAction', array($action, &$login))) {
         $login = in_array($action, $loginActions);
     }
 
@@ -294,7 +294,7 @@ function main()
 
     $args = array_merge($args, $_REQUEST ?: []);
 
-    Event::handle('ArgsInitialize', array(&$args));
+    \GNUsocial\Event::handle('ArgsInitialize', array(&$args));
 
     $action = basename($args['action']);
 
@@ -343,5 +343,5 @@ main();
 // XXX: cleanup exit() calls or add an exit handler so
 // this always gets called
 
-Event::handle('CleanupModule');
-Event::handle('CleanupPlugin');
+\GNUsocial\Event::handle('CleanupModule');
+\GNUsocial\Event::handle('CleanupPlugin');

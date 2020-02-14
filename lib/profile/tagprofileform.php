@@ -118,7 +118,7 @@ class TagProfileForm extends Form
      */
     function formData()
     {
-        if (Event::handle('StartShowTagProfileFormData', array($this))) {
+        if (\GNUsocial\Event::handle('StartShowTagProfileFormData', array($this))) {
             $this->hidden('token', common_session_token());  
             $this->hidden('id', $this->target->id);
 
@@ -133,7 +133,7 @@ class TagProfileForm extends Form
                          _('Lists for this user (letters, numbers, -, ., and _), comma- or space- separated.'));
             $this->elementEnd('li');
             $this->elementEnd('ul');
-            Event::handle('EndShowTagProfileFormData', array($this));
+            \GNUsocial\Event::handle('EndShowTagProfileFormData', array($this));
         }
     }
 

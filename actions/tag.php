@@ -109,7 +109,7 @@ class TagAction extends ManagedAction
 
     protected function showContent()
     {
-        if(Event::handle('StartTagShowContent', array($this))) {
+        if(\GNUsocial\Event::handle('StartTagShowContent', array($this))) {
 
             $nl = new PrimaryNoticeList($this->notice, $this, array('show_n'=>NOTICES_PER_PAGE));
 
@@ -118,7 +118,7 @@ class TagAction extends ManagedAction
             $this->pagination($this->page > 1, $cnt > NOTICES_PER_PAGE,
                               $this->page, 'tag', array('tag' => $this->tag));
 
-            Event::handle('EndTagShowContent', array($this));
+            \GNUsocial\Event::handle('EndTagShowContent', array($this));
         }
     }
 

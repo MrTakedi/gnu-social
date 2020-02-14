@@ -70,8 +70,8 @@ class PublicxrdsAction extends Action
         parent::handle();
         $xrdsOutputter = new XRDSOutputter();
         $xrdsOutputter->startXRDS();
-        Event::handle('StartPublicXRDS', array($this,&$xrdsOutputter));
-        Event::handle('EndPublicXRDS', array($this,&$xrdsOutputter));
+        \GNUsocial\Event::handle('StartPublicXRDS', array($this,&$xrdsOutputter));
+        \GNUsocial\Event::handle('EndPublicXRDS', array($this,&$xrdsOutputter));
         $xrdsOutputter->endXRDS();
     }
 }

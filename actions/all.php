@@ -131,7 +131,7 @@ class AllAction extends ShowstreamAction
 
     function showContent()
     {
-        if (Event::handle('StartShowAllContent', array($this))) {
+        if (\GNUsocial\Event::handle('StartShowAllContent', array($this))) {
             if ($this->scoped instanceof Profile && $this->scoped->isLocal() && $this->scoped->getUser()->streamModeOnly()) {
                 $nl = new PrimaryNoticeList($this->notice, $this, array('show_n'=>NOTICES_PER_PAGE));
             } else {
@@ -149,7 +149,7 @@ class AllAction extends ShowstreamAction
                 $this->page, 'all', array('nickname' => $this->target->getNickname())
             );
 
-            Event::handle('EndShowAllContent', array($this));
+            \GNUsocial\Event::handle('EndShowAllContent', array($this));
         }
     }
 

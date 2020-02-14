@@ -553,7 +553,7 @@ abstract class ActivityHandlerModule extends Module
 
         $this->openNoticeListItemElement($nli);
 
-        Event::handle('EndOpenNoticeListItemElement', [$nli]);
+        \GNUsocial\Event::handle('EndOpenNoticeListItemElement', [$nli]);
         return false;
     }
 
@@ -565,7 +565,7 @@ abstract class ActivityHandlerModule extends Module
 
         $this->closeNoticeListItemElement($nli);
 
-        Event::handle('EndCloseNoticeListItemElement', [$nli]);
+        \GNUsocial\Event::handle('EndCloseNoticeListItemElement', [$nli]);
         return false;
     }
 
@@ -619,7 +619,7 @@ abstract class ActivityHandlerModule extends Module
             $nli->out->element('p', 'error', sprintf(_('Error showing notice: %s'), $e->getMessage()));
         }
 
-        Event::handle('EndShowNoticeItem', array($nli));
+        \GNUsocial\Event::handle('EndShowNoticeItem', array($nli));
         return false;
     }
 
@@ -638,7 +638,7 @@ abstract class ActivityHandlerModule extends Module
 
         $this->showNoticeItemNotice($nli);
 
-        Event::handle('EndShowNoticeItemNotice', array($nli));
+        \GNUsocial\Event::handle('EndShowNoticeItemNotice', array($nli));
         return false;
     }
 

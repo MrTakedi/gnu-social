@@ -58,10 +58,10 @@ class LogoutAction extends ManagedAction
             // TRANS: Error message displayed when trying to logout even though you are not logged in.
             throw new AlreadyFulfilledException(_('Cannot log you out if you are not logged in.'));
         }
-        if (Event::handle('StartLogout', array($this))) {
+        if (\GNUsocial\Event::handle('StartLogout', array($this))) {
             $this->logout();
         }
-        Event::handle('EndLogout', array($this));
+        \GNUsocial\Event::handle('EndLogout', array($this));
 
         common_redirect(common_local_url('top'));
     }

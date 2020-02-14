@@ -189,7 +189,7 @@ class BitlyAdminPanelForm extends AdminForm
 
         // Do we have global defaults to fall back on?
         $login = $apiKey = false;
-        Event::handle('BitlyDefaultCredentials', array(&$login, &$apiKey));
+        \GNUsocial\Event::handle('BitlyDefaultCredentials', array(&$login, &$apiKey));
         $haveGlobalDefaults = ($login && $apiKey);
         if ($login && $apiKey) {
             $this->out->element('p', 'form_guide',

@@ -81,14 +81,14 @@ class ApiOAuthPinAction extends InfoAction
         $this->elementStart('body', $attrs);
 
         $this->elementStart('div', array('id' => 'wrap'));
-        if (Event::handle('StartShowHeader', array($this))) {
+        if (\GNUsocial\Event::handle('StartShowHeader', array($this))) {
             $this->showHeader();
-            Event::handle('EndShowHeader', array($this));
+            \GNUsocial\Event::handle('EndShowHeader', array($this));
         }
         $this->showCore();
-        if (Event::handle('StartShowFooter', array($this))) {
+        if (\GNUsocial\Event::handle('StartShowFooter', array($this))) {
             $this->showFooter();
-            Event::handle('EndShowFooter', array($this));
+            \GNUsocial\Event::handle('EndShowFooter', array($this));
         }
         $this->elementEnd('div');
         $this->showScripts();

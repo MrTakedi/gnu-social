@@ -83,7 +83,7 @@ class AdminPanelAction extends Action
             // Cookie theft is too easy; we require automatic
             // logins to re-authenticate before admining the site
             common_set_returnto($this->selfUrl());
-            if (Event::handle('RedirectToLogin', array($this, $user))) {
+            if (\GNUsocial\Event::handle('RedirectToLogin', array($this, $user))) {
                 common_redirect(common_local_url('login'), 303);
             }
         }
@@ -250,7 +250,7 @@ class AdminPanelAction extends Action
     {
         $isOK = false;
 
-        if (Event::handle('AdminPanelCheck', array($name, &$isOK))) {
+        if (\GNUsocial\Event::handle('AdminPanelCheck', array($name, &$isOK))) {
             $isOK = in_array($name, common_config('admin', 'panels'));
         }
 

@@ -126,7 +126,7 @@ class ShownoticeAction extends ManagedAction
         } catch (NoResultException $e) {
             // Hm, not found.
             $deleted = null;
-            Event::handle('IsNoticeDeleted', [$id, &$deleted]);
+            \GNUsocial\Event::handle('IsNoticeDeleted', [$id, &$deleted]);
             if ($deleted === true) {
                 // TRANS: Client error displayed trying to show a deleted notice.
                 throw new ClientException(_('Notice deleted.'), 410);

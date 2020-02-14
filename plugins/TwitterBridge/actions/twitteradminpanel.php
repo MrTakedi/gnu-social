@@ -91,7 +91,7 @@ class TwitteradminpanelAction extends AdminPanelAction
         static $booleans = array(
             'twitter'       => array('signin')
         );
-        if (Event::handle('TwitterBridgeAdminImportControl')) {
+        if (\GNUsocial\Event::handle('TwitterBridgeAdminImportControl')) {
             $booleans['twitterimport'] = array('enabled');
         }
 
@@ -283,7 +283,7 @@ class TwitterAdminPanelForm extends AdminForm
         );
         $this->unli();
 
-        if (Event::handle('TwitterBridgeAdminImportControl')) {
+        if (\GNUsocial\Event::handle('TwitterBridgeAdminImportControl')) {
             $this->li();
             $this->out->checkbox(
                 // TRANS: Checkbox label for global setting.

@@ -104,11 +104,11 @@ class FavorForm extends Form
      */
     function formData()
     {
-        if (Event::handle('StartFavorNoticeForm', array($this, $this->notice))) {
+        if (\GNUsocial\Event::handle('StartFavorNoticeForm', array($this, $this->notice))) {
             $this->out->hidden('notice-n'.$this->notice->id,
                                $this->notice->id,
                                'notice');
-            Event::handle('EndFavorNoticeForm', array($this, $this->notice));
+            \GNUsocial\Event::handle('EndFavorNoticeForm', array($this, $this->notice));
         }
     }
 

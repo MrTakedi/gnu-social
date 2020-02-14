@@ -57,7 +57,7 @@ class PublicGroupNav extends Menu
 
         $this->action->elementStart('ul', array('class' => 'nav'));
 
-        if (Event::handle('StartPublicGroupNav', array($this))) {
+        if (\GNUsocial\Event::handle('StartPublicGroupNav', array($this))) {
             if (!common_config('singleuser', 'enabled')) {
                 // TRANS: Menu item in search group navigation panel.
                 $this->out->menuItem(common_local_url('public'), _m('MENU','Public'),
@@ -84,7 +84,7 @@ class PublicGroupNav extends Menu
                     _('Featured users'), $this->actionName == 'featured', 'nav_featured');
             }
 
-            Event::handle('EndPublicGroupNav', array($this));
+            \GNUsocial\Event::handle('EndPublicGroupNav', array($this));
         }
         $this->action->elementEnd('ul');
     }

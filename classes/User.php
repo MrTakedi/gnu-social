@@ -274,7 +274,7 @@ class User extends Managed_DataObject
 
         $user->created = common_sql_now();
 
-        if (Event::handle('StartUserRegister', array($profile))) {
+        if (\GNUsocial\Event::handle('StartUserRegister', array($profile))) {
             $profile->query('BEGIN');
 
             $id = $profile->insert();
@@ -413,7 +413,7 @@ class User extends Managed_DataObject
                 }
             }
 
-            Event::handle('EndUserRegister', array($profile));
+            \GNUsocial\Event::handle('EndUserRegister', array($profile));
         }
 
         if (!$user instanceof User || empty($user->id)) {
@@ -636,7 +636,7 @@ class User extends Managed_DataObject
                          'Invitation',
                          );
 
-        Event::handle('UserDeleteRelated', array($this, &$related));
+        \GNUsocial\Event::handle('UserDeleteRelated', array($this, &$related));
 
         foreach ($related as $cls) {
             $inst = new $cls();

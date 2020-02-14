@@ -92,7 +92,7 @@ class Location
 
         // Let a third-party handle it
 
-        Event::handle('LocationFromName', array($name, $language, &$location));
+        \GNUsocial\Event::handle('LocationFromName', array($name, $language, &$location));
 
         return $location;
     }
@@ -117,7 +117,7 @@ class Location
 
         // Let a third-party handle it
 
-        Event::handle('LocationFromId', array($id, $ns, $language, &$location));
+        \GNUsocial\Event::handle('LocationFromId', array($id, $ns, $language, &$location));
 
         return $location;
     }
@@ -142,7 +142,7 @@ class Location
 
         // Let a third-party handle it
 
-        if (Event::handle('LocationFromLatLon',
+        if (\GNUsocial\Event::handle('LocationFromLatLon',
                           array($lat, $lon, $language, &$location))) {
             // Default is just the lat/lon pair
 
@@ -173,7 +173,7 @@ class Location
             return $this->names[$language];
         } else {
             $name = null;
-            Event::handle('LocationNameLanguage', array($this, $language, &$name));
+            \GNUsocial\Event::handle('LocationNameLanguage', array($this, $language, &$name));
             if (!empty($name)) {
                 $this->names[$language] = $name;
                 return $name;
@@ -197,7 +197,7 @@ class Location
 
         $url = null;
 
-        Event::handle('LocationUrl', array($this, &$url));
+        \GNUsocial\Event::handle('LocationUrl', array($this, &$url));
 
         $this->_url = $url;
 
@@ -220,7 +220,7 @@ class Location
 
         $url = null;
 
-        Event::handle('LocationRdfUrl', array($this, &$url));
+        \GNUsocial\Event::handle('LocationRdfUrl', array($this, &$url));
 
         $this->_rdfurl = $url;
 

@@ -80,7 +80,7 @@ class ApiStatusesShowAction extends ApiPrivateAuthAction
         } catch (NoResultException $e) {
             // No such notice was found, maybe it was deleted?
             $deleted = null;
-            Event::handle('IsNoticeDeleted', array($this->notice_id, &$deleted));
+            \GNUsocial\Event::handle('IsNoticeDeleted', array($this->notice_id, &$deleted));
             if ($deleted === true) {
                 // TRANS: Client error displayed trying to show a deleted notice.
                 throw new ClientException(_('Notice deleted.'), 410);
@@ -208,9 +208,9 @@ class ApiStatusesShowAction extends ApiPrivateAuthAction
             $this->clientError(_('Cannot delete this notice.'), 403);
         }
 
-        if (Event::handle('StartDeleteOwnNotice', array($this->auth_user, $this->notice))) {
+        if (\GNUsocial\Event::handle('StartDeleteOwnNotice', array($this->auth_user, $this->notice))) {
             $this->notice->deleteAs($this->scoped);
-            Event::handle('EndDeleteOwnNotice', array($this->auth_user, $this->notice));
+            \GNUsocial\Event::handle('EndDeleteOwnNotice', array($this->auth_user, $this->notice));
         }
 
         // @fixme is there better output we could do here?

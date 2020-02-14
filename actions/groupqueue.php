@@ -165,9 +165,9 @@ class GroupQueueListItem extends GroupMemberListItem
     function showActions()
     {
         $this->startActions();
-        if (Event::handle('StartProfileListItemActionElements', array($this))) {
+        if (\GNUsocial\Event::handle('StartProfileListItemActionElements', array($this))) {
             $this->showApproveButtons();
-            Event::handle('EndProfileListItemActionElements', array($this));
+            \GNUsocial\Event::handle('EndProfileListItemActionElements', array($this));
         }
         $this->endActions();
     }

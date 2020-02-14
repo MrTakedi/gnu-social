@@ -107,7 +107,7 @@ try {
     $filter = null;
     $minimum = 5;
     $percent = 80;
-    Event::handle('GetSpamFilter', array(&$filter));
+    \GNUsocial\Event::handle('GetSpamFilter', array(&$filter));
     if (empty($filter)) {
         throw new Exception(_("No spam filter."));
     }

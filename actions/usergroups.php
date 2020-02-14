@@ -101,7 +101,7 @@ class UsergroupsAction extends GalleryAction
 	  $this->elementEnd('div');
 	}
 
-        if (Event::handle('StartShowUserGroupsContent', array($this))) {
+        if (\GNUsocial\Event::handle('StartShowUserGroupsContent', array($this))) {
             $offset = ($this->page-1) * GROUPS_PER_PAGE;
             $limit =  GROUPS_PER_PAGE + 1;
 
@@ -119,7 +119,7 @@ class UsergroupsAction extends GalleryAction
 		}
             }
 
-            Event::handle('EndShowUserGroupsContent', array($this));
+            \GNUsocial\Event::handle('EndShowUserGroupsContent', array($this));
         }
     }
 

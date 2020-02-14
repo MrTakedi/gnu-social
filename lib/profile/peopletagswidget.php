@@ -61,14 +61,14 @@ class PeopletagsWidget extends Widget
 
     function show()
     {
-        if (Event::handle('StartShowPeopletags', array($this, $this->tagger, $this->tagged))) {
+        if (\GNUsocial\Event::handle('StartShowPeopletags', array($this, $this->tagger, $this->tagged))) {
             if ($this->tag->N > 0) {
                 $this->showTags();
             }
             else {
                 $this->showEmptyList();
             }
-            Event::handle('EndShowPeopletags', array($this, $this->tagger, $this->tagged));
+            \GNUsocial\Event::handle('EndShowPeopletags', array($this, $this->tagger, $this->tagged));
         }
     }
 

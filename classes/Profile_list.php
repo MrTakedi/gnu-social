@@ -106,7 +106,7 @@ class Profile_list extends Managed_DataObject
     public function getUri()
     {
         $uri = null;
-        if (Event::handle('StartProfiletagGetUri', array($this, &$uri))) {
+        if (\GNUsocial\Event::handle('StartProfiletagGetUri', array($this, &$uri))) {
             if (!empty($this->uri)) {
                 $uri = $this->uri;
             } else {
@@ -116,7 +116,7 @@ class Profile_list extends Managed_DataObject
                 );
             }
         }
-        Event::handle('EndProfiletagGetUri', array($this, &$uri));
+        \GNUsocial\Event::handle('EndProfiletagGetUri', array($this, &$uri));
         return $uri;
     }
 
@@ -129,7 +129,7 @@ class Profile_list extends Managed_DataObject
     public function homeUrl()
     {
         $url = null;
-        if (Event::handle('StartUserPeopletagHomeUrl', array($this, &$url))) {
+        if (\GNUsocial\Event::handle('StartUserPeopletagHomeUrl', array($this, &$url))) {
             // normally stored in mainpage, but older ones may be null
             if (!empty($this->mainpage)) {
                 $url = $this->mainpage;
@@ -143,7 +143,7 @@ class Profile_list extends Managed_DataObject
                 );
             }
         }
-        Event::handle('EndUserPeopletagHomeUrl', array($this, &$url));
+        \GNUsocial\Event::handle('EndUserPeopletagHomeUrl', array($this, &$url));
         return $url;
     }
 
@@ -156,13 +156,13 @@ class Profile_list extends Managed_DataObject
     public function permalink()
     {
         $url = null;
-        if (Event::handle('StartProfiletagPermalink', array($this, &$url))) {
+        if (\GNUsocial\Event::handle('StartProfiletagPermalink', array($this, &$url))) {
             $url = common_local_url(
                 'profiletagbyid',
                 ['id' => $this->id]
             );
         }
-        Event::handle('EndProfiletagPermalink', array($this, &$url));
+        \GNUsocial\Event::handle('EndProfiletagPermalink', array($this, &$url));
         return $url;
     }
 

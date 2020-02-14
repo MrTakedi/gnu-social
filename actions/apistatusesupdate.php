@@ -359,7 +359,7 @@ class ApiStatusesUpdateAction extends ApiAuthAction
 
         $supported = null;
 
-        if (Event::handle('CommandSupportedAPI', array($cmd, &$supported))) {
+        if (\GNUsocial\Event::handle('CommandSupportedAPI', array($cmd, &$supported))) {
             $supported = $supported || in_array(get_class($cmd), $cmdlist);
         }
 

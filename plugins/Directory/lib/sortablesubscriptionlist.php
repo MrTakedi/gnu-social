@@ -173,11 +173,11 @@ class SortableSubscriptionListItem extends SubscriptionListItem
 
     function show()
     {
-        if (Event::handle('StartProfileListItem', array($this))) {
+        if (\GNUsocial\Event::handle('StartProfileListItem', array($this))) {
             $this->startItem();
-            if (Event::handle('StartProfileListItemProfile', array($this))) {
+            if (\GNUsocial\Event::handle('StartProfileListItemProfile', array($this))) {
                 $this->showProfile();
-                Event::handle('EndProfileListItemProfile', array($this));
+                \GNUsocial\Event::handle('EndProfileListItemProfile', array($this));
             }
 
             // XXX Add events?
@@ -185,12 +185,12 @@ class SortableSubscriptionListItem extends SubscriptionListItem
             $this->showSubscriberCount();
             $this->showNoticeCount();
 
-            if (Event::handle('StartProfileListItemActions', array($this))) {
+            if (\GNUsocial\Event::handle('StartProfileListItemActions', array($this))) {
                 $this->showActions();
-                Event::handle('EndProfileListItemActions', array($this));
+                \GNUsocial\Event::handle('EndProfileListItemActions', array($this));
             }
             $this->endItem();
-            Event::handle('EndProfileListItem', array($this));
+            \GNUsocial\Event::handle('EndProfileListItem', array($this));
         }
     }
 

@@ -168,7 +168,7 @@ while ($fn->fetch()) {
     if (isset($fetch) && $fetch === true && !$dry) {
         $fetch = false;
         echo "Attempting to fetch Embed data\n";
-        Event::handle('EndFileSaveNew', array($f));
+        \GNUsocial\Event::handle('EndFileSaveNew', array($f));
     }
 }
 

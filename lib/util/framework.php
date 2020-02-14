@@ -148,7 +148,7 @@ function GNUsocial_class_autoload($cls)
     }
 
     if (!$found) {
-        Event::handle('Autoload', [&$cls]);
+        \GNUsocial\Event::handle('Autoload', [&$cls]);
     }
 }
 

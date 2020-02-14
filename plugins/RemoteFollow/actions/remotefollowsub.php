@@ -44,7 +44,7 @@ class RemoteFollowSubAction extends Action
 
         if (!common_logged_in()) {
             common_set_returnto($_SERVER['REQUEST_URI']);
-            if (Event::handle('RedirectToLogin', [$this, null])) {
+            if (\GNUsocial\Event::handle('RedirectToLogin', [$this, null])) {
                 common_redirect(common_local_url('login'), 303);
             }
             return false;
@@ -54,7 +54,7 @@ class RemoteFollowSubAction extends Action
             $this->uri = $this->trimmed('profile');
 
             $profile = null;
-            if (!Event::handle('RemoteFollowPullProfile', [$this->uri, &$profile]) && !is_null($profile)) {
+            if (!\GNUsocial\Event::handle('RemoteFollowPullProfile', [$this->uri, &$profile]) && !is_null($profile)) {
                 $this->profile = $profile;
             } else {
                 // TRANS: Error displayed when there's failure in fetching the remote profile.

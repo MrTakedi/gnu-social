@@ -79,7 +79,7 @@ class ConfirmaddressAction extends ManagedAction
 
         $type = $confirm->address_type;
         $transports = array();
-        Event::handle('GetImTransports', array(&$transports));
+        \GNUsocial\Event::handle('GetImTransports', array(&$transports));
         if (!in_array($type, array('email', 'sms')) && !in_array($type, array_keys($transports))) {
             // TRANS: Server error for an unknown address type, which can be 'email', 'sms', or the name of an IM network (such as 'xmpp' or 'aim')
             throw new ServerException(sprintf(_('Unrecognized address type %s'), $type));

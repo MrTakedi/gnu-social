@@ -170,7 +170,7 @@ class Notice extends Managed_DataObject
         }
 
         $result = null;
-        if (!$delete_event || Event::handle('DeleteNoticeAsProfile', array($this, $actor, &$result))) {
+        if (!$delete_event || \GNUsocial\Event::handle('DeleteNoticeAsProfile', array($this, $actor, &$result))) {
             // If $delete_event is true, we run the event. If the Event then
             // returns false it is assumed everything was handled properly
             // and the notice was deleted.
@@ -181,7 +181,7 @@ class Notice extends Managed_DataObject
 
     protected function deleteRelated()
     {
-        if (Event::handle('NoticeDeleteRelated', array($this))) {
+        if (\GNUsocial\Event::handle('NoticeDeleteRelated', array($this))) {
             // Clear related records
             $this->clearReplies();
             $this->clearLocation();
@@ -219,9 +219,9 @@ class Notice extends Managed_DataObject
     {
         $notice = null;
 
-        if (Event::handle('StartGetNoticeFromUri', array($uri, &$notice))) {
+        if (\GNUsocial\Event::handle('StartGetNoticeFromUri', array($uri, &$notice))) {
             $notice = Notice::getKV('uri', $uri);
-            Event::handle('EndGetNoticeFromUri', array($uri, $notice));
+            \GNUsocial\Event::handle('EndGetNoticeFromUri', array($uri, $notice));
         }
 
         if (!$notice instanceof Notice) {
@@ -252,7 +252,7 @@ class Notice extends Managed_DataObject
     public function getTitle($imply=true)
     {
         $title = null;
-        if (Event::handle('GetNoticeTitle', array($this, &$title)) && $imply) {
+        if (\GNUsocial\Event::handle('GetNoticeTitle', array($this, &$title)) && $imply) {
             // TRANS: Title of a notice posted without a title value.
             // TRANS: %1$s is a user name, %2$s is the notice creation date/time.
             $title = sprintf(
@@ -719,7 +719,7 @@ class Notice extends Managed_DataObject
 
         $notice->scope = self::figureOutScope($profile, $groups, $notice->scope);
 
-        if (Event::handle('StartNoticeSave', array(&$notice))) {
+        if (\GNUsocial\Event::handle('StartNoticeSave', array(&$notice))) {
 
             // XXX: some of these functions write to the DB
 
@@ -920,7 +920,7 @@ class Notice extends Managed_DataObject
                 // the URI is the object we're looking for, $actor is a
                 // Profile that surely knows of it and &$reply where it
                 // will be stored when fetched
-                Event::handle('FetchRemoteNotice', array($replyUri, $actor, &$reply));
+                \GNUsocial\Event::handle('FetchRemoteNotice', array($replyUri, $actor, &$reply));
             }
             // we got what we're in-reply-to now, so let's move on
             if ($reply instanceof Notice) {
@@ -1026,7 +1026,7 @@ class Notice extends Managed_DataObject
             }
         }
 
-        if (Event::handle('StartNoticeSave', array(&$stored))) {
+        if (\GNUsocial\Event::handle('StartNoticeSave', array(&$stored))) {
             // XXX: some of these functions write to the DB
 
             try {
@@ -1040,7 +1040,7 @@ class Notice extends Managed_DataObject
                 $orig = clone($stored); // for updating later in this try clause
 
                 $object = null;
-                Event::handle('StoreActivityObject', array($act, $stored, $options, &$object));
+                \GNUsocial\Event::handle('StoreActivityObject', array($act, $stored, $options, &$object));
                 if (empty($object)) {
                     throw new NoticeSaveException('Unsuccessful call to StoreActivityObject '._ve($stored->getUri()) . ': '._ve($act->asString()));
                 }
@@ -1490,7 +1490,7 @@ class Notice extends Managed_DataObject
         $ni = array();
 
         // Give plugins a chance to add folks in at start...
-        if (Event::handle('StartNoticeWhoGets', array($this, &$ni))) {
+        if (\GNUsocial\Event::handle('StartNoticeWhoGets', array($this, &$ni))) {
             $users = $this->getSubscribedUsers();
             foreach ($users as $id) {
                 $ni[$id] = NOTICE_INBOX_SOURCE_SUB;
@@ -1547,7 +1547,7 @@ class Notice extends Managed_DataObject
             }
 
             // Give plugins a chance to filter out...
-            Event::handle('EndNoticeWhoGets', array($this, &$ni));
+            \GNUsocial\Event::handle('EndNoticeWhoGets', array($this, &$ni));
         }
 
         if (!empty($c)) {
@@ -1902,7 +1902,7 @@ class Notice extends Managed_DataObject
         }
 
         $recipientIds = $this->getReplies();
-        if (Event::handle('StartNotifyMentioned', array($this, &$recipientIds))) {
+        if (\GNUsocial\Event::handle('StartNotifyMentioned', array($this, &$recipientIds))) {
             require_once INSTALLDIR . '/lib/util/mail.php';
 
             foreach ($recipientIds as $recipientId) {
@@ -1913,7 +1913,7 @@ class Notice extends Managed_DataObject
                     // No such user
                 }
             }
-            Event::handle('EndNotifyMentioned', array($this, $recipientIds));
+            \GNUsocial\Event::handle('EndNotifyMentioned', array($this, $recipientIds));
         }
     }
 
@@ -1992,7 +1992,7 @@ class Notice extends Managed_DataObject
         }
         $act = new Activity();
 
-        if (Event::handle('StartNoticeAsActivity', array($this, $act, $scoped))) {
+        if (\GNUsocial\Event::handle('StartNoticeAsActivity', array($this, $act, $scoped))) {
             $act->id      = $this->uri;
             $act->time    = strtotime($this->created);
             try {
@@ -2134,7 +2134,7 @@ class Notice extends Managed_DataObject
                 $act->editLink = $act->selfLink;
             }
 
-            Event::handle('EndNoticeAsActivity', array($this, $act, $scoped));
+            \GNUsocial\Event::handle('EndNoticeAsActivity', array($this, $act, $scoped));
         }
 
         self::cacheSet(Cache::codeKey('notice:as-activity:'.$this->id), $act);
@@ -2193,7 +2193,7 @@ class Notice extends Managed_DataObject
             $noticeInfoAttr['repeat_of'] = $this->repeat_of;
         }
 
-        Event::handle('StatusNetApiNoticeInfo', array($this, &$noticeInfoAttr, $scoped));
+        \GNUsocial\Event::handle('StatusNetApiNoticeInfo', array($this, &$noticeInfoAttr, $scoped));
 
         return array('statusnet:notice_info', $noticeInfoAttr, null);
     }
@@ -2218,7 +2218,7 @@ class Notice extends Managed_DataObject
     {
         $object = new ActivityObject();
 
-        if (Event::handle('StartActivityObjectFromNotice', array($this, &$object))) {
+        if (\GNUsocial\Event::handle('StartActivityObjectFromNotice', array($this, &$object))) {
             $object->type    = $this->object_type ?: ActivityObject::NOTE;
             $object->id      = $this->getUri();
             //FIXME: = $object->title ?: sprintf(... because we might get a title from StartActivityObjectFromNotice
@@ -2233,7 +2233,7 @@ class Notice extends Managed_DataObject
 
             $object->extra[] = array('statusnet:notice_id', null, $this->id);
 
-            Event::handle('EndActivityObjectFromNotice', array($this, &$object));
+            \GNUsocial\Event::handle('EndActivityObjectFromNotice', array($this, &$object));
         }
 
         if (!$object instanceof ActivityObject) {
@@ -2551,7 +2551,7 @@ class Notice extends Managed_DataObject
     {
         // We always insert for the author so they don't
         // have to wait
-        Event::handle('StartNoticeDistribute', array($this));
+        \GNUsocial\Event::handle('StartNoticeDistribute', array($this));
 
         // If there's a failure, we want to _force_
         // distribution at this point.
@@ -2744,7 +2744,7 @@ class Notice extends Managed_DataObject
         }
 
         $timestamp = null;
-        if (Event::handle('GetNoticeSqlTimestamp', array($id, &$timestamp))) {
+        if (\GNUsocial\Event::handle('GetNoticeSqlTimestamp', array($id, &$timestamp))) {
             // getByID throws exception if $id isn't found
             $notice = Notice::getByID($id);
             $timestamp = $notice->created;
@@ -2868,9 +2868,9 @@ class Notice extends Managed_DataObject
 
         if ($result === false) {
             $bResult = false;
-            if (Event::handle('StartNoticeInScope', array($this, $profile, &$bResult))) {
+            if (\GNUsocial\Event::handle('StartNoticeInScope', array($this, $profile, &$bResult))) {
                 $bResult = $this->_inScope($profile);
-                Event::handle('EndNoticeInScope', array($this, $profile, &$bResult));
+                \GNUsocial\Event::handle('EndNoticeInScope', array($this, $profile, &$bResult));
             }
             $result = ($bResult) ? 1 : 0;
             self::cacheSet($keypart, $result, 0, 300);

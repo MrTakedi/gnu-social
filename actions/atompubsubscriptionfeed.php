@@ -207,7 +207,7 @@ class AtompubsubscriptionfeedAction extends AtompubAction
 
         $sub = null;
 
-        if (Event::handle('StartAtomPubNewActivity', array(&$activity))) {
+        if (\GNUsocial\Event::handle('StartAtomPubNewActivity', array(&$activity))) {
 
             if ($activity->verb != ActivityVerb::FOLLOW) {
                 // TRANS: Client error displayed when not using the follow verb.
@@ -237,7 +237,7 @@ class AtompubsubscriptionfeedAction extends AtompubAction
                 $this->clientError($e->getMessage(), 409);
             }
 
-            Event::handle('EndAtomPubNewActivity', array($activity, $sub));
+            \GNUsocial\Event::handle('EndAtomPubNewActivity', array($activity, $sub));
         }
 
         if (!empty($sub)) {

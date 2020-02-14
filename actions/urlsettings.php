@@ -94,7 +94,7 @@ class UrlsettingsAction extends SettingsAction
 
         $shorteners = array();
 
-        Event::handle('GetUrlShorteners', array(&$shorteners));
+        \GNUsocial\Event::handle('GetUrlShorteners', array(&$shorteners));
 
         $services = array();
 

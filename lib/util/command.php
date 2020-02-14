@@ -74,7 +74,7 @@ class Command
     function getNotice($arg)
     {
         $notice = null;
-        if (Event::handle('StartCommandGetNotice', array($this, $arg, &$notice))) {
+        if (\GNUsocial\Event::handle('StartCommandGetNotice', array($this, $arg, &$notice))) {
             if(substr($this->other,0,1)=='#'){
                 // A specific notice_id #123
 
@@ -102,7 +102,7 @@ class Command
                 }
             }
         }
-        Event::handle('EndCommandGetNotice', array($this, $arg, &$notice));
+        \GNUsocial\Event::handle('EndCommandGetNotice', array($this, $arg, &$notice));
         if (!$notice) {
             // TRANS: Command exception text shown when a notice ID is requested that does not exist.
             throw new CommandException(_('Notice with that id does not exist.'));
@@ -119,11 +119,11 @@ class Command
     function getProfile($arg)
     {
         $profile = null;
-        if (Event::handle('StartCommandGetProfile', array($this, $arg, &$profile))) {
+        if (\GNUsocial\Event::handle('StartCommandGetProfile', array($this, $arg, &$profile))) {
             $profile =
               common_relative_profile($this->user, common_canonical_nickname($arg));
         }
-        Event::handle('EndCommandGetProfile', array($this, $arg, &$profile));
+        \GNUsocial\Event::handle('EndCommandGetProfile', array($this, $arg, &$profile));
         if (!$profile) {
             // TRANS: Message given requesting a profile for a non-existing user.
             // TRANS: %s is the nickname of the user for which the profile could not be found.
@@ -140,10 +140,10 @@ class Command
     function getUser($arg)
     {
         $user = null;
-        if (Event::handle('StartCommandGetUser', array($this, $arg, &$user))) {
+        if (\GNUsocial\Event::handle('StartCommandGetUser', array($this, $arg, &$user))) {
             $user = User::getKV('nickname', Nickname::normalize($arg));
         }
-        Event::handle('EndCommandGetUser', array($this, $arg, &$user));
+        \GNUsocial\Event::handle('EndCommandGetUser', array($this, $arg, &$user));
         if (!$user){
             // TRANS: Message given getting a non-existing user.
             // TRANS: %s is the nickname of the user that could not be found.
@@ -161,10 +161,10 @@ class Command
     function getGroup($arg)
     {
         $group = null;
-        if (Event::handle('StartCommandGetGroup', array($this, $arg, &$group))) {
+        if (\GNUsocial\Event::handle('StartCommandGetGroup', array($this, $arg, &$group))) {
             $group = User_group::getForNickname($arg, $this->user->getProfile());
         }
-        Event::handle('EndCommandGetGroup', array($this, $arg, &$group));
+        \GNUsocial\Event::handle('EndCommandGetGroup', array($this, $arg, &$group));
         if (!$group) {
             // TRANS: Command exception text shown when a group is requested that does not exist.
             throw new CommandException(_('No such group.'));
@@ -930,7 +930,7 @@ class HelpCommand extends Command
                           "tracking" => _m('COMMANDHELP', "not yet implemented."));
 
         // Give plugins a chance to add or override...
-        Event::handle('HelpCommandMessages', array($this, &$commands));
+        \GNUsocial\Event::handle('HelpCommandMessages', array($this, &$commands));
 
         ksort($commands);
         foreach ($commands as $command => $help) {

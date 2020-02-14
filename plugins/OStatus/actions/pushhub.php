@@ -212,7 +212,7 @@ class PushHubAction extends Action
             throw new ClientException(sprintf(_m('Invalid URL passed for %1$s: "%2$s"'),$arg,$url));
         }
 
-        Event::handle('UrlBlacklistTest', array($url));
+        \GNUsocial\Event::handle('UrlBlacklistTest', array($url));
         return $url;
     }
 

@@ -59,7 +59,7 @@ class FeedList extends Widget
 
     public function show()
     {
-        if (Event::handle('StartShowFeedLinkList', array($this->action, &$this->feeds))) {
+        if (\GNUsocial\Event::handle('StartShowFeedLinkList', array($this->action, &$this->feeds))) {
             if (!empty($this->feeds)) {
                 $this->out->elementStart('div', array('id' => 'export_data',
                                                       'class' => 'section'));
@@ -74,13 +74,13 @@ class FeedList extends Widget
                 $this->out->elementEnd('ul');
                 $this->out->elementEnd('div');
             }
-            Event::handle('EndShowFeedLinkList', array($this->action, &$this->feeds));
+            \GNUsocial\Event::handle('EndShowFeedLinkList', array($this->action, &$this->feeds));
         }
     }
 
     function feedItem($feed)
     {
-        if (Event::handle('StartShowFeedLink', array($this->action, &$feed))) {
+        if (\GNUsocial\Event::handle('StartShowFeedLink', array($this->action, &$feed))) {
             $classname = null;
 
             switch ($feed->type) {
@@ -106,7 +106,7 @@ class FeedList extends Widget
                                            'title' => $feed->title),
                                 $feed->typeName());
             $this->out->elementEnd('li');
-            Event::handle('EndShowFeedLink', array($this->action, $feed));
+            \GNUsocial\Event::handle('EndShowFeedLink', array($this->action, $feed));
         }
     }
 }

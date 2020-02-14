@@ -151,14 +151,14 @@ class NoticeList extends Widget
         $scoped = Profile::current();
         $notice_ids = Notice::_idsOf($notices);
 
-        if (Event::handle('StartNoticeListPrefill', array(&$notices, $notice_ids, $scoped))) {
+        if (\GNUsocial\Event::handle('StartNoticeListPrefill', array(&$notices, $notice_ids, $scoped))) {
 
             // Prefill attachments
             Notice::fillAttachments($notices);
             // Prefill the profiles
             $profiles = Notice::fillProfiles($notices);
 
-            Event::handle('EndNoticeListPrefill', array(&$notices, &$profiles, $notice_ids, $scoped));
+            \GNUsocial\Event::handle('EndNoticeListPrefill', array(&$notices, &$profiles, $notice_ids, $scoped));
         }
     }
 }

@@ -59,7 +59,7 @@ class InviteAction extends Action
 
     function sendInvitations()
     {
-        if (Event::handle('StartSendInvitations', array(&$this))) {
+        if (\GNUsocial\Event::handle('StartSendInvitations', array(&$this))) {
             // CSRF protection
             $token = $this->trimmed('token');
             if (!$token || $token != common_session_token()) {
@@ -82,15 +82,15 @@ class InviteAction extends Action
 
                 try {
 
-                    if (Event::handle('StartValidateUserEmail', array(null, $email, &$valid))) {
+                    if (\GNUsocial\Event::handle('StartValidateUserEmail', array(null, $email, &$valid))) {
                         $valid = Validate::email($email, common_config('email', 'check_domain'));
-                        Event::handle('EndValidateUserEmail', array(null, $email, &$valid));
+                        \GNUsocial\Event::handle('EndValidateUserEmail', array(null, $email, &$valid));
                     }
 
                     if ($valid) {
-                        if (Event::handle('StartValidateEmailInvite', array($user, $email, &$valid))) {
+                        if (\GNUsocial\Event::handle('StartValidateEmailInvite', array($user, $email, &$valid))) {
                             $valid = true;
-                            Event::handle('EndValidateEmailInvite', array($user, $email, &$valid));
+                            \GNUsocial\Event::handle('EndValidateEmailInvite', array($user, $email, &$valid));
                         }
                     }
 
@@ -135,7 +135,7 @@ class InviteAction extends Action
             $this->mode = 'sent';
 
             $this->showPage();
-            Event::handle('EndSendInvitations', array($this));
+            \GNUsocial\Event::handle('EndSendInvitations', array($this));
         }
     }
 
@@ -167,7 +167,7 @@ class InviteAction extends Action
 
     function showInvitationSuccess()
     {
-        if (Event::handle('StartShowInvitationSuccess', array($this))) {
+        if (\GNUsocial\Event::handle('StartShowInvitationSuccess', array($this))) {
             if ($this->already) {
                 // TRANS: Message displayed inviting users to use a StatusNet site while the inviting user
                 // TRANS: is already subscribed to one or more users with the given e-mail address(es).
@@ -213,7 +213,7 @@ class InviteAction extends Action
                 // TRANS: people to join a StatusNet site.
                 $this->element('p', null, _('You will be notified when your invitees accept the invitation and register on the site. Thanks for growing the community!'));
             }
-            Event::handle('EndShowInvitationSuccess', array($this));
+            \GNUsocial\Event::handle('EndShowInvitationSuccess', array($this));
         }
     }
 
@@ -241,10 +241,10 @@ class InviteAction extends Action
 
     function showInviteForm()
     {
-        if (Event::handle('StartShowInviteForm', array($this))) {
+        if (\GNUsocial\Event::handle('StartShowInviteForm', array($this))) {
             $form = new InviteForm($this);
             $form->show();
-            Event::handle('EndShowInviteForm', array($this));
+            \GNUsocial\Event::handle('EndShowInviteForm', array($this));
         }
     }
 

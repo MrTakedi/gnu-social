@@ -61,7 +61,7 @@ class Salmon
         }
 
         // $target is so far only used in Diaspora, so it can be null
-        if (Event::handle('SalmonSlap', array($endpoint_uri, $magic_env, $target))) {
+        if (\GNUsocial\Event::handle('SalmonSlap', array($endpoint_uri, $magic_env, $target))) {
             return false;
             //throw new ServerException('Could not distribute salmon slap as no plugin completed the event.');
         }

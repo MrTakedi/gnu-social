@@ -130,7 +130,7 @@ class MagicEnvelope
 
         common_debug('Will try to find magic-public-key from XRD of profile id=='.$profile->getID());
         $pubkey = null;
-        if (Event::handle('MagicsigPublicKeyFromXRD', array($xrd, &$pubkey))) {
+        if (\GNUsocial\Event::handle('MagicsigPublicKeyFromXRD', array($xrd, &$pubkey))) {
             $link = $xrd->get(Magicsig::PUBLICKEYREL);
             if (is_null($link)) {
                 // TRANS: Exception.
@@ -223,7 +223,7 @@ class MagicEnvelope
     public function toXML(Profile $target=null, $flavour=null) {
         $xs = new XMLStringer();
         $xs->startXML();    // header, to point out it's not HTML or anything...
-        if (Event::handle('StartMagicEnvelopeToXML', array($this, $xs, $flavour, $target))) {
+        if (\GNUsocial\Event::handle('StartMagicEnvelopeToXML', array($this, $xs, $flavour, $target))) {
             // fall back to our default, normal Magic Envelope XML.
             // the $xs element _may_ have had elements added, or could get in the end event
             $xs->elementStart('me:env', array('xmlns:me' => self::NS));
@@ -233,7 +233,7 @@ class MagicEnvelope
             $xs->element('me:sig', null, $this->getSignature());
             $xs->elementEnd('me:env');
 
-            Event::handle('EndMagicEnvelopeToXML', array($this, $xs, $flavour, $target));
+            \GNUsocial\Event::handle('EndMagicEnvelopeToXML', array($this, $xs, $flavour, $target));
         }
         return $xs->getString();
     }

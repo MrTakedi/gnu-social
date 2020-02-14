@@ -58,7 +58,7 @@ abstract class QueueManager extends IoManager
     {
         if (empty(self::$qm)) {
 
-            if (Event::handle('StartNewQueueManager', array(&self::$qm))) {
+            if (\GNUsocial\Event::handle('StartNewQueueManager', array(&self::$qm))) {
                 common_log(LOG_ERR, 'Some form of queue manager must be active' .
                            '(UnQueue does everything immediately and is the default)');
                 throw new ServerException('Some form of queue manager must be active');
@@ -263,7 +263,7 @@ abstract class QueueManager extends IoManager
         $this->groups = array();
         $this->groupsByTransport = array();
 
-        if (Event::handle('StartInitializeQueueManager', array($this))) {
+        if (\GNUsocial\Event::handle('StartInitializeQueueManager', array($this))) {
             $this->connect('distrib', 'DistribQueueHandler');
             $this->connect('ping', 'PingQueueHandler');
             if (common_config('sms', 'enabled')) {
@@ -280,7 +280,7 @@ abstract class QueueManager extends IoManager
             // For compat with old plugins not registering their own handlers.
             $this->connect('Module', 'ModuleQueueHandler');
         }
-        Event::handle('EndInitializeQueueManager', array($this));
+        \GNUsocial\Event::handle('EndInitializeQueueManager', array($this));
     }
 
     /**

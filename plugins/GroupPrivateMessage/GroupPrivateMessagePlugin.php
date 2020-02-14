@@ -253,7 +253,7 @@ class GroupPrivateMessagePlugin extends Plugin
 
             if (!empty($addr) && $addr[0] == '!') {
                 $result = new GroupMessageCommand($user, substr($addr, 1), $msg);
-                Event::handle('EndInterpretCommand', array($cmd, $arg, $user, $result));
+                \GNUsocial\Event::handle('EndInterpretCommand', array($cmd, $arg, $user, $result));
                 return false;
             }
         }

@@ -75,17 +75,17 @@ class SystemListItem extends NoticeListItemAdapter
 
     function showNoticeOptions()
     {
-        if (Event::handle('StartShowNoticeOptions', array($this))) {
+        if (\GNUsocial\Event::handle('StartShowNoticeOptions', array($this))) {
             $user = common_current_user();
             if (!empty($user)) {
                 $this->nli->out->elementStart('div', 'notice-options');
-                if (Event::handle('StartShowNoticeOptionItems', array($this))) {
+                if (\GNUsocial\Event::handle('StartShowNoticeOptionItems', array($this))) {
                     $this->showReplyLink();
-                    Event::handle('EndShowNoticeOptionItems', array($this));
+                    \GNUsocial\Event::handle('EndShowNoticeOptionItems', array($this));
                 }
                 $this->nli->out->elementEnd('div');
             }
-            Event::handle('EndShowNoticeOptions', array($this));
+            \GNUsocial\Event::handle('EndShowNoticeOptions', array($this));
         }
     }
 }

@@ -83,7 +83,7 @@ class Bucket
      */
     public function send($eventId, Source $source)
     {
-        return Event::notify($eventId, $source, $this);
+        return \GNUsocial\Event::notify($eventId, $source, $this);
     }
 
     /**

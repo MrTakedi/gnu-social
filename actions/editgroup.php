@@ -158,7 +158,7 @@ class EditgroupAction extends GroupAction
             $this->clientError(_('You must be an admin to edit the group.'), 403);
         }
 
-        if (Event::handle('StartGroupSaveForm', [$this])) {
+        if (\GNUsocial\Event::handle('StartGroupSaveForm', [$this])) {
 
             // $nickname will only be set if this changenick value is true.
             $nickname = null;
@@ -276,7 +276,7 @@ class EditgroupAction extends GroupAction
 
             $this->group->query('COMMIT');
 
-            Event::handle('EndGroupSaveForm', [$this]);
+            \GNUsocial\Event::handle('EndGroupSaveForm', [$this]);
 
             if ($this->group->nickname != $orig->nickname) {
                 common_redirect(common_local_url('editgroup', ['nickname' => $this->group->nickname]), 303);

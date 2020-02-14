@@ -98,9 +98,9 @@ class EmailRegistrationPlugin extends Plugin
 
         $valid = false;
 
-        if (Event::handle('StartValidateUserEmail', array(null, $email, &$valid))) {
+        if (\GNUsocial\Event::handle('StartValidateUserEmail', array(null, $email, &$valid))) {
             $valid = Validate::email($email, common_config('email', 'check_domain'));
-            Event::handle('EndValidateUserEmail', array(null, $email, &$valid));
+            \GNUsocial\Event::handle('EndValidateUserEmail', array(null, $email, &$valid));
         }
 
         if (!$valid) {

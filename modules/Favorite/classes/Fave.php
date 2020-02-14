@@ -120,12 +120,12 @@ class Fave extends Managed_DataObject
             $profile = $this->getActor();
             $notice  = $this->getTarget();
 
-            if (Event::handle('StartDisfavorNotice', array($profile, $notice, &$result))) {
+            if (\GNUsocial\Event::handle('StartDisfavorNotice', array($profile, $notice, &$result))) {
 
                 $result = parent::delete($useWhere);
 
                 if ($result !== false) {
-                    Event::handle('EndDisfavorNotice', array($profile, $notice));
+                    \GNUsocial\Event::handle('EndDisfavorNotice', array($profile, $notice));
                 }
             }
 
@@ -411,7 +411,7 @@ class Fave extends Managed_DataObject
         self::blowCacheForNoticeId($object->notice_id);
         self::blow('popular');
 
-        Event::handle('EndFavorNotice', array($stored->getProfile(), $object->getTarget()));
+        \GNUsocial\Event::handle('EndFavorNotice', array($stored->getProfile(), $object->getTarget()));
         return $object;
     }
 

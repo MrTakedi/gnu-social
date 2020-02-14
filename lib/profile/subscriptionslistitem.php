@@ -13,7 +13,7 @@ class SubscriptionsListItem extends SubscriptionListItem
         }
 
         $transports = array();
-        Event::handle('GetImTransports', array(&$transports));
+        \GNUsocial\Event::handle('GetImTransports', array(&$transports));
         if (!$transports && !common_config('sms', 'enabled')) {
             return;
         }

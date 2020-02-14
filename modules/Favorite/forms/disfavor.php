@@ -105,11 +105,11 @@ class DisfavorForm extends Form
 
     function formData()
     {
-        if (Event::handle('StartDisFavorNoticeForm', array($this, $this->notice))) {
+        if (\GNUsocial\Event::handle('StartDisFavorNoticeForm', array($this, $this->notice))) {
             $this->out->hidden('notice-n'.$this->notice->id,
                                $this->notice->id,
                                'notice');
-            Event::handle('EndDisFavorNoticeForm', array($this, $this->notice));
+            \GNUsocial\Event::handle('EndDisFavorNoticeForm', array($this, $this->notice));
         }
     }
 

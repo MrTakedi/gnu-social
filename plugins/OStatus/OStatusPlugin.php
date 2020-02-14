@@ -1604,13 +1604,13 @@ class OStatusPlugin extends Plugin
         if (!$magicsig instanceof Magicsig) {
             return false;   // value doesn't mean anything, just figured I'd indicate this function didn't do anything
         }
-        if (Event::handle('StartAttachPubkeyToUserXRD', array($magicsig, $xrd, $target))) {
+        if (\GNUsocial\Event::handle('StartAttachPubkeyToUserXRD', array($magicsig, $xrd, $target))) {
             $xrd->links[] = new XML_XRD_Element_Link(
                 Magicsig::PUBLICKEYREL,
                 'data:application/magic-public-key,' . $magicsig->toString()
             );
             // The following event handles plugins like Diaspora which add their own version of the Magicsig pubkey
-            Event::handle('EndAttachPubkeyToUserXRD', array($magicsig, $xrd, $target));
+            \GNUsocial\Event::handle('EndAttachPubkeyToUserXRD', array($magicsig, $xrd, $target));
         }
     }
 

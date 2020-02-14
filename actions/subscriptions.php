@@ -81,7 +81,7 @@ class SubscriptionsAction extends GalleryAction
 
     function showContent()
     {
-        if (Event::handle('StartShowSubscriptionsContent', array($this))) {
+        if (\GNUsocial\Event::handle('StartShowSubscriptionsContent', array($this))) {
             parent::showContent();
 
             $offset = ($this->page-1) * PROFILES_PER_PAGE;
@@ -108,7 +108,7 @@ class SubscriptionsAction extends GalleryAction
                               array('nickname' => $this->target->getNickname()));
 
 
-            Event::handle('EndShowSubscriptionsContent', array($this));
+            \GNUsocial\Event::handle('EndShowSubscriptionsContent', array($this));
         }
     }
 

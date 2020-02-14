@@ -53,7 +53,7 @@ class LdapCommon
 
     public function __construct($config)
     {
-        Event::addHandler('Autoload',array($this,'onAutoload'));
+        \GNUsocial\Event::addHandler('Autoload',array($this,'onAutoload'));
         foreach($config as $key=>$value) {
             $this->$key = $value;
         }

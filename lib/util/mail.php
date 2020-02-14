@@ -328,7 +328,7 @@ function mail_profile_block($profile)
     $blocklink = common_local_url('block', array('profileid' => $profile->id));
     // This'll let ModPlus add the remote profile info so it's possible
     // to block remote users directly...
-    Event::handle('MailProfileInfoBlockLink', array($profile, &$blocklink));
+    \GNUsocial\Event::handle('MailProfileInfoBlockLink', array($profile, &$blocklink));
 
     // TRANS: This is a paragraph in a new-subscriber e-mail.
     // TRANS: %s is a URL where the subscriber can be reported as abusive.

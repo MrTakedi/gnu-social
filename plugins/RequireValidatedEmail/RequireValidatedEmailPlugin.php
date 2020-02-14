@@ -143,7 +143,7 @@ class RequireValidatedEmailPlugin extends Plugin
         // that somebody's ok despite a non-validated email.
 
         // @todo FIXME: This isn't how to do it! Use Start*/End* instead
-        Event::handle(
+        \GNUsocial\Event::handle(
             'RequireValidatedEmailPlugin_Override',
             [$user, &$knownGood]
         );

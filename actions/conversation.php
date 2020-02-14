@@ -78,12 +78,12 @@ class ConversationAction extends ManagedAction
      */
     public function showContent()
     {
-        if (Event::handle('StartShowConversation', [$this, $this->conv, $this->scoped])) {
+        if (\GNUsocial\Event::handle('StartShowConversation', [$this, $this->conv, $this->scoped])) {
             $notices = $this->conv->getNotices($this->scoped);
             $nl = new FullThreadedNoticeList($notices, $this, $this->scoped);
             $cnt = $nl->show();
         }
-        Event::handle('EndShowConversation', [$this, $this->conv, $this->scoped]);
+        \GNUsocial\Event::handle('EndShowConversation', [$this, $this->conv, $this->scoped]);
     }
 
     public function isReadOnly($args)

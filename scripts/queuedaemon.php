@@ -140,13 +140,13 @@ class QueueMaster extends IoMaster
     function initManagers()
     {
         $managers = array();
-        if (Event::handle('StartQueueDaemonIoManagers', array(&$managers))) {
+        if (\GNUsocial\Event::handle('StartQueueDaemonIoManagers', array(&$managers))) {
             $qm = QueueManager::get();
             $qm->setActiveGroup('main');
             $managers[] = $qm;
             $managers[] = $this->processManager;
         }
-        Event::handle('EndQueueDaemonIoManagers', array(&$managers));
+        \GNUsocial\Event::handle('EndQueueDaemonIoManagers', array(&$managers));
 
         foreach ($managers as $manager) {
             $this->instantiate($manager);

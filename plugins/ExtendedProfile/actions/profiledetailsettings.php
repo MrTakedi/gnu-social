@@ -567,7 +567,7 @@ class ProfileDetailSettingsAction extends ProfileSettingsAction
             // Set the user tags
             $result = Profile_tag::setSelfTags($this->scoped, $tags);
 
-            Event::handle('EndProfileSaveForm', array($this));
+            \GNUsocial\Event::handle('EndProfileSaveForm', array($this));
         }
     }
 

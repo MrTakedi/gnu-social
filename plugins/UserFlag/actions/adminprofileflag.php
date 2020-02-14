@@ -77,7 +77,7 @@ class AdminprofileflagAction extends Action
             // Cookie theft is too easy; we require automatic
             // logins to re-authenticate before admining the site
             common_set_returnto($this->selfUrl());
-            if (Event::handle('RedirectToLogin', array($this, $user))) {
+            if (\GNUsocial\Event::handle('RedirectToLogin', array($this, $user))) {
                 common_redirect(common_local_url('login'), 303);
             }
         }
@@ -236,7 +236,7 @@ class FlaggedProfileListItem extends ProfileListItem
         $this->r2args['action'] = $action;
 
         $this->startActions();
-        if (Event::handle('StartProfileListItemActionElements', array($this))) {
+        if (\GNUsocial\Event::handle('StartProfileListItemActionElements', array($this))) {
             $this->out->elementStart('li', 'entity_moderation');
             // TRANS: Header for moderation menu with action buttons for flagged profiles (like 'sandbox', 'silence', ...).
             $this->out->element('p', null, _m('Moderate'));
@@ -247,7 +247,7 @@ class FlaggedProfileListItem extends ProfileListItem
             $this->showClearButton();
             $this->out->elementEnd('ul');
             $this->out->elementEnd('li');
-            Event::handle('EndProfileListItemActionElements', array($this));
+            \GNUsocial\Event::handle('EndProfileListItemActionElements', array($this));
         }
         $this->endActions();
     }

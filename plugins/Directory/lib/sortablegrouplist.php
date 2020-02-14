@@ -148,24 +148,24 @@ class SortableGroupListItem extends SortableSubscriptionListItem
 
     function show()
     {
-        if (Event::handle('StartProfileListItem', array($this))) {
+        if (\GNUsocial\Event::handle('StartProfileListItem', array($this))) {
             $this->startItem();
-            if (Event::handle('StartProfileListItemProfile', array($this))) {
+            if (\GNUsocial\Event::handle('StartProfileListItemProfile', array($this))) {
                 $this->showProfile();
-                Event::handle('EndProfileListItemProfile', array($this));
+                \GNUsocial\Event::handle('EndProfileListItemProfile', array($this));
             }
 
             // XXX Add events?
             $this->showCreatedDate();
             $this->showMemberCount();
 
-            if (Event::handle('StartProfileListItemActions', array($this))) {
+            if (\GNUsocial\Event::handle('StartProfileListItemActions', array($this))) {
                 $this->showActions();
-                Event::handle('EndProfileListItemActions', array($this));
+                \GNUsocial\Event::handle('EndProfileListItemActions', array($this));
             }
             $this->endItem();
 
-            Event::handle('EndProfileListItem', array($this));
+            \GNUsocial\Event::handle('EndProfileListItem', array($this));
         }
     }
 
@@ -208,9 +208,9 @@ class SortableGroupListItem extends SortableSubscriptionListItem
     function showActions()
     {
         $this->startActions();
-        if (Event::handle('StartProfileListItemActionElements', array($this))) {
+        if (\GNUsocial\Event::handle('StartProfileListItemActionElements', array($this))) {
             $this->showJoinButton();
-            Event::handle('EndProfileListItemActionElements', array($this));
+            \GNUsocial\Event::handle('EndProfileListItemActionElements', array($this));
         }
         $this->endActions();
     }

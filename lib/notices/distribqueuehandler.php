@@ -84,13 +84,13 @@ class DistribQueueHandler
         }
 
         try {
-            Event::handle('EndNoticeDistribute', array($notice));
+            \GNUsocial\Event::handle('EndNoticeDistribute', array($notice));
         } catch (Exception $e) {
             $this->logit($notice, $e);
         }
 
         try {
-            Event::handle('EndNoticeSave', array($notice));
+            \GNUsocial\Event::handle('EndNoticeSave', array($notice));
         } catch (Exception $e) {
             $this->logit($notice, $e);
         }

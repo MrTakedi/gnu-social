@@ -265,7 +265,7 @@ class EmailregisterAction extends Action
 
     function setPassword()
     {
-        if (Event::handle('StartRegistrationTry', array($this))) {
+        if (\GNUsocial\Event::handle('StartRegistrationTry', array($this))) {
             if (!empty($this->invitation)) {
                 $email = trim($this->invitation->address);
             } else if (!empty($this->confirmation)) {
@@ -332,11 +332,11 @@ class EmailregisterAction extends Action
                 }
             }
 
-            Event::handle('EndRegistrationTry', array($this));
+            \GNUsocial\Event::handle('EndRegistrationTry', array($this));
         }
 
-        if (Event::handle('StartRegisterSuccess', array($this))) {
-            Event::handle('EndRegisterSuccess', array($this));
+        if (\GNUsocial\Event::handle('StartRegisterSuccess', array($this))) {
+            \GNUsocial\Event::handle('EndRegisterSuccess', array($this));
             common_redirect(common_local_url('doc', array('title' => 'welcome')), 303);
             // common_redirect exits, so we can't run the event _after_ it of course.
         }

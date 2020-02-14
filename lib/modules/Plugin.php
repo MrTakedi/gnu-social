@@ -41,12 +41,12 @@ class Plugin extends Module
 {
     public function __construct()
     {
-        Event::addHandler('InitializePlugin', [$this, 'initialize']);
-        Event::addHandler('CleanupPlugin', [$this, 'cleanup']);
+        \GNUsocial\Event::addHandler('InitializePlugin', [$this, 'initialize']);
+        \GNUsocial\Event::addHandler('CleanupPlugin', [$this, 'cleanup']);
 
         foreach (get_class_methods($this) as $method) {
             if (mb_substr($method, 0, 2) == 'on') {
-                Event::addHandler(mb_substr($method, 2), [$this, $method]);
+                \GNUsocial\Event::addHandler(mb_substr($method, 2), [$this, $method]);
             }
         }
 

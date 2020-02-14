@@ -152,7 +152,7 @@ class DirectMessagePlugin extends Plugin
             return true;
         }
 
-        if (!$profile->isLocal() && Event::handle('DirectMessageProfilePageActions', [$profile])) {
+        if (!$profile->isLocal() && \GNUsocial\Event::handle('DirectMessageProfilePageActions', [$profile])) {
             // nothing to do if remote profile and no one to validate it
             return true;
         }

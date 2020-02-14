@@ -52,7 +52,7 @@ class DefaultLocalNav extends Menu
 
         $this->action->elementStart('ul', array('id' => 'nav_local_default'));
 
-        if (Event::handle('StartDefaultLocalNav', array($this, $user))) {
+        if (\GNUsocial\Event::handle('StartDefaultLocalNav', array($this, $user))) {
 
             if (!empty($user)) {
                 $pn = new PersonalGroupNav($this->action);
@@ -80,7 +80,7 @@ class DefaultLocalNav extends Menu
                 }
             }
 
-            Event::handle('EndDefaultLocalNav', array($this, $user));
+            \GNUsocial\Event::handle('EndDefaultLocalNav', array($this, $user));
         }
 
         $this->action->elementEnd('ul');

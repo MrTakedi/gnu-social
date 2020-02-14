@@ -73,10 +73,10 @@ class UnblockAction extends ProfileFormAction
 
         $result = false;
 
-        if (Event::handle('StartUnblockProfile', array($cur, $this->profile))) {
+        if (\GNUsocial\Event::handle('StartUnblockProfile', array($cur, $this->profile))) {
             $result = $cur->unblock($this->profile);
             if ($result) {
-                Event::handle('EndUnblockProfile', array($cur, $this->profile));
+                \GNUsocial\Event::handle('EndUnblockProfile', array($cur, $this->profile));
             }
         }
 

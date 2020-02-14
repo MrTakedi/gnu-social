@@ -42,7 +42,7 @@ class RobotstxtAction extends ManagedAction
 {
     public function showPage()
     {
-        if (Event::handle('StartRobotsTxt', array($this))) {
+        if (\GNUsocial\Event::handle('StartRobotsTxt', array($this))) {
 
             header('Content-Type: text/plain');
 
@@ -65,7 +65,7 @@ class RobotstxtAction extends ManagedAction
                 }
             }
 
-            Event::handle('EndRobotsTxt', array($this));
+            \GNUsocial\Event::handle('EndRobotsTxt', array($this));
         }
     }
 

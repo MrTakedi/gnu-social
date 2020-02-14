@@ -197,9 +197,9 @@ class PeopletagSubscriberListItem extends ProfileListItem
     function showActions()
     {
         $this->startActions();
-        if (Event::handle('StartProfileListItemActionElements', array($this))) {
+        if (\GNUsocial\Event::handle('StartProfileListItemActionElements', array($this))) {
             $this->showSubscribeButton();
-            Event::handle('EndProfileListItemActionElements', array($this));
+            \GNUsocial\Event::handle('EndProfileListItemActionElements', array($this));
         }
         $this->endActions();
     }

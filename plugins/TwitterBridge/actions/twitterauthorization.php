@@ -314,7 +314,7 @@ class TwitterauthorizationAction extends FormAction
             $this->elementStart('ul', 'form_data');
 
             // Hook point for captcha etc
-            Event::handle('StartRegistrationFormData', array($this));
+            \GNUsocial\Event::handle('StartRegistrationFormData', array($this));
 
             $this->elementStart('li');
             // TRANS: Field label.
@@ -332,7 +332,7 @@ class TwitterauthorizationAction extends FormAction
             $this->elementEnd('li');
 
             // Hook point for captcha etc
-            Event::handle('EndRegistrationFormData', array($this));
+            \GNUsocial\Event::handle('EndRegistrationFormData', array($this));
 
             $this->elementEnd('ul');
             // TRANS: Button text for creating a new StatusNet account in the Twitter connect page.
@@ -421,7 +421,7 @@ class TwitterauthorizationAction extends FormAction
     protected function createNewUser()
     {
         common_debug('TwitterBridgeDebug - createNewUser');
-        if (!Event::handle('StartRegistrationTry', array($this))) {
+        if (!\GNUsocial\Event::handle('StartRegistrationTry', array($this))) {
             common_debug('TwitterBridgeDebug - StartRegistrationTry failed');
             // TRANS: Client error displayed when trying to create a new user but a plugin aborted the process.
             throw new ClientException(_m('Registration of new user was aborted, maybe you failed a captcha?'));
@@ -487,7 +487,7 @@ class TwitterauthorizationAction extends FormAction
         common_debug('TwitterBridge Plugin - ' .
                      "Registered new user $user->id from Twitter user $this->twuid");
 
-        Event::handle('EndRegistrationTry', array($this));
+        \GNUsocial\Event::handle('EndRegistrationTry', array($this));
 
         common_redirect(common_local_url('showstream', array('nickname' => $user->nickname)), 303);
     }

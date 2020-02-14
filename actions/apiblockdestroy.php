@@ -82,10 +82,10 @@ class ApiBlockDestroyAction extends ApiAuthAction
         }
 
         if ($this->user->hasBlocked($this->other)) {
-            if (Event::handle('StartUnblockProfile', array($this->user, $this->other))) {
+            if (\GNUsocial\Event::handle('StartUnblockProfile', array($this->user, $this->other))) {
                 $result = $this->user->unblock($this->other);
                 if ($result) {
-                    Event::handle('EndUnblockProfile', array($this->user, $this->other));
+                    \GNUsocial\Event::handle('EndUnblockProfile', array($this->user, $this->other));
                 }
             }
         }

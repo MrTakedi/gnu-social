@@ -57,8 +57,8 @@ class Discovery
 
     public function __construct()
     {
-        if (Event::handle('StartDiscoveryMethodRegistration', array($this))) {
-            Event::handle('EndDiscoveryMethodRegistration', array($this));
+        if (\GNUsocial\Event::handle('StartDiscoveryMethodRegistration', array($this))) {
+            \GNUsocial\Event::handle('EndDiscoveryMethodRegistration', array($this));
         }
     }
 

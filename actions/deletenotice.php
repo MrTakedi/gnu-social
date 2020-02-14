@@ -65,9 +65,9 @@ class DeletenoticeAction extends FormAction
     protected function doPost()
     {
         if ($this->arg('yes')) {
-            if (Event::handle('StartDeleteOwnNotice', array($this->scoped->getUser(), $this->notice))) {
+            if (\GNUsocial\Event::handle('StartDeleteOwnNotice', array($this->scoped->getUser(), $this->notice))) {
                 $this->notice->deleteAs($this->scoped);
-                Event::handle('EndDeleteOwnNotice', array($this->scoped->getUser(), $this->notice));
+                \GNUsocial\Event::handle('EndDeleteOwnNotice', array($this->scoped->getUser(), $this->notice));
             }
         }
 

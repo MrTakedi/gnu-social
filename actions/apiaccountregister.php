@@ -149,7 +149,7 @@ class ApiAccountRegisterAction extends ApiAction
             // annoy spammers
             sleep(7);
             
-			if (Event::handle('APIStartRegistrationTry', array($this))) { 
+			if (\GNUsocial\Event::handle('APIStartRegistrationTry', array($this))) { 
 				try {
 					$user = User::register(array('nickname' => $nickname,
 														'password' => $password,
@@ -159,7 +159,7 @@ class ApiAccountRegisterAction extends ApiAction
 														'bio' => $bio,
 														'location' => $location,
 														'code' => $this->code));
-					Event::handle('EndRegistrationTry', array($this));
+					\GNUsocial\Event::handle('EndRegistrationTry', array($this));
 
 					$this->initDocument('json');
 					$this->showJsonObjects($this->twitterUserArray($user->getProfile()));

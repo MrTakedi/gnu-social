@@ -78,7 +78,7 @@ class UserActivityStream extends AtomUserNoticeFeed
 
         $objs = array_merge($subscriptions, $subscribers, $groups, $notices);
 
-        Event::handle('AppendUserActivityStreamObjects', array($this, &$objs));
+        \GNUsocial\Event::handle('AppendUserActivityStreamObjects', array($this, &$objs));
 
         $subscriptions = null;
         $subscribers   = null;

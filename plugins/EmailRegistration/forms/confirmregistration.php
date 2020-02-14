@@ -72,7 +72,7 @@ class ConfirmRegistrationForm extends Form
         $this->out->elementStart('ul', 'form_data');
 
         // Hook point for captcha etc
-        Event::handle('StartRegistrationFormData', array($this->action));
+        \GNUsocial\Event::handle('StartRegistrationFormData', array($this->action));
 
         $this->elementStart('li');
 
@@ -115,7 +115,7 @@ class ConfirmRegistrationForm extends Form
         $this->elementEnd('li');
 
         // Hook point for captcha etc
-        Event::handle('EndRegistrationFormData', array($this->action));
+        \GNUsocial\Event::handle('EndRegistrationFormData', array($this->action));
 
         $this->elementStart('li');
 

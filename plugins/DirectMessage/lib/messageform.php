@@ -130,7 +130,7 @@ class MessageForm extends Form
         if (sizeof($recipients) < $n_subs) {
             // some subscriptions aren't local and therefore weren't added,
             // worth checking if others want to add them
-            Event::handle('FillDirectMessageRecipients', [$user, &$recipients]);
+            \GNUsocial\Event::handle('FillDirectMessageRecipients', [$user, &$recipients]);
         }
 
         // if we came from a profile page, then lets make the message receiver visible

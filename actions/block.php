@@ -174,10 +174,10 @@ class BlockAction extends ProfileFormAction
     {
         $cur = common_current_user();
 
-        if (Event::handle('StartBlockProfile', array($cur, $this->profile))) {
+        if (\GNUsocial\Event::handle('StartBlockProfile', array($cur, $this->profile))) {
             $result = $cur->block($this->profile);
             if ($result) {
-                Event::handle('EndBlockProfile', array($cur, $this->profile));
+                \GNUsocial\Event::handle('EndBlockProfile', array($cur, $this->profile));
             }
         }
 

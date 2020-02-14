@@ -134,9 +134,9 @@ class DeletegroupAction extends RedirectingAction
         $cur = common_current_user();
 
         try {
-            if (Event::handle('StartDeleteGroup', array($this->group))) {
+            if (\GNUsocial\Event::handle('StartDeleteGroup', array($this->group))) {
                 $this->group->delete();
-                Event::handle('EndDeleteGroup', array($this->group));
+                \GNUsocial\Event::handle('EndDeleteGroup', array($this->group));
             }
         } catch (Exception $e) {
             // TRANS: Server error displayed if a group could not be deleted.
@@ -195,7 +195,7 @@ class DeletegroupAction extends RedirectingAction
         $this->hidden('token', common_session_token());
         // TRANS: Form legend for deleting a group.
         $this->element('legend', _('Delete group'));
-        if (Event::handle('StartDeleteGroupForm', array($this, $this->group))) {
+        if (\GNUsocial\Event::handle('StartDeleteGroupForm', array($this, $this->group))) {
             $this->element('p', null,
                            // TRANS: Warning in form for deleleting a group.
                            _('Are you sure you want to delete this group? '.
@@ -208,7 +208,7 @@ class DeletegroupAction extends RedirectingAction
                     $this->hidden($k, $v);
                 }
             }
-            Event::handle('EndDeleteGroupForm', array($this, $this->group));
+            \GNUsocial\Event::handle('EndDeleteGroupForm', array($this, $this->group));
         }
         $this->submit('form_action-no',
                       // TRANS: Button label on the delete group form.

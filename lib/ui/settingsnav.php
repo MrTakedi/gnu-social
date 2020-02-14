@@ -68,7 +68,7 @@ class SettingsNav extends Menu
         $this->action->element('h3', null, _m('HEADER','Settings'));
         $this->action->elementStart('ul', array('class' => 'nav'));
 
-        if (Event::handle('StartAccountSettingsNav', array(&$this->action))) {
+        if (\GNUsocial\Event::handle('StartAccountSettingsNav', array(&$this->action))) {
             $this->action->menuItem(common_local_url('profilesettings'),
                                     // TRANS: Menu item in settings navigation panel.
                                     _m('MENU','Profile'),
@@ -104,11 +104,11 @@ class SettingsNav extends Menu
                                     _('URL shorteners'),
                                     $actionName == 'urlsettings');
 
-            Event::handle('EndAccountSettingsNav', array(&$this->action));
+            \GNUsocial\Event::handle('EndAccountSettingsNav', array(&$this->action));
 
             $haveImPlugin = false;
 
-            Event::handle('HaveImPlugin', array(&$haveImPlugin));
+            \GNUsocial\Event::handle('HaveImPlugin', array(&$haveImPlugin));
 
             if ($haveImPlugin) {
                 $this->action->menuItem(common_local_url('imsettings'),
@@ -144,7 +144,7 @@ class SettingsNav extends Menu
                                         $actionName == 'oldschoolsettings');
             }
 
-            Event::handle('EndConnectSettingsNav', array(&$this->action));
+            \GNUsocial\Event::handle('EndConnectSettingsNav', array(&$this->action));
         }
 
         $this->action->elementEnd('ul');

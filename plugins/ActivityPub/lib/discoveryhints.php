@@ -37,7 +37,7 @@ class DiscoveryHints
     {
         $hints = [];
 
-        if (Event::handle('StartDiscoveryHintsFromXRD', [$xrd, &$hints])) {
+        if (\GNUsocial\Event::handle('StartDiscoveryHintsFromXRD', [$xrd, &$hints])) {
             foreach ($xrd->links as $link) {
                 switch ($link->rel) {
                 case WebFingerResource_Profile::PROFILEPAGE:
@@ -56,7 +56,7 @@ class DiscoveryHints
                     break;
                 }
             }
-            Event::handle('EndDiscoveryHintsFromXRD', [$xrd, &$hints]);
+            \GNUsocial\Event::handle('EndDiscoveryHintsFromXRD', [$xrd, &$hints]);
         }
 
         return $hints;
