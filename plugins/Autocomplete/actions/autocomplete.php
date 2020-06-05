@@ -104,10 +104,11 @@ class AutocompleteAction extends Action
         if(substr($term,0,1)=='@'){
             //profile search
             $term=substr($term,1);
+            $userTable = common_database_tablename("user");
             $profile = new Profile();
             $profile->limit($limit);
             $profile->whereAdd('nickname like \'' . trim($profile->escape($term), '\'') . '%\'');
-            $profile->whereAdd(sprintf('id in (SELECT id FROM user) OR '
+            $profile->whereAdd(sprintf('id in (SELECT id FROM '.$userTable.') OR '
                                . 'id in (SELECT subscribed from subscription'
                                . ' where subscriber = %d)', $this->scoped->id));
             if ($profile->find()) {
