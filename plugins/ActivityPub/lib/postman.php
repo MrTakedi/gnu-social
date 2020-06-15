@@ -351,6 +351,31 @@ class Activitypub_postman
             common_log(LOG_ERR, sizeof($errors) . " instance/s failed to handle the announce activity!");
         }
     }
+	
+    /**
+     * Send a HTTP Delete request  
+     *
+     * @return bool
+     * @throws HTTP_Request2_Exception
+     * @throws Exception
+     * @author Susanna Di Vita <susanna.divita.2@gmail.com>
+     */
+    public function delete()
+    {
+    // Assert: the object in input will always be acceptable for a Delete activity.
+        $data = Activitypub_delete::delete_to_array($this->actor_uri, $this->to[0]->getUrl());
+        $res = $this->send(json_encode($data, JSON_UNESCAPED_SLASHES), $this->to[0]->get_inbox());
+        $res_body = json_decode($res->getBody(), true);
+        foreach ($this->to_inbox() as $inbox) {
+            $res = $this->send($data, $inbox);
+            if ($res->getStatus() == 200 || $res->getStatus() == 202 || $res->getStatus() == 409) {
+                return true;
+            } elseif (isset($res_body['error'])) {
+                throw new Exception($res_body['error']);
+            }
+        }
+        throw new Exception("An unknown error occurred.");
+    }
 
     /**
      * Send a Delete notification to remote instances holding the notice
