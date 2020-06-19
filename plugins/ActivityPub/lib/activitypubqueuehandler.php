@@ -126,7 +126,150 @@ class ActivityPubQueueHandler extends QueueHandler
             // either made the announce or found nothing to repeat
             return true;
         }
+		
+        switch ($notice->verb) {
+            case 'onStartSubscribe': 
+                if (!$other instanceof Activitypub_profile) {
+            	    return true;
+                }
+                $postman = new Activitypub_postman($profile, [$other]);
+                $postman->follow();
+                return true;
+                break;
+            case 'onStartUnsubscribe':
+                if (!$other instanceof Activitypub_profile) { 
+                    return true; 
+                }
+                $postman = new ActivityPub_postman($profile, [$other]);
+                $postman->undo_follow();
+                return true;
+                break;
+	   case onEndFavorNotice:
+            	if ($notice->reply_to) {
+                    try {
+                        $parent_notice = $notice->getParent();
+                        
+                        try {
+                            $other[] = Activitypub_profile::from_profile($parent_notice->getProfile());
+                        } catch (Exception $e) {
+                            // Local user can be ignored
+                        }
 
+                        $other = array_merge($other,
+                                             Activitypub_profile::from_profile_collection(
+                                                 $parent_notice->getAttentionProfiles()
+                                             ));
+                    } catch (NoParentNoticeException $e) {
+                        // This is not a reply to something (has no parent)
+                    } catch (NoResultException $e) {
+                        // Parent author's profile not found! Complain louder?
+                        common_log(LOG_ERR, "Parent notice's author not found: ".$e->getMessage());
+                    }
+                }
+
+                $postman = new Activitypub_postman($profile, $other);
+                $postman->like($notice);
+                break;
+           case 'onEndDisfavorNotice':
+            	if ($notice->reply_to) {
+               	    try {
+                    	$parent_notice = $notice->getParent();
+
+                        try {
+                            $other[] = Activitypub_profile::from_profile($parent_notice->getProfile());
+                        } catch (Exception $e) {
+                            // Local user can be ignored
+                        }
+
+                        $other = array_merge($other,
+                                             Activitypub_profile::from_profile_collection(
+                                                 $parent_notice->getAttentionProfiles()
+                                             ));
+                    } catch (NoParentNoticeException $e) {
+                        // This is not a reply to something (has no parent)
+                    } catch (NoResultException $e) {
+                        // Parent author's profile not found! Complain louder?
+                        common_log(LOG_ERR, "Parent notice's author not found: ".$e->getMessage());
+                    }
+                }
+
+                $postman = new Activitypub_postman($profile, $other);
+                $postman->undo_like($notice);
+                break;
+            case 'onStartDeleteOwnNotice':
+            	if ($notice->isRepeat() || ($notice->getProfile()->getID() != $profile->getID())) {
+                    return true;
+                }
+
+                $other = Activitypub_profile::from_profile_collection(
+                    $notice->getAttentionProfiles()
+                );
+
+                if ($notice->reply_to) {
+                    try {
+                        $parent_notice = $notice->getParent();
+
+                        try {
+                            $other[] = Activitypub_profile::from_profile($parent_notice->getProfile());
+                        } catch (Exception $e) {
+                            // Local user can be ignored
+                        }
+
+                        $other = array_merge($other,
+                                             Activitypub_profile::from_profile_collection(
+                                                 $parent_notice->getAttentionProfiles()
+                                             ));
+                    } catch (NoParentNoticeException $e) {
+                        // This is not a reply to something (has no parent)
+                    } catch (NoResultException $e) {
+                        // Parent author's profile not found! Complain louder?
+                        common_log(LOG_ERR, "Parent notice's author not found: ".$e->getMessage());
+                    }
+                }
+
+                $postman = new Activitypub_postman($profile, $other);
+                $postman->delete_note($notice);
+                break;
+            case 'onEndDeleteUser':
+            	$postman = new Activitypub_postman($user->getProfile());
+                $postman->delete_profile();
+                break;
+            case 'onSendDirectMessage':
+            	if (!empty($to)) {
+                    $postman = new Activitypub_postman($from, $to);
+                    $postman->create_direct_note($message);
+                }
+                break;
+            case 'onStartNoticeSourceLink':
+            	// If we don't handle this, keep the event handler going
+                if (!in_array($notice->source, array('ActivityPub', 'share'))) {
+                    return true;
+                }
+
+                try {
+                    $url = $notice->getUrl();
+                    // If getUrl() throws exception, $url is never set
+
+                    $bits = parse_url($url);
+                    $domain = $bits['host'];
+                    if (substr($domain, 0, 4) == 'www.') {
+                        $name = substr($domain, 4);
+                    } else {
+                        $name = $domain;
+                    }
+
+                    // TRANS: Title. %s is a domain name.
+                    $title = sprintf(_m('Sent from %s via ActivityPub'), $domain);
+
+                    // Abort event handler, we have a name and URL!
+                    return false;
+                } catch (InvalidUrlException $e) {
+                    // This just means we don't have the notice source data
+                    return true;
+                }
+                break;
+        }
+        
         // That was it
         $postman = new Activitypub_postman($profile, $other);
         $postman->create_note($notice);
