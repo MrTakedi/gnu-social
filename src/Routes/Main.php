@@ -46,6 +46,12 @@ abstract class Main
             $r->connect('doc_' . $s, 'doc/' . $s, TemplateController::class, [], ['defaults' => ['template' => 'faq/' . $s . '.html.twig']]);
         }
 
-        $r->connect('settings_profile', '/settings/profile', C\UserAdminPanel::class);
+        foreach (['profile', 'avatar'] as $s) {
+            $r->connect('settings_' . $s, 'settings/' . $s, C\UserAdminPanel::class);
+        }
+
+        foreach (['email', 'pass', 'bak'] as $s) {
+            $r->connect('account_' . $s, 'settings/account/' . $s, C\UserAdminPanel::class);
+        }
     }
 }
