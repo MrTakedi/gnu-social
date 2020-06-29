@@ -319,6 +319,66 @@ class MediaFile
             }
         }
     }
+     
+    /**
+     * Create a new MediaFile or ImageFile object from URL
+     *
+     * @param string $url
+     * @param Profile|null $scoped
+     * @return ImageFile|MediaFile
+     * @throws UnsupportedMediaException
+     * @throws UseFileAsThumbnailException
+     */
+    public static function fromUrl(string $url, Profile $scoped=null)
+    {
+        $temp_filename = tempnam(sys_get_temp_dir(), 'listener_avatar');
+        try {
+            $imgData = HTTPClient::quickGet($url);
+            file_put_contents($temp_filename, $imgData);
+            unset($imgData);    // No need to carry this in memory.
+            common_debug('ActivityPub Explorer: Stored dowloaded avatar in: ' . $temp_filename);
+
+            $id = $profile->getID();
+	            
+            $upload_directory = 'includes/uploads/avatars';
+                // sets $image & gets image type, name, tmp_name
+            $image = $_FILES['avatar'];
+            $image_name = $_FILES['avatar']['name'];
+            $image_tmp_name = $_FILES['avatar']['tmp_name'];
+            $image_type = $_FILES['avatar']['type'];
+
+                // set file name (make it unique)
+            $file_name = $activation_id.$image_name;
+
+                // finds extension of file uploaded...
+            $image_extension = strtolower(pathinfo($image,PATHINFO_EXTENSION));
+                // allowed extensions of file uploaded...
+            $valid_image_extensions = array('jpeg', 'jpg', 'png', 'gif');
+
+                // if image extension is a valid image extension...
+            if (in_array($image_extension, $valid_image_extensions)) {
+                // move the file to desired directory ($upload_directory)
+            move_uploaded_file($file_name, $upload_directory);
+            
+            common_debug('ActivityPub Explorer: Moved avatar from: ' . $filename . ' to ' . $upload_directory);
+ 		
+        } catch (Exception $e) {
+            common_debug('ActivityPub Explorer: Something went wrong while processing the avatar from: ' . $url . ' details: ' . $e->getMessage());
+            unlink($temp_filename);
+            throw $e;
+        }         
+        if ($media == 'image') {
+            $result = rename($outpath, $filepath);
+        } else {
+            $result = move_uploaded_file($_FILES[$param]['tmp_name'], $filepath);
+        }
+        if (!$result) {
+           throw new ClientException(_m('File could not be moved to destination directory.'));
+        }
+    
+        return new MediaFile($filepath, $mimetype, $filehash);
+    }
+
 
     /**
      * Create a new MediaFile or ImageFile object from an upload

@@ -337,6 +337,23 @@ class Activitypub_explorer
         // http://status.net/open-source/issues/2663
         chmod(Avatar::path($filename), 0644);
 
+        $imagefile = ImageFile::fromUrl($url);
+
+        $type = $imagefile->preferredType();
+        $filename = Avatar::filename($this->scoped->getID(),
+                                     image_type_to_extension($type),
+                                     null,
+                                     'tmp'.common_timestamp());
+
+        $filepath = Avatar::path($filename);
+        $imagefile = $imagefile->copyTo($filepath);
+
+        $filedata = array('filename' => $filename,
+                          'filepath' => $filepath,
+                          'width' => $imagefile->width,
+                          'height' => $imagefile->height,
+                          'type' => $type);
+        chmod(Avatar::path($filename), 0644);
         $profile->setOriginal($filename);
 
         $orig = clone($profile);
@@ -344,7 +361,7 @@ class Activitypub_explorer
         $profile->update($orig);
 
         common_debug('ActivityPub Explorer: Seted Avatar from: ' . $url . ' to profile.');
-        return Avatar::getUploaded($profile);
+	 return Avatar::getUploaded($profile);    
     }
 
     /**

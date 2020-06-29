@@ -247,6 +247,37 @@ class ImageFile extends MediaFile
             throw new ClientException($hint);
         }
     }
+    
+    /**
+     * Process an imagefile from Url
+     *
+     * Uses MediaFile's `fromURL` to do the majority of the work
+     * and ensures the uploaded file is in fact an image.
+     *
+     * @param string $param
+     * @param null|Profile $scoped
+     *
+     * @return ImageFile
+     * @throws NoResultException
+     * @throws NoUploadedMediaException
+     * @throws ServerException
+     *
+     * @throws ClientException
+     */
+    public static function fromUrl(string $url, Profile $scoped = null)
+    {
+        $mediafile = parent::fromUrl($url, $scoped);
+        if ($mediafile instanceof self) {
+            return $mediafile;
+        } else {
+            // We can conclude that we have failed to get the MIME type
+            // TRANS: Client exception thrown trying to upload an invalid image type.
+            // TRANS: %s is the file type that was denied
+            $hint = sprintf(_m('"%s" is not a supported file type on this server. ' .
+                'Try using another image format.'), $mediafile->mimetype);
+            throw new ClientException($hint);
+        }
+    }
 
     /**
      * Several obscure file types should be normalized to PNG on resize.
