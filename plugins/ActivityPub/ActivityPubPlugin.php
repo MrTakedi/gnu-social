@@ -232,7 +232,7 @@ class ActivityPubPlugin extends Plugin
 	     if ($notice=>is_local) {       
 	         $members = ['profile_id', 'content', 'source', 'object_type', 'verb'];     
 
-                 $orig = clone($notice);
+                $orig = clone($notice);
 
 	         foreach ($members as $m) {
 		     $notice->$m = $orig->$m;

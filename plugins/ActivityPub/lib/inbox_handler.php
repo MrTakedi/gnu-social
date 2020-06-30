@@ -231,36 +231,40 @@ class Activitypub_inbox_handler
      *
      * @throws NoProfileException
      * @throws Exception
-     * @author Bruno Casteleiro <brunoccast@fc.up.pt>
+     * @author Susanna Di Vita <susanna.divita.2@gmail.com> 
      */
-    private function handle_delete()
-    {
+    private function handle_delete() {
         $object = $this->object;
+
         if (is_array($object)) {
             $object = $object['id'];
         }
-
-        // profile deletion ?
-        if ($this->activity['actor'] == $object) {
-            $aprofile = Activitypub_profile::from_profile($this->actor);
-            $this->handle_delete_profile($aprofile);
-            return;
-        }
-
-        // note deletion ?
-        try {
-            $notice = ActivityPubPlugin::grab_notice_from_url($object, false);
-            if ($notice instanceof Notice) {
+       
+        //If no local copy of the activity is specified in the object.
+        $notice = ActivityPubPlugin::grab_notice_from_url($this->object['object'], false);
+        $aprofile = Activitypub_profile::from_profile($this->actor);
+    
+        //If local copy of the activity is present in the object: updating profile or notice present locally and handling the deletion.
+        if ($object instanceof Profile || $object instanceof Notice) {
+            // note deletion ?
+            if ($notice->getProfile()->getID() != $object->getProfile()->getID()) {
+                $res_notice = ActivityPubPlugin::update_local_notice($object);
                 $this->handle_delete_note($notice);
-            }
-            return;
-        } catch (Exception $e) {
+                return;
+            }    
+            // profile deletion ?
+            try {
+                Activitypub_profile::update_local_profile($object, $aprofile);  
+                $this->handle_delete_profile($aprofile);
+                return;
+            } catch (Exception $e) {
             // either already deleted or not an object at all
             // nothing to do..
+            }            
         }
-
+  
         common_log(LOG_INFO, "Ignoring Delete activity, nothing that we can/need to handle.");
-    }
+     }
 
     /**
      * Handles a Delete-Profile Activity.
