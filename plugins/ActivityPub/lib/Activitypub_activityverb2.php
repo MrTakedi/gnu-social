@@ -65,7 +65,8 @@ class Activitypub_activityverb2 extends Managed_DataObject
         'Block'           => 'https://www.w3.org/ns/activitystreams#Block',
         'Flag'            => 'https://www.w3.org/ns/activitystreams#Flag',
         'Dislike'         => 'https://www.w3.org/ns/activitystreams#Dislike',
-        'Question'        => 'https://www.w3.org/ns/activitystreams#Question'
+        'Question'        => 'https://www.w3.org/ns/activitystreams#Question',
+        'Collection'	  => 'https://www.w3.org/ns/activitystreams#Collection'
     ];
 
     const KNOWN =
@@ -76,7 +77,8 @@ class Activitypub_activityverb2 extends Managed_DataObject
         'Follow',
         'Like',
         'Undo',
-        'Announce'
+        'Announce', 
+        'Collection'
     ];
 
     /**
