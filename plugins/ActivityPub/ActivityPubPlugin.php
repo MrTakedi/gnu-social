@@ -221,6 +221,38 @@ class ActivityPubPlugin extends Plugin
     }
 
     /**
+     * Updates local notice
+     *
+     * @param Notice notice
+     * @throws Exception
+     * @return bool default true
+     */
+     public static function update_local_notice(Notice $notice): bool {
+	 try {
+	     if ($notice=>is_local) {       
+	         $members = ['profile_id', 'content', 'source', 'object_type', 'verb'];     
+
+                 $orig = clone($notice);
+
+	         foreach ($members as $m) {
+		     $notice->$m = $orig->$m;
+	         }
+
+	         if ($notice->id) {
+		     common_debug('Updating local Notice: ' . $notice->id . ' from remote ActivityPub profile');
+		     $notice->modified = common_sql_now();
+		     $notice->update($orig);
+	         }
+	     }
+	 }
+	 catch (Exception $e) {
+	     return false;
+	 }
+
+	 return true;
+     }
+
+    /**
      * Set up queue handlers for required interactions
      *
      * @param QueueManager $qm
