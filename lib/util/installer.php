@@ -320,7 +320,7 @@ abstract class Installer
             case 'mysql':
                 // ensure the database encoding is utf8mb4
                 $conn->query("SET NAMES 'utf8mb4'");
-                $server_encoding = $conn->getRow("SHOW VARIABLES LIKE 'character_set_server'")[1];
+                $server_encoding = $conn->getRow("SHOW VARIABLES LIKE 'character_set_database'")[1];
                 if ($server_encoding !== 'utf8mb4') {
                     $this->updateStatus(
                         'GNU social requires the utf8mb4 character encoding. Yours is ' .
