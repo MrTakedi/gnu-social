@@ -1644,7 +1644,9 @@ class MDB2_BufferedResult_mysqli extends MDB2_Result_mysqli
      */
     function numRows()
     {
-        $rows = @mysqli_num_rows($this->result);
+        if (is_bool($this->result) === false ) {
+                $rows = @mysqli_num_rows($this->result);
+        }
         if (null === $rows) {
             if (false === $this->result) {
                 return $this->db->raiseError(MDB2_ERROR_NEED_MORE_DATA, null, null,
