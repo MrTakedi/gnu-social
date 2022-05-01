@@ -31,15 +31,24 @@ class LRDDMethod_WebFinger extends LRDDMethod
      */
     public function discover($uri)
     {
-        $parts = explode('@', parse_url($uri, PHP_URL_PATH), 2);
+        $scheme = mb_strtolower(parse_url($uri, PHP_URL_SCHEME));
+        switch ($scheme) {
+        case 'acct':
+            // We can't use parse_url data for this, since the 'host'
+            // entry is only set if the scheme has '://' after it.
+            $parts = explode('@', parse_url($uri, PHP_URL_PATH), 2);
 
-        if (!Discovery::isAcct($uri) || count($parts) != 2) {
-            throw new Exception('Bad resource URI: ' . $uri);
-        }
-        [, $domain] = $parts;
-        if (!filter_var($domain, FILTER_VALIDATE_IP)
-            && !filter_var(gethostbyname($domain), FILTER_VALIDATE_IP)) {
-            throw new Exception('Bad resource host.');
+            if (!Discovery::isAcct($uri) || count($parts) != 2) {
+                throw new Exception('Bad resource URI: ' . $uri);
+            }
+            [, $domain] = $parts;
+            break;
+        case 'http':
+        case 'https':
+            $domain = mb_strtolower(parse_url($uri, PHP_URL_HOST));
+            break;
+        default:
+            throw new Exception('Unable to discover resource descriptor endpoint.');
         }
 
         $link = new XML_XRD_Element_Link(
