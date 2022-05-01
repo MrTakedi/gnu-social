@@ -82,7 +82,7 @@ class LRDDPlugin extends Plugin
         $all_ids = array_merge([$xrd->subject], $xrd->aliases);
 
         if (!in_array($uri, $all_ids)) {
-            $this->log(LOG_INFO, 'The original URI was not listed itself when doing discovery on it!');
+            common_log(LOG_INFO, 'The original URI was not listed itself when doing discovery on it!');
             return null;
         }
 
