@@ -85,7 +85,7 @@ define('URL_REGEX_DOMAIN_NAME', '(?:(?!-)[A-Za-z0-9\-]{1,63}(?<!-)\.)+[A-Za-z]{2
 require_once INSTALLDIR . '/vendor/autoload.php';
 
 // append our extlib dir as the last-resort place to find libs
-set_include_path(get_include_path() . PATH_SEPARATOR . INSTALLDIR . '/extlib/');
+set_include_path(INSTALLDIR . '/extlib/' . PATH_SEPARATOR . get_include_path());
 
 // global configuration object
 
