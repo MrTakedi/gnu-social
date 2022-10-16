@@ -1,0 +1,26 @@
+version: "3"
+services:
+  db:
+    image: mariadb:10.3
+    restart: always
+    volumes:
+      - gnusocial-db:/var/lib/mysql
+    environment:
+       MYSQL_DATABASE: gnusocial
+       MYSQL_ALLOW_EMPTY_PASSWORD: 1
+    ports:
+      - 3306:3306
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_bin
+  php:
+    build: .
+    restart: always
+    volumes:
+      - ../../:/var/www/
+      - ../../public:/var/www/html
+    ports:
+      - 80:80
+      - 443:443
+    depends_on:
+      - db
+volumes:
+  gnusocial-db:
