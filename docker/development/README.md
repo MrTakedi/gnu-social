@@ -1,4 +1,4 @@
-# Docker for localhost
+# Docker for development
 
 This directory has docker related files for local development.
 
@@ -10,7 +10,7 @@ cd $ROOT
 mkdir -p file/avater
 cp DOCUMENTATION/SYSTEM_ADMINISTRATORS/webserver_conf/htaccess.sample public/.htaccess
 
-cd docker/localhost
+cd docker/development
 docker-compose build
 docker-compose up -d
 ```
